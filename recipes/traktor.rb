@@ -1,11 +1,13 @@
+dmg_properties = node['lyraphase_workstation']['traktor']['dmg']
+
 dmg_package "Traktor Pro 2.6" do
-  source "http://www.lyraphase.com/doc/installers/mac/TraktorPro26.dmg"
-  checksum "c840fa5fa58cad2a7eec44049c3908b7059575d3103a7e5fe6de14829b489066"
+  source      dmg_properties['source']
+  checksum    dmg_properties['checksum']
+  volumes_dir dmg_properties['volumes_dir']
+  dmg_name    dmg_properties['dmg_name']
+  app         dmg_properties['app']
+  type        dmg_properties['type']
+  owner       node['current_user']
+  package_id  'com.native-instruments.Traktor2.*'
   action :install
-  volumes_dir "Traktor Pro 2.6"
-  dmg_name 'TraktorPro26'
-  app 'Traktor 2 2.6.0 Mac'
-  type "mpkg"
-  owner node['current_user']
-  package_id 'com.native-instruments.Traktor2.*'
 end
