@@ -8,6 +8,6 @@ dmg_package "Traktor Audio 2" do
   app         dmg_properties['app']
   type        dmg_properties['type']
   owner       node['current_user']
-  # package_id  'com.native-instruments.Traktor2.*'
+  package_id  dmg_properties['package_id']
   action :install
 end
