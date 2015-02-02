@@ -36,7 +36,7 @@ end
 
 license_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'daisydisk_license') rescue nil
 
-unless license_data.nil? && ! node['lyraphase_workstation']['daisydisk']['license'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['customer_name'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['registration_key'].nil?
+if license_data.nil? && ! node['lyraphase_workstation']['daisydisk']['license'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['customer_name'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['registration_key'].nil?
   license_data = node['lyraphase_workstation']['daisydisk']['license']
 end
 
