@@ -1,4 +1,5 @@
 dmg_properties = node['lyraphase_workstation']['daisydisk']['dmg']
+zip_properties = node['lyraphase_workstation']['daisydisk']['zip']
 
 unless dmg_properties.nil? && ! zip_properties.nil?
   dmg_package "DaisyDisk" do
@@ -8,8 +9,6 @@ unless dmg_properties.nil? && ! zip_properties.nil?
     owner       node['current_user']
   end
 end
-
-zip_properties = node['lyraphase_workstation']['daisydisk']['zip']
 
 unless zip_properties.nil? && ! dmg_properties.nil?
   app_path='/Applications/DaisyDisk.app'
