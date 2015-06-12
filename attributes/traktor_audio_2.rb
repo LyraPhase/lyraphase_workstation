@@ -4,5 +4,5 @@ default['lyraphase_workstation']['traktor_audio_2']['dmg']['volumes_dir'] = "Tra
 default['lyraphase_workstation']['traktor_audio_2']['dmg']['dmg_name']    = 'Traktor_Audio_2_270_Mac_p'
 default['lyraphase_workstation']['traktor_audio_2']['dmg']['app']         = 'Traktor Audio 2 2.7.0 Installer Mac'
 default['lyraphase_workstation']['traktor_audio_2']['dmg']['type']        = 'pkg'
-# default['lyraphase_workstation']['traktor_audio_2']['dmg']['package_id']  = ''
+default['lyraphase_workstation']['traktor_audio_2']['dmg']['package_id']  = 'com.caiaq.NIUSBTraktorAudio2Driver_10.9'
 
