@@ -4,4 +4,4 @@ default['lyraphase_workstation']['oxium']['dmg']['volumes_dir'] = "Oxium 1.5.2"
 default['lyraphase_workstation']['oxium']['dmg']['dmg_name']    = 'Oxium_full_osx_setup_V152'
 default['lyraphase_workstation']['oxium']['dmg']['app']         = 'Oxium'
 default['lyraphase_workstation']['oxium']['dmg']['type']        = 'mpkg'
-default['lyraphase_workstation']['oxium']['dmg']['package_id']  = ''
+default['lyraphase_workstation']['oxium']['dmg']['package_id']  = 'com.xilslab.pkg.oxium'
