@@ -4,4 +4,4 @@ default['lyraphase_workstation']['max_for_live']['dmg']['volumes_dir'] = "Max61_
 default['lyraphase_workstation']['max_for_live']['dmg']['dmg_name']    = 'Max6110_150402'
 default['lyraphase_workstation']['max_for_live']['dmg']['app']         = 'Max 6.1 Installer'
 default['lyraphase_workstation']['max_for_live']['dmg']['type']        = 'pkg'
-# default['lyraphase_workstation']['max_for_live']['dmg']['package_id']  = ''
+default['lyraphase_workstation']['max_for_live']['dmg']['package_id']  = 'com.cycling74.Max61.pkg'
