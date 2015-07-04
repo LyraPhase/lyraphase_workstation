@@ -28,6 +28,7 @@ template "/etc/auto_nfs" do
   variables({
      :nfs_mounts => node[:lyraphase_workstation][:nfs_mounts]
   })
+  notifies :run, 'execute[reload automount]', :delayed
 end
 
 # Added a single line to the end of /etc/audo_master to load /etc/auto_nfs
@@ -38,4 +39,11 @@ template "/etc/auto_master" do
   group 'wheel'
   mode '0644'
   action :create
+  notifies :run, 'execute[reload automount]', :delayed
+end
+
+execute 'reload automount' do
+  command 'automount -cv'
+  user 'root'
+  action :nothing
 end
