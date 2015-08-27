@@ -22,11 +22,12 @@
 zip_file = node['lyraphase_workstation']['dmgaudio_dualism']['zip']
 
 remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}" do
-  owner 'root'
-  group 'root'
+  owner node['sprout']['user']
+  group 'staff'
   mode '0644'
   source zip_file['source']
   checksum zip_file['checksum']
+  action :create_if_missing
 end
 
 bash "unpack #{zip_file['file_name']}" do
