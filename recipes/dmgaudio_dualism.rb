@@ -31,7 +31,10 @@ remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}" do
 end
 
 bash "unpack #{zip_file['file_name']}" do
-   code "unzip -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}"
+   code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}"
+   not_if {
+     File.exists?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
+   }
 end
 
 bash "Install DMGAudio Dualism" do
@@ -49,6 +52,6 @@ end
 
 ruby_block "test that DMGAudio Dualism install worked" do
   block do
-    raise "Dualism install failed!" if ! File.exists?(app_path)
+    raise "Dualism install failed!" if ! zip_file['app_paths'].all? { |app_path| File.exists?(app_path) }
   end
 end
