@@ -37,6 +37,7 @@ end
 bash "Install DMGAudio Dualism" do
   code "installer -allowUntrusted -package  #{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']} -target /"
   not_if {
+    require 'chef/mixin/shell_out'
     if shell_out("pkgutil --pkgs='#{zip_file['package_id']}'").exitstatus == 0
       Chef::Log.info "Already installed; to upgrade, try \"sudo pkgutil --forget '#{zip_file['package_id']}'\""
       true
