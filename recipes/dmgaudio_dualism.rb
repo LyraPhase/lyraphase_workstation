@@ -21,6 +21,17 @@
 
 zip_file = node['lyraphase_workstation']['dmgaudio_dualism']['zip']
 
+def installed?(package_id)
+  require 'chef/mixin/shell_out'
+    include Chef::Mixin::ShellOut
+    if shell_out("pkgutil --pkgs='#{package_id}'").exitstatus == 0
+      Chef::Log.info "Already installed; to upgrade, try \"sudo pkgutil --forget '#{zip_file['package_id']}'\""
+      true
+    else
+      false
+    end
+end
+
 remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}" do
   owner node['sprout']['user']
   group 'staff'
@@ -40,14 +51,7 @@ end
 bash "Install DMGAudio Dualism" do
   code "installer -allowUntrusted -package  #{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']} -target /"
   not_if {
-    require 'chef/mixin/shell_out'
-    include Chef::Mixin::ShellOut
-    if shell_out("pkgutil --pkgs='#{zip_file['package_id']}'").exitstatus == 0
-      Chef::Log.info "Already installed; to upgrade, try \"sudo pkgutil --forget '#{zip_file['package_id']}'\""
-      true
-    else
-      false
-    end
+    installed?(zip_file['package_id'])
   }
 end
 
