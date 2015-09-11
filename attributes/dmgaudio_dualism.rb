@@ -11,3 +11,4 @@ default['lyraphase_workstation']['dmgaudio_dualism']['zip']['app_paths']   = [ '
                                                                                '/Library/Application Support/Avid/Audio/Plug-Ins/Dualism.aaxplugin'
                                                                              ]
 default['lyraphase_workstation']['dmgaudio_dualism']['zip']['package_id']  = 'com.dmgaudio.pkg.DualismVST3'
+default['lyraphase_workstation']['dmgaudio_dualism']['license_key'] = nil

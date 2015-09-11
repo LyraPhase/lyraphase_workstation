@@ -49,3 +49,32 @@ ruby_block "test that DMGAudio Dualism install worked" do
     raise "Dualism install failed!" if ! zip_file['app_paths'].all? { |app_path| File.exists?(app_path) }
   end
 end
+
+dmgaudio_dualism_appsupport_dir = "#{node['sprout']['home']}/Library/Application Support/DMGAudio/Dualism"
+
+license_key_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'dmgaudio_dualism') rescue nil
+
+if license_key_data.nil? && ! node['lyraphase_workstation']['dmgaudio_dualism']['license_key'].nil?
+  license_key_data = node['lyraphase_workstation']['dmgaudio_dualism']
+end
+
+unless license_key_data.nil?
+  directory dmgaudio_dualism_appsupport_dir do
+    owner node['sprout']['user']
+    group 'staff'
+    mode '0755'
+    recursive true
+    action :create
+  end
+
+  template "#{dmgaudio_dualism_appsupport_dir}/license" do
+    owner node['sprout']['user']
+    group 'staff'
+    mode '0644'
+    source 'com.dmgaudio.pkg.DualismVST3.license.erb'
+    variables({
+      :license_key_data => license_key_data
+    })
+    action :create
+  end
+end
