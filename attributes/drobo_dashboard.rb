@@ -4,4 +4,4 @@ default['lyraphase_workstation']['drobo_dashboard']['dmg']['volumes_dir'] = "Dro
 default['lyraphase_workstation']['drobo_dashboard']['dmg']['dmg_name']    = 'Drobo-Dashboard-2.6.9'
 default['lyraphase_workstation']['drobo_dashboard']['dmg']['app']         = 'Install.app/Contents/Drobo_Dashboard_Installer_2.6.9_74648'
 default['lyraphase_workstation']['drobo_dashboard']['dmg']['type']        = 'pkg'
-default['lyraphase_workstation']['drobo_dashboard']['dmg']['package_id']  = ''
+default['lyraphase_workstation']['drobo_dashboard']['dmg']['package_id']  = 'com.datarobotics.droboDashboard.DroboDashboard.pkg'
