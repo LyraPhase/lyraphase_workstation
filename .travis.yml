@@ -2,8 +2,6 @@ language: ruby
 gemfile:
    - test/support/chef-12.5/Gemfile
    - test/support/chef-11.10.4/Gemfile
-cache:
-  - bundler
 rvm:
   - 1.9.2
   - 1.9.3
