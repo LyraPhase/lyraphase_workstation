@@ -19,7 +19,7 @@ matrix:
     - rvm: 1.9.3
       gemfile: test/support/chef-12.5/Gemfile
     - rvm: 2.0.0
-      gemfile: gemfiles/chef-11.10.4/Gemfile
+      gemfile: test/support/chef-11.10.4/Gemfile
     - rvm: 2.1
-      gemfile: gemfiles/chef-11.10.4/Gemfile
+      gemfile: test/support/chef-11.10.4/Gemfile
 
