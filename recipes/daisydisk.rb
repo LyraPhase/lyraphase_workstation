@@ -21,16 +21,15 @@
 dmg_properties = node['lyraphase_workstation']['daisydisk']['dmg']
 zip_properties = node['lyraphase_workstation']['daisydisk']['zip']
 
-unless dmg_properties.nil? && ! zip_properties.nil?
+if ! dmg_properties.nil? && zip_properties.nil?
   dmg_package "DaisyDisk" do
     source      dmg_properties['source']
     checksum    dmg_properties['checksum']
     volumes_dir dmg_properties['volumes_dir']
     owner       node['current_user']
   end
-end
 
-unless zip_properties.nil? && ! dmg_properties.nil?
+elsif ! zip_properties.nil? && dmg_properties.nil?
   app_path='/Applications/DaisyDisk.app'
 
   unless File.exists?(app_path)
@@ -46,6 +45,8 @@ unless zip_properties.nil? && ! dmg_properties.nil?
       group   'admin'
     end
   end
+else
+  Chef::Log::warn("node['lyraphase_workstation']['daisydisk']['dmg'] and node['lyraphase_workstation']['daisydisk']['zip'] were both specified!  Not sure which you intended to use.  Please pick one!")
 end
 
 app_supportdir = "#{node['lyraphase_workstation']['home']}/Library/Application Support"
