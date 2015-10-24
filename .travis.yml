@@ -1,11 +1,22 @@
 language: ruby
 gemfile:
-   - test/support/Gemfile
+   - test/support/chef-12.5/Gemfile
+   - test/support/chef-11.10.4/Gemfile
+cache:
+  - bundler
 rvm:
   - 1.9.2
   - 1.9.3
   - 2.0.0
+  - 2.1
 script:
   - bundle exec rake knife
   - bundle exec rake foodcritic
   - bundle exec rake chefspec
+matrix:
+  fast_finish: true
+  exclude:
+    - rvm: 2.0.0
+      gemfile: gemfiles/chef-11.10.4/Gemfile
+    - rvm: 2.1
+      gemfile: gemfiles/chef-11.10.4/Gemfile
