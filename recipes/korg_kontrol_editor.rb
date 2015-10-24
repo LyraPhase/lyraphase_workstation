@@ -1,6 +1,8 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: korg_kontrol_editor
+# Site:: http://www.korg.com/us/support/download/software/1/253/1355/
+# Manual:: http://www.korg.com/us/support/download/manual/1/253/1843/
 #
 # Copyright (C) 2015 James Cuzella
 # 

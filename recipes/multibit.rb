@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: multibit
+# Site:: https://multibit.org/
 #
 # Copyright (C) 2013,2014 James Cuzella
 # 

@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: cycling74_max
+# Site:: https://cycling74.com/
 #
 # Copyright (C) 2015 James Cuzella
 # 

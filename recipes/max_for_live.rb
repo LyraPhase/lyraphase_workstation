@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: ableton_live
+# Site:: https://www.ableton.com/en/live/max-for-live/
 #
 # Copyright (C) 2013,2014 James Cuzella
 # 

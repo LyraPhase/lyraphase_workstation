@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: omnifocus
+# Site:: https://www.omnigroup.com/omnifocus
 #
 # Copyright (C) 2013,2014 James Cuzella
 # 

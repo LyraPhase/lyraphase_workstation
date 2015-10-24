@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: traktor
+# Site:: http://www.native-instruments.com/en/products/traktor/
 #
 # Copyright (C) 2013,2014 James Cuzella
 # 

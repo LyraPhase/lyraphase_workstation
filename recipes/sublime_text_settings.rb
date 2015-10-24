@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: sublime_text_license
+# Site:: http://www.sublimetext.com/
 #
 # Copyright (C) 2015 James Cuzella
 # 

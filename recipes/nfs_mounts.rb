@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: nfs_mounts
+# Site:: https://coderwall.com/p/fuoa-g/automounting-nfs-share-in-os-x-into-volumes
 #
 # Copyright (C) 2013,2014 James Cuzella
 # 

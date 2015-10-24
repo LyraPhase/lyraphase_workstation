@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: musicbrainz_picard
+# Site:: https://picard.musicbrainz.org/
 #
 # Copyright (C) 2013,2014 James Cuzella
 # 

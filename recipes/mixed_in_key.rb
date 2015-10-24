@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: mixed_in_key
+# Site:: http://www.mixedinkey.com
 #
 # Copyright (C) 2013,2014 James Cuzella
 # 

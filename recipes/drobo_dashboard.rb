@@ -1,6 +1,7 @@
 #
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: drobo_dashboard
+# Site:: http://www.drobo.com/start/
 #
 # Copyright (C) 2015 James Cuzella
 # 
