@@ -14,7 +14,7 @@ end
 group :unit do
   gem 'berkshelf',  '~> 4.0'
   gem 'chefspec',   '~> 4.4'
-  gem 'chef', '~> 12.5.1'
+  gem 'chef', '~> 12.5'
 end
 
 group :kitchen_common do
@@ -34,8 +34,7 @@ group :development do
 #  gem 'ruby_gntp'
   gem 'growl'
   gem 'rb-fsevent'
-  gem 'guard', '~> 2.4'
-  gem 'guard-knife'
+  gem 'guard', '~> 2.13'
   gem 'guard-kitchen'
   gem 'guard-foodcritic', '~> 1.1.1'
   gem 'guard-rspec'
