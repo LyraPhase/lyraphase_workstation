@@ -22,20 +22,20 @@ git node["vim_home"] do
   branch "master"
   revision node["vim_hash"] || "HEAD"
   action :sync
-  user node[:lyraphase_workstation][:user]
+  user node['lyraphase_workstation']['user']
   enable_submodules true
 end
 
 %w{vimrc gvimrc}.each do |vimrc|
-  link "#{node[:lyraphase_workstation][:home]}/.#{vimrc}" do
+  link "#{node['lyraphase_workstation']['home']}/.#{vimrc}" do
     to "#{node["vim_home"]}/#{vimrc}"
-    owner node[:lyraphase_workstation][:user]
+    owner node['lyraphase_workstation']['user']
     not_if { File.symlink?("#{node["vim_home"]}/#{vimrc}") }
   end
 end
 
-file "#{node[:lyraphase_workstation][:home]}/.vimrc.local" do
+file "#{node['lyraphase_workstation']['home']}/.vimrc.local" do
   action :touch
-  owner node[:lyraphase_workstation][:user]
+  owner node['lyraphase_workstation']['user']
   not_if { File.exists?("#{WS_HOME}/.vimrc.local") }
 end

@@ -18,16 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-dmg_properties = node[:lyraphase_workstation][:xcode][:dmg]
+dmg_properties = node['lyraphase_workstation']['xcode']['dmg']
 
 dmg_package "XCode" do
-  source      dmg_properties[:source]
-  checksum    dmg_properties[:checksum]
-  volumes_dir dmg_properties[:volumes_dir]
-  owner       node[:current_user]
-  type        dmg_properties[:type]
+  source      dmg_properties['source']
+  checksum    dmg_properties['checksum']
+  volumes_dir dmg_properties['volumes_dir']
+  owner       node['current_user']
+  type        dmg_properties['type']
   accept_eula true
-  package_id  dmg_properties[:package_id]
+  package_id  dmg_properties['package_id']
 end
 
 bash "Accept XCode build license" do

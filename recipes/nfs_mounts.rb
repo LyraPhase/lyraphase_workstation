@@ -27,7 +27,7 @@ template "/etc/auto_nfs" do
   action :create
 
   variables({
-     :nfs_mounts => node[:lyraphase_workstation][:nfs_mounts]
+     :nfs_mounts => node['lyraphase_workstation']['nfs_mounts']
   })
   notifies :run, 'execute[reload automount]', :delayed
 end
