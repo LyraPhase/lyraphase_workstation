@@ -4,6 +4,7 @@
 require 'foodcritic'
 
 task :default => [:foodcritic, :knife, :chefspec]
+task :test => [:default]
 
 FoodCritic::Rake::LintTask.new do |t|
   t.options = { :fail_tags => ['correctness'] }
