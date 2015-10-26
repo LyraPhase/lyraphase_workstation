@@ -4,16 +4,12 @@ gem 'rake'
 
 case RUBY_VERSION
 when /^1\.9\..*/
-  puts "Detected Ruby 1.9.x: #{RUBY_VERSION}"
-  puts "Attempting to use berkshelf + gems that work on this ruby"
-  puts "gem 'berkshelf', '~> 3.2.1'"
-  gem 'varia_model', '~> 0.4.0'
+  gem 'varia_model', '~> 0.4.0' # Workaround for berkshelf/berkshelf#1464
   gem 'foodcritic', '< 5'
   gem 'berkshelf', '~> 3.2.1'
   gem 'rspec', '= 2.14.1'
   gem 'chefspec', '= 3.4.0'
 when /^2\..*/
-  puts "Detected Ruby 2.x: #{RUBY_VERSION}"
   gem 'foodcritic', '~> 5.0'
   gem 'chefspec',   '~> 4.4'
   gem 'berkshelf',  '~> 4.0'
