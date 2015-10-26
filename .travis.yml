@@ -1,22 +1,35 @@
 language: ruby
 gemfile:
-   - test/support/chef-12.5/Gemfile
-   - test/support/chef-11.10.4/Gemfile
+   - test/support/Gemfile.ci
 rvm:
   - 1.9.3
   - 2.0.0
   - 2.1
+  - 2.0.0
+  - 2.1
+  - 2.2
 script:
   - bundle exec rake knife
   - bundle exec rake foodcritic
   - bundle exec rake chefspec
+env:
+  - CHEF_VERSION=master
+  - CHEF_VERSION=12.4.3
+  - CHEF_VERSION=12.4.0
+  - CHEF_VERSION=12.3.0
+  - CHEF_VERSION=12.2.1
+  - CHEF_VERSION=12.1.2
+  - CHEF_VERSION=12.1.1
+  - CHEF_VERSION=12.1.0
+  - CHEF_VERSION=12.0.3
+  - CHEF_VERSION=11.18.6
+  - CHEF_VERSION=11.18.0
+  - CHEF_VERSION=11.16.4
+  - CHEF_VERSION=11.16.2
+  - CHEF_VERSION=11.16.0
+  - CHEF_VERSION=11.14.6
+  - CHEF_VERSION=11.14.2
 matrix:
   fast_finish: true
-  exclude:
-    - rvm: 1.9.3
-      gemfile: test/support/chef-12.5/Gemfile
-    - rvm: 2.0.0
-      gemfile: test/support/chef-11.10.4/Gemfile
-    - rvm: 2.1
-      gemfile: test/support/chef-11.10.4/Gemfile
-
+  allow_failures:
+    - env: CHEF_VERSION=master
