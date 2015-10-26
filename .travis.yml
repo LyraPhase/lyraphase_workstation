@@ -33,3 +33,15 @@ matrix:
   fast_finish: true
   allow_failures:
     - env: CHEF_VERSION=master
+  exclude:
+    - rvm: 1.9.3
+      env: CHEF_VERSION=
+      env: CHEF_VERSION=master
+      env: CHEF_VERSION=12.4.3
+      env: CHEF_VERSION=12.4.0
+      env: CHEF_VERSION=12.3.0
+      env: CHEF_VERSION=12.2.1
+      env: CHEF_VERSION=12.1.2
+      env: CHEF_VERSION=12.1.1
+      env: CHEF_VERSION=12.1.0
+      env: CHEF_VERSION=12.0.3
