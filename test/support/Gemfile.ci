@@ -7,6 +7,8 @@ when /^1\.9\..*/
   puts "Detected Ruby 1.9.x: #{RUBY_VERSION}"
   puts "Attempting to use berkshelf + gems that work on this ruby"
   puts "gem 'berkshelf', '~> 3.2.1'"
+  puts "gem 'faraday', '= 0.9.1'"
+  gem 'faraday', '= 0.9.1'
   gem 'foodcritic', '< 5'
   gem 'berkshelf', '~> 3.2.1'
   gem 'rspec', '= 2.14.1'
