@@ -6,7 +6,7 @@ case RUBY_VERSION
 when /^1\.9\..*/
   gem 'varia_model', '~> 0.4.0' # Workaround for berkshelf/berkshelf#1464
   gem 'foodcritic', '< 5'
-  gem 'berkshelf', '~> 3.2.1'
+  gem 'berkshelf', '= 3.2.4'
   gem 'rspec', '= 2.14.1'
   gem 'chefspec', '= 3.4.0'
 when /^2\..*/
