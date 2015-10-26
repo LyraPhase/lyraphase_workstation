@@ -5,7 +5,7 @@ gem 'rake'
 case RUBY_VERSION
 when /^1\.9\..*/
   gem 'foodcritic', '< 5'
-  gem 'berkshelf', '< 4'
+  gem 'berkshelf', '~> 3.2.4'
   gem 'rspec', '= 2.14.1'
   gem 'chefspec', '= 3.4.0'
 when /^2\..*/
