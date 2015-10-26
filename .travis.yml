@@ -35,13 +35,20 @@ matrix:
     - env: CHEF_VERSION=master
   exclude:
     - rvm: 1.9.3
-      env: CHEF_VERSION=
       env: CHEF_VERSION=master
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.4.3
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.4.0
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.3.0
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.2.1
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.1.2
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.1.1
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.1.0
+    - rvm: 1.9.3
       env: CHEF_VERSION=12.0.3
