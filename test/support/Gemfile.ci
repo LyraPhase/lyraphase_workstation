@@ -1,7 +1,21 @@
 source "https://rubygems.org"
 
 gem 'rake'
-gem 'foodcritic', '~> 5.0'
-gem 'chefspec',   '~> 4.4'
-gem 'chef', '~> 12.5'
-gem 'berkshelf',  '~> 4.0'
+
+case ENV['CHEF_VERSION']
+when /^11\..*/
+  gem 'foodcritic', '< 5'
+  gem 'berkshelf', '< 4'
+  gem 'rspec', '= 2.14.1'
+  gem 'chefspec', '= 3.4.0'
+else
+  gem 'foodcritic', '~> 5.0'
+  gem 'chefspec',   '~> 4.4'
+  gem 'berkshelf',  '~> 4.0'
+end
+
+if ENV['CHEF_VERSION'] == 'master'
+  gem 'chef', github: 'chef/chef'
+else
+  gem 'chef', ENV['CHEF_VERSION']
+end
