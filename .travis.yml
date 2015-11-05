@@ -13,6 +13,9 @@ addons:
     packages:
     - chefdk
 
+before_script:
+  - eval "$(chef shell-init $(basename $SHELL))"
+
 script:
   - rake knife
   - rake foodcritic
