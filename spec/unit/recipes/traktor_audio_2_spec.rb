@@ -37,7 +37,7 @@ describe 'lyraphase_workstation::traktor_audio_2' do
     { platform: 'mac_os_x', version: '10.6.8',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Snow Leopard',  disable_app_nap: false },
     { platform: 'mac_os_x', version: '10.7.4',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Lion',          disable_app_nap: false },
     { platform: 'mac_os_x', version: '10.8.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mountain Lion', disable_app_nap: false },
-    { platform: 'mac_os_x', version: '10.9.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mavericks',     disable_app_nap: true },
+    { platform: 'mac_os_x', version: '10.9.2',  dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Mavericks',     disable_app_nap: true },
     { platform: 'mac_os_x', version: '10.10',   dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Yosemite',      disable_app_nap: true },
     { platform: 'mac_os_x', version: '10.11.1', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'El Capitan',    disable_app_nap: true }
   ].each do |os|
