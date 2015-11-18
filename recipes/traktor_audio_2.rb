@@ -20,7 +20,7 @@
 #
 dmg_properties = node['lyraphase_workstation']['traktor_audio_2']['dmg']
 
-dmg_package "Traktor Audio 2" do
+dmg_package dmg_properties['app'] do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']
