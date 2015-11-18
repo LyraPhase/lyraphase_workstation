@@ -1,6 +1,14 @@
 require 'chefspec'
 require 'chefspec/berkshelf'
 
+## Gets rid of const redefinition warnings
+def create_singleton_struct name, fields
+  if Struct::const_defined? name
+    Struct.const_get name
+  else
+    Struct.new name, *fields
+  end
+end
 
 RSpec.configure do |config|
   config.platform = 'mac_os_x'
