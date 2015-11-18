@@ -6,5 +6,6 @@ group :integration do
 end
 
 cookbook 'sprout-base', '~> 0.1', :github => 'pivotal-sprout/sprout-base'
+cookbook 'osx', '~> 0.1.0', :github => 'pivotal-sprout/osx'
 
 metadata

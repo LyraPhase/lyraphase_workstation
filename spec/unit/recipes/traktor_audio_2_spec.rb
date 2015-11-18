@@ -34,14 +34,15 @@ describe 'lyraphase_workstation::traktor_audio_2' do
 
 
   [
-    { platform: 'mac_os_x', version: '10.6.8',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Snow Leopard' },
-    { platform: 'mac_os_x', version: '10.7.4',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Lion' },
-    { platform: 'mac_os_x', version: '10.8.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mountain Lion' },
-    { platform: 'mac_os_x', version: '10.9.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mavericks' },
-    { platform: 'mac_os_x', version: '10.10',   dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Yosemite' },
-    { platform: 'mac_os_x', version: '10.11.1', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'El Capitan' }
+    { platform: 'mac_os_x', version: '10.6.8',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Snow Leopard',  disable_app_nap: false },
+    { platform: 'mac_os_x', version: '10.7.4',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Lion',          disable_app_nap: false },
+    { platform: 'mac_os_x', version: '10.8.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mountain Lion', disable_app_nap: false },
+    { platform: 'mac_os_x', version: '10.9.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mavericks',     disable_app_nap: true },
+    { platform: 'mac_os_x', version: '10.10',   dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Yosemite',      disable_app_nap: true },
+    { platform: 'mac_os_x', version: '10.11.1', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'El Capitan',    disable_app_nap: true }
   ].each do |os|
     context "on #{os[:platform].split('_').map(&:capitalize).join(' ')} #{os[:version]} (#{os[:code_name]})" do
+      let(:cf_bundle_id) { 'com.caiaq.driver.NIUSBTraktorAudio2Driver' }
       let(:chef_run) do
         klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
         klass.new(os) do |node|
@@ -55,6 +56,12 @@ describe 'lyraphase_workstation::traktor_audio_2' do
       it "installs DMG #{os[:dmg_app]}" do
         chef_run.converge(described_recipe)
         expect(chef_run).to install_dmg_package(os[:dmg_app])
+      end
+
+      if os[:disable_app_nap]
+        it "disables app nap" do
+          expect(chef_run).to write_osx_defaults(cf_bundle_id, 'NSAppSleepDisabled').with_boolean(true)
+        end
       end
     end
   end

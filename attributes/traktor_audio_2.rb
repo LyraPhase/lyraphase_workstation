@@ -11,6 +11,7 @@ if Chef::VersionConstraint.new("< 10.10").include?(node['platform_version'])
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['app']         = 'Traktor Audio 2 2.7.0 Installer Mac'
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['type']        = 'pkg'
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['package_id']  = 'com.caiaq.NIUSBTraktorAudio2Driver_10.9'
+  default['lyraphase_workstation']['traktor_audio_2']['dmg']['cf_bundle_id'] = 'com.caiaq.driver.NIUSBTraktorAudio2Driver'
 elsif Chef::VersionConstraint.new(">= 10.10").include?(node['platform_version'])
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['source']      = 'http://lyraphase.com/doc/installers/mac/Traktor_Audio_2_280_Mac_p.dmg'
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['checksum']    = "c2a32f6d60bad7d18794b02f7c4a4b35f273e93d32e784373eba57e0cfcd4b97"
@@ -19,4 +20,5 @@ elsif Chef::VersionConstraint.new(">= 10.10").include?(node['platform_version'])
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['app']         = 'Traktor Audio 2 2.8.0 Installer Mac'
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['type']        = 'pkg'
   default['lyraphase_workstation']['traktor_audio_2']['dmg']['package_id']  = 'com.caiaq.NIUSBTraktorAudio2Driver_10.10'
+  default['lyraphase_workstation']['traktor_audio_2']['dmg']['cf_bundle_id'] = 'com.caiaq.driver.NIUSBTraktorAudio2Driver'
 end

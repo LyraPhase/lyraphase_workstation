@@ -9,6 +9,7 @@ version          "0.6.0"
 supports         'mac_os_x'
 depends          'homebrew'
 depends          'dmg'
+depends          'osx' # For osx_defaults LWRP
 depends          'sprout-base'  # For `libraries/directory#recursive_directories()` function
 
 recipe 'lyraphase_workstation::ableton_live', 'Install [Ableton Live](https://www.ableton.com/) DAW'
