@@ -6,6 +6,9 @@ description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.6.0"
 
+source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
+issues_url 'https://github.com/trinitronx/lyraphase_workstation/issues' if respond_to?(:issues_url)
+
 supports         'mac_os_x'
 depends          'homebrew'
 depends          'dmg'
