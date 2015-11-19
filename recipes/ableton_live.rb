@@ -28,7 +28,6 @@ dmg_package "Ableton Live" do
   app         dmg_properties['app']
   type        dmg_properties['type']
   owner       node['current_user']
-  package_id  dmg_properties['package_id']
   accept_eula true
   action :install
 end

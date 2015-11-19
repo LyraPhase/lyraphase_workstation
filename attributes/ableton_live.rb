@@ -5,4 +5,3 @@ default['lyraphase_workstation']['ableton_live']['dmg']['volumes_dir'] = "Ableto
 default['lyraphase_workstation']['ableton_live']['dmg']['dmg_name']    = 'ableton_live_suite_9.1.9_64'
 default['lyraphase_workstation']['ableton_live']['dmg']['app']         = 'Ableton Live 9 Suite'
 default['lyraphase_workstation']['ableton_live']['dmg']['type']        = 'app'
-# default['lyraphase_workstation']['ableton_live']['dmg']['package_id']  = ''
