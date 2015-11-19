@@ -1,0 +1,1 @@
+default['lyraphase_workstation'] = {}
