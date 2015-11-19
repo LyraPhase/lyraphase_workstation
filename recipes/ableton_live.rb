@@ -18,6 +18,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+raise "Attribute: lyraphase_workstation is not defined well" unless Hash === node['lyraphase_workstation']
+raise "Attribute: ableton_live is not defined well" unless Hash === node['lyraphase_workstation']['ableton_live']
+raise "Attribute: ableton_live is not defined well" unless Hash === node['lyraphase_workstation']['ableton_live']['dmg']
+
 dmg_properties = node['lyraphase_workstation']['ableton_live']['dmg']
 
 dmg_package "Ableton Live" do
