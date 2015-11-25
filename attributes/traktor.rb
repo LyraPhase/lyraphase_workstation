@@ -4,3 +4,4 @@ default['lyraphase_workstation']['traktor']['dmg']['volumes_dir'] = "Traktor Pro
 default['lyraphase_workstation']['traktor']['dmg']['dmg_name']    = 'TraktorPro26'
 default['lyraphase_workstation']['traktor']['dmg']['app']         = 'Traktor 2 2.6.0 Mac'
 default['lyraphase_workstation']['traktor']['dmg']['type']        = 'mpkg'
+default['lyraphase_workstation']['traktor']['dmg']['cf_bundle_id'] = 'com.native-instruments.Traktor2.Application'

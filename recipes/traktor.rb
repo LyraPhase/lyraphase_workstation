@@ -31,3 +31,18 @@ dmg_package "Traktor Pro 2.6" do
   package_id  'com.native-instruments.Traktor2.*'
   action :install
 end
+
+# Fix App Nap bug in >= Mavericks
+# References:
+#  http://www.native-instruments.com/en/support/knowledge-base/show/3631/my-audio-interface-is-freezing-when-audio-is-playing-in-traktor-os-x-10.10-yosemite/
+#  https://cobbservations.wordpress.com/2013/11/05/disabling-app-nap-in-os-x-mavericks/
+require 'chef/version_constraint'
+
+if Chef::VersionConstraint.new(">= 10.9").include?(node['platform_version'])
+
+  osx_defaults "Disable App Nap for #{dmg_properties['cf_bundle_id']}" do
+    domain dmg_properties['cf_bundle_id']
+    key 'NSAppSleepDisabled'
+    boolean true
+  end
+end
