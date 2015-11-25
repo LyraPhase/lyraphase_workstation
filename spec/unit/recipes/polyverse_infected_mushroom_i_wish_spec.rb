@@ -31,6 +31,43 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
     end
   end
 
+  context 'when given License Key attributes' do
+    let(:license_data) {
+      {
+        'email' => 'barney.rubble@gmail.com',
+        'key' => 'YmFybmV5LnJ1YmJsZUBnbWFpbC5jb20AbGljZW5zZQ=='
+      }
+    }
+    let(:user_library_dir) {
+      '/Users/brubble/Library'
+    }
+    let(:chef_run) {
+      klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
+      klass.new do |node|
+        # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
+        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+        node.set['sprout']['user'] = 'brubble'
+        node.set['lyraphase_workstation']['home'] = '/Users/brubble'
+
+        node.set['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'] = license_data
+      end.converge(described_recipe)
+    }
+
+    it "installs Ableton Live DMG" do
+      chef_run.converge(described_recipe)
+      expect(chef_run).to install_dmg_package('Polyverse - Infected Mushroom - I Wish VST')
+    end
+
+    it "creates Polyverse dir under User's Library dir" do
+      chef_run.converge(described_recipe)
+      expect(chef_run).to create_directory( File.join(user_library_dir, 'Polyverse') )
+    end
+
+    it "installs License Key" do
+      expect(chef_run).to render_file(File.join(user_library_dir, 'Polyverse', 'iwish', 'key.pvs')).with_content(license_data['email'] + '|' + license_data['key'])
+    end
+  end
 
   context "when using default attributes" do
       let(:chef_run) do
