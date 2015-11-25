@@ -32,3 +32,22 @@ dmg_package "Polyverse - Infected Mushroom - I Wish VST" do
   # accept_eula true
   action :install
 end
+
+user_library_dir = "#{node['lyraphase_workstation']['home']}/Library"
+
+recursive_directories([user_library_dir, "Polyverse"]) do
+  owner node['current_user']
+end
+
+license_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'polyverse_infected_mushroom_i_wish_license') rescue nil
+
+if license_data.nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'].nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['email'].nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['key'].nil?
+  license_data = node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']
+end
+
+template File.join(user_library_dir, 'Polyverse', 'iwish', 'key.pvs') do
+  source "License.Polyverse.iwish.erb"
+  owner node['current_user']
+  variables :license => license_data
+  not_if { license_data.nil? }
+end
