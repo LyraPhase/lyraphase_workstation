@@ -16,7 +16,7 @@ depends          'osx' # For osx_defaults LWRP
 depends          'sprout-base'  # For `libraries/directory#recursive_directories()` function
 
 recipe 'lyraphase_workstation::ableton_live', 'Install [Ableton Live](https://www.ableton.com/) DAW'
-recipe 'lyraphase_workstation::cycling_74_max', 'Install [CYCLING ‘74 MAX](https://cycling74.com/)'
+recipe 'lyraphase_workstation::cycling_74_max', 'Install [CYCLING \'74 MAX](https://cycling74.com/)'
 recipe 'lyraphase_workstation::daisydisk', 'Install [DaisyDisk](http://www.daisydiskapp.com/)'
 recipe 'lyraphase_workstation::default', 'No-Op recipe for just loading libraries this cookbook provides'
 recipe 'lyraphase_workstation::dmgaudio_dualism', 'Install [DMGAudio Dualism](http://www.dmgaudio.com/products_dualism.php)'
