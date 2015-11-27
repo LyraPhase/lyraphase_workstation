@@ -27,7 +27,7 @@ dmg_package "Mixed In Key" do
   dmg_name    dmg_properties['dmg_name']
   app         dmg_properties['app']
   type        dmg_properties['type']
-  owner       node['current_user']
+  owner       node['lyraphase_workstation']['user']
   action :install
 end
 
@@ -36,9 +36,10 @@ if ! node['lyraphase_workstation']['mixed_in_key']['vipcode'].nil?
   plist_path = File.expand_path('com.mixedinkey.application.plist', File.join(node['sprout']['home'], 'Library', 'Preferences'))
   template plist_path do
     source "com.mixedinkey.application.plist.erb"
-    owner node['sprout']['user']
+    owner node['lyraphase_workstation']['user']
     variables({
       :vipcode => node['lyraphase_workstation']['mixed_in_key']['vipcode']
     })
   end
 end
+

@@ -26,7 +26,7 @@ if ! dmg_properties.nil? && zip_properties.nil?
     source      dmg_properties['source']
     checksum    dmg_properties['checksum']
     volumes_dir dmg_properties['volumes_dir']
-    owner       node['current_user']
+    owner       node['lyraphase_workstation']['user']
   end
 
 elsif ! zip_properties.nil? && dmg_properties.nil?
@@ -41,7 +41,7 @@ elsif ! zip_properties.nil? && dmg_properties.nil?
 
     execute 'unzip DaisyDisk' do
       command "unzip #{Chef::Config[:file_cache_path]}/DaisyDisk.zip DaisyDisk.app/* -d /Applications/"
-      user    node['current_user']
+      user    node['lyraphase_workstation']['user']
       group   'admin'
     end
   end
@@ -52,7 +52,7 @@ end
 app_supportdir = "#{node['lyraphase_workstation']['home']}/Library/Application Support"
 
 recursive_directories([app_supportdir, "DaisyDisk"]) do
-  owner node['current_user']
+  owner node['lyraphase_workstation']['user']
 end
 
 license_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'daisydisk_license') rescue nil
@@ -63,7 +63,7 @@ end
 
 template File.join(app_supportdir, 'DaisyDisk', 'License.DaisyDisk') do
   source "License.DaisyDisk.erb"
-  owner node['current_user']
+  owner node['lyraphase_workstation']['user']
   variables :license => license_data
   not_if { license_data.nil? }
 end

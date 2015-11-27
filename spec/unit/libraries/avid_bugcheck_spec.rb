@@ -9,7 +9,7 @@ describe AVIDBugCheck do
     klass.new(:log_level => :warn) do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-      node.set['sprout']['user'] = 'brubble'
+      node.set['lyraphase_workstation']['user'] = 'brubble'
     end
   }
 

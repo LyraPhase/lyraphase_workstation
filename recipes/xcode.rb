@@ -24,7 +24,7 @@ dmg_package "XCode" do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']
-  owner       node['current_user']
+  owner       node['lyraphase_workstation']['user']
   type        dmg_properties['type']
   accept_eula true
   package_id  dmg_properties['package_id']

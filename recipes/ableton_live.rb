@@ -31,7 +31,7 @@ dmg_package "Ableton Live" do
   dmg_name    dmg_properties['dmg_name']
   app         dmg_properties['app']
   type        dmg_properties['type']
-  owner       node['current_user']
+  owner       node['lyraphase_workstation']['user']
   accept_eula true
   action :install
 end

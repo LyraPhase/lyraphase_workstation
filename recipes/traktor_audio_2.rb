@@ -27,7 +27,7 @@ dmg_package dmg_properties['app'] do
   dmg_name    dmg_properties['dmg_name']
   app         dmg_properties['app']
   type        dmg_properties['type']
-  owner       node['current_user']
+  owner       node['lyraphase_workstation']['user']
   package_id  dmg_properties['package_id']
   action :install
 end

@@ -26,5 +26,5 @@ dmg_package 'MultiBit' do
   checksum    dmg_properties['checksum']
   type        dmg_properties['type']
   action :install
-  owner node['current_user']
+  owner node['lyraphase_workstation']['user']
 end

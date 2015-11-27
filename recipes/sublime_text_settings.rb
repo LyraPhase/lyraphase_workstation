@@ -25,7 +25,8 @@
 
   link "#{node['sprout']['home']}/Library/Application Support/Sublime Text 3/#{shared_sublime_file}" do
     to symlink_target
-    owner node['sprout']['user']
+    owner node['lyraphase_workstation']['user']
     not_if { File.symlink?( symlink_target ) }
   end
 end
+

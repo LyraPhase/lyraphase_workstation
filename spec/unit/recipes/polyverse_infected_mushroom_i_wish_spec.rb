@@ -19,7 +19,7 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
         # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
         create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
         node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-        node.set['sprout']['user'] = 'brubble'
+        node.set['lyraphase_workstation']['user'] = 'brubble'
 
         node.set['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg'] = dmg_properties
       end.converge(described_recipe)
@@ -47,8 +47,9 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
         # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
         create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
         node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-        node.set['sprout']['user'] = 'brubble'
+        node.set['lyraphase_workstation']['user'] = 'brubble'
         node.set['lyraphase_workstation']['home'] = '/Users/brubble'
+        node.set['current_user'] = 'brubble'
 
         node.set['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'] = license_data
       end.converge(described_recipe)
@@ -61,7 +62,7 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
 
     it "creates Polyverse dir under User's Library dir" do
       chef_run.converge(described_recipe)
-      expect(chef_run).to create_directory( File.join(user_library_dir, 'Polyverse') )
+      expect(chef_run).to create_directory( File.join(user_library_dir, 'Polyverse') ).with( owner: 'brubble' )
     end
 
     it "installs License Key" do
@@ -76,7 +77,7 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
           # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
           create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
           node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-          node.set['sprout']['user'] = 'brubble'
+          node.set['lyraphase_workstation']['user'] = 'brubble'
         end.converge(described_recipe)
       end
 

@@ -27,6 +27,6 @@ dmg_package "Max" do
   dmg_name    dmg_properties['dmg_name']
   app         dmg_properties['app']
   type        dmg_properties['type']
-  owner       node['current_user']
+  owner       node['lyraphase_workstation']['user']
   action :install
 end

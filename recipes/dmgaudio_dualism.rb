@@ -22,7 +22,7 @@
 zip_file = node['lyraphase_workstation']['dmgaudio_dualism']['zip']
 
 remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}" do
-  owner node['sprout']['user']
+  owner node['lyraphase_workstation']['user']
   group 'staff'
   mode '0644'
   source zip_file['source']
@@ -60,7 +60,7 @@ end
 
 unless license_key_data.nil?
   directory dmgaudio_dualism_appsupport_dir do
-    owner node['sprout']['user']
+    owner node['lyraphase_workstation']['user']
     group 'staff'
     mode '0755'
     recursive true
@@ -68,7 +68,7 @@ unless license_key_data.nil?
   end
 
   template "#{dmgaudio_dualism_appsupport_dir}/license" do
-    owner node['sprout']['user']
+    owner node['lyraphase_workstation']['user']
     group 'staff'
     mode '0644'
     source 'com.dmgaudio.pkg.DualismVST3.license.erb'

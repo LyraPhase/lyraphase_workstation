@@ -27,7 +27,7 @@ dmg_package "Traktor Pro 2.6" do
   dmg_name    dmg_properties['dmg_name']
   app         dmg_properties['app']
   type        dmg_properties['type']
-  owner       node['current_user']
+  owner       node['lyraphase_workstation']['user']
   package_id  'com.native-instruments.Traktor2.*'
   action :install
 end
