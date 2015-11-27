@@ -33,7 +33,7 @@ end
 
 # Install VIPCode via plist
 if ! node['lyraphase_workstation']['mixed_in_key']['vipcode'].nil?
-  plist_path = File.expand_path('com.mixedinkey.application.plist', File.join(node['sprout']['home'], 'Library', 'Preferences'))
+  plist_path = File.expand_path('com.mixedinkey.application.plist', File.join(node['lyraphase_workstation']['home'], 'Library', 'Preferences'))
   template plist_path do
     source "com.mixedinkey.application.plist.erb"
     owner node['lyraphase_workstation']['user']

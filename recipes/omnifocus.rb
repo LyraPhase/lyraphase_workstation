@@ -30,7 +30,7 @@ dmg_package "OmniFocus" do
 end
 
 # TODO: Install license, remove sprout attribute dependency
-# app_supportdir = "#{node['sprout']['home']}/Library/Application Support"
+# app_supportdir = "#{node['lyraphase_workstation']['home']}/Library/Application Support"
 
 # recursive_directories([app_supportdir, "Omni Group", "Software Licenses/"]) do
 #   owner node['lyraphase_workstation']['user']

@@ -20,10 +20,10 @@
 #
 
 [ "Installed Packages", "Packages", "Local/License.sublime_license" ].each do |shared_sublime_file|
-  symlink_target = "#{node['sprout']['home']}/Dropbox/AppData/mac/sublime-text-3/#{shared_sublime_file}"
+  symlink_target = "#{node['lyraphase_workstation']['home']}/Dropbox/AppData/mac/sublime-text-3/#{shared_sublime_file}"
   Chef::Log::warn("Sublime Text Settings file not found: #{symlink_target}") if File.exist?("symlink_target")
 
-  link "#{node['sprout']['home']}/Library/Application Support/Sublime Text 3/#{shared_sublime_file}" do
+  link "#{node['lyraphase_workstation']['home']}/Library/Application Support/Sublime Text 3/#{shared_sublime_file}" do
     to symlink_target
     owner node['lyraphase_workstation']['user']
     not_if { File.symlink?( symlink_target ) }

@@ -50,7 +50,7 @@ ruby_block "test that DMGAudio Dualism install worked" do
   end
 end
 
-dmgaudio_dualism_appsupport_dir = "#{node['sprout']['home']}/Library/Application Support/DMGAudio/Dualism"
+dmgaudio_dualism_appsupport_dir = "#{node['lyraphase_workstation']['home']}/Library/Application Support/DMGAudio/Dualism"
 
 license_key_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'dmgaudio_dualism') rescue nil
 
