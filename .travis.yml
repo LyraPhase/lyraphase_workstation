@@ -16,7 +16,7 @@ addons:
     - zlib1g-dev
 
 before_script:
-  - chef exec bundle config build.nokogiri --use-system-libraries --with-opt-include --with-opt-lib
+  - chef exec bundle config build.nokogiri --use-system-libraries --with-opt-include /opt/chefdk/embedded/include --with-opt-lib /opt/chefdk/embedded/lib
   - chef exec bundle --without='task_runners development kitchen_cloud kitchen_vagrant task_runners' update fauxhai chefspec
   - chef exec bundle --without='task_runners development kitchen_cloud kitchen_vagrant task_runners' install
   - eval "$(chef shell-init $(basename $SHELL))"
