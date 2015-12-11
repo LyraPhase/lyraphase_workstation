@@ -11,9 +11,13 @@ group :lint do
 #  gem 'rubocop', '~> 0.34' # Too strict & not pragmatic... Bleh!
 end
 
+group :update_fauxhai do
+  gem 'fauxhai', '~> 3.0', '>= 3.0.1'
+end
+
 group :unit do
   gem 'berkshelf',  '~> 4.0'
-  gem 'chefspec',   '~> 4.4'
+  gem 'chefspec',   '~> 4.5'
   gem 'chef', '~> 12.5'
 end
 
