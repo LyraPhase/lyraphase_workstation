@@ -12,8 +12,11 @@ addons:
     - chef-stable-precise
     packages:
     - chefdk
+    - liblzma-dev
+    - zlib1g-dev
 
 before_script:
+  - chef exec bundle config build.nokogiri --use-system-libraries
   - chef exec bundle --without='task_runners development kitchen_cloud kitchen_vagrant task_runners' update fauxhai chefspec
   - chef exec bundle --without='task_runners development kitchen_cloud kitchen_vagrant task_runners' install
   - eval "$(chef shell-init $(basename $SHELL))"
