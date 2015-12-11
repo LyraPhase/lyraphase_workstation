@@ -20,7 +20,7 @@ addons:
 before_script:
   - chef exec bundle config build.nokogiri "--use-system-libraries --with-opt-include=/opt/chefdk/embedded/include --with-opt-lib=/opt/chefdk/embedded/lib --with-xml2-lib=/opt/chefdk/embedded/lib --with-xml2-include=/opt/chefdk/embedded/include/libxml2 --with-xslt-lib=/opt/chefdk/embedded/lib --with-xslt-include=/opt/chefdk/embedded/include/libxslt --with-iconv-dir=/opt/chefdk/embedded --with-zlib-dir=/opt/chefdk/embedded"
   - cat ~/.bundle/config
-  - bash -c 'chef exec bundle --without='task_runners development kitchen_cloud kitchen_vagrant task_runners' update fauxhai chefspec ; exit 0'
+  - bash -c "bash -c 'chef exec bundle --without='task_runners development kitchen_cloud kitchen_vagrant task_runners' update fauxhai chefspec ; exit 0' ; exit 0"
   - echo "/home/travis/.chefdk/gem/ruby/2.1.0/extensions/x86_64-linux/2.1.0/nokogiri-1.6.7/gem_make.out"
   - cat /home/travis/.chefdk/gem/ruby/2.1.0/extensions/x86_64-linux/2.1.0/nokogiri-1.6.7/gem_make.out
   - chef exec bundle --without='task_runners development kitchen_cloud kitchen_vagrant task_runners' install
