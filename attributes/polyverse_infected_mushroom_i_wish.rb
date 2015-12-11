@@ -4,4 +4,5 @@ default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['c
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['volumes_dir'] = "Infected Mushroom - I wish 0.9"
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['dmg_name']    = 'Infected Mushroom - I Wish v0.910'
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['app']         = 'I Wish Setup'
+default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['package_id']  = 'com.polyversemusic.iWishSetup.IWish64.pkg'
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['type']        = 'pkg'
