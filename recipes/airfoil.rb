@@ -23,8 +23,8 @@ homebrew_cask "airfoil"
 
 license_info = node['lyraphase_workstation']['airfoil']['license']
 
-if node['lyraphase_workstation']['airfoil']['plist_file']
-  airfoil_plist_file = node['lyraphase_workstation']['airfoil']['plist_file']
+if ! node['lyraphase_workstation']['airfoil']['plist_file'].nil?
+  airfoil_plist_file = Pathname.new(node['lyraphase_workstation']['airfoil']['plist_file'].to_s)
 else
   airfoil_plist_file = Pathname.new("#{node['sprout']['home']}/Library/Preferences/com.rogueamoeba.Airfoil.plist")
 end
