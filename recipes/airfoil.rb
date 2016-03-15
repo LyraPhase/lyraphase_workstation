@@ -23,15 +23,20 @@ homebrew_cask "airfoil"
 
 license_info = node['lyraphase_workstation']['airfoil']['license']
 
+airfoil_domain = nil
+airfoil_plist_file = nil
+
 if ! node['lyraphase_workstation']['airfoil']['plist_file'].nil?
   airfoil_plist_file = Pathname.new(node['lyraphase_workstation']['airfoil']['plist_file'].to_s)
 else
-  airfoil_plist_file = Pathname.new("#{node['sprout']['home']}/Library/Preferences/com.rogueamoeba.Airfoil.plist")
+  # airfoil_plist_file = Pathname.new("#{node['sprout']['home']}/Library/Preferences/com.rogueamoeba.Airfoil.plist")
+  airfoil_domain = 'com.rogueamoeba.Airfoil'
 end
 
 plist_file airfoil_plist_file.basename do
-  file airfoil_plist_file
+  file airfoil_plist_file if ! airfoil_plist_file.nil?
   set "registrationInfo", { "Code" => license_info['code'].to_s, "Name" => license_info['name'].to_s }
+  domain airfoil_domain if ! airfoil_domain.nil?
   owner node['lyraphase_workstation']['user']
   mode 0600
   action :update
