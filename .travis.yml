@@ -23,6 +23,7 @@ addons:
     - libxslt1-dev
 
 before_script:
+  - ls -lR /opt/chefdk/embedded/lib/ruby/gems/2.1.0/gems/fauxhai-2.3.0/
   - bash -c '[ -e $EL_CAPITAN_FAUXHAI ] || curl -o $EL_CAPITAN_FAUXHAI https://raw.githubusercontent.com/customink/fauxhai/master/lib/fauxhai/platforms/mac_os_x/10.11.1.json'
   - eval "$(chef shell-init $(basename $SHELL))"
 
