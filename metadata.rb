@@ -14,6 +14,7 @@ depends          'homebrew'
 depends          'dmg'
 depends          'osx' # For osx_defaults LWRP
 depends          'sprout-base'  # For `libraries/directory#recursive_directories()` function
+depends          'plist' # For `plist_file` LWRP (used in lyraphase_workstation::airfoil recipe)
 
 recipe 'lyraphase_workstation::ableton_live', 'Install [Ableton Live](https://www.ableton.com/) DAW'
 recipe 'lyraphase_workstation::cycling_74_max', 'Install [CYCLING \'74 MAX](https://cycling74.com/)'
