@@ -31,9 +31,8 @@ end
 
 plist_file airfoil_plist_file.basename do
   file airfoil_plist_file
-  push "registrationInfo", "Code", license_info['code'].to_s
-  push "registrationInfo", "Name", license_info['name'].to_s
+  set "registrationInfo", { "Code" => license_info['code'].to_s, "Name" => license_info['name'].to_s }
   owner node['lyraphase_workstation']['user']
-  mode "0600"
+  mode 0600
   action :update
 end
