@@ -33,7 +33,13 @@ else
   airfoil_domain = 'com.rogueamoeba.Airfoil'
 end
 
-plist_file airfoil_plist_file.basename do
+if ! airfoil_plist_file.nil?
+  airfoil_plist_resource_name = airfoil_plist_file.basename
+elsif ! airfoil_domain.nil?
+  airfoil_plist_resource_name = "#{airfoil_domain}.plist"
+end
+
+plist_file airfoil_plist_resource_name do
   file airfoil_plist_file if ! airfoil_plist_file.nil?
   set "registrationInfo", { "Code" => license_info['code'].to_s, "Name" => license_info['name'].to_s }
   domain airfoil_domain if ! airfoil_domain.nil?
