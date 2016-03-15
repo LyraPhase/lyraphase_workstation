@@ -427,7 +427,7 @@ describe "lyraphase_workstation::airfoil" do
     end.converge(described_recipe)
   end
 
-  before(:example) do
+  before do
     stub_const('ENV', ENV.to_hash.merge('SUDO_USER' => 'brubble'))
   end
 
