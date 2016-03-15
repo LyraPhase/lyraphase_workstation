@@ -21,21 +21,20 @@
 
 homebrew_cask "airfoil"
 
-license_info = node['lyraphase_workstation']['airfoil']['license']
+license_info = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'airfoil') rescue nil
+if license_info.nil? && ! node['lyraphase_workstation']['airfoil']['license'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['name'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['code'].nil?
+  license_info = node['lyraphase_workstation']['airfoil']['license']
+end
 
 airfoil_domain = nil
 airfoil_plist_file = nil
 
 if ! node['lyraphase_workstation']['airfoil']['plist_file'].nil?
   airfoil_plist_file = Pathname.new(node['lyraphase_workstation']['airfoil']['plist_file'].to_s)
+  airfoil_plist_resource_name = airfoil_plist_file.basename
 else
   # airfoil_plist_file = Pathname.new("#{node['sprout']['home']}/Library/Preferences/com.rogueamoeba.Airfoil.plist")
   airfoil_domain = 'com.rogueamoeba.Airfoil'
-end
-
-if ! airfoil_plist_file.nil?
-  airfoil_plist_resource_name = airfoil_plist_file.basename
-elsif ! airfoil_domain.nil?
   airfoil_plist_resource_name = "#{airfoil_domain}.plist"
 end
 
