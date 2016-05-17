@@ -33,7 +33,7 @@ if ! node['lyraphase_workstation']['airfoil']['plist_file'].nil?
   airfoil_plist_file = Pathname.new(node['lyraphase_workstation']['airfoil']['plist_file'].to_s)
   airfoil_plist_resource_name = airfoil_plist_file.basename
 else
-  # airfoil_plist_file = Pathname.new("#{node['sprout']['home']}/Library/Preferences/com.rogueamoeba.Airfoil.plist")
+  airfoil_plist_file = Pathname.new("#{node['lyraphase_workstation']['home']}/Library/Preferences/com.rogueamoeba.Airfoil.plist")
   airfoil_domain = 'com.rogueamoeba.Airfoil'
   airfoil_plist_resource_name = "#{airfoil_domain}.plist"
 end
