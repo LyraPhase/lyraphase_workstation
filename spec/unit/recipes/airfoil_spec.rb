@@ -409,14 +409,9 @@ chef_run = nil
 
 describe "lyraphase_workstation::airfoil" do
 
-  before(:all) do
-    test_file.open("wb") { |f| f.write(content) }
-
-    # ChefSpec::ServerRunner.new(step_into: ["plist_file"]) do |node|
-    #   node.set['lyraphase_workstation']['airfoil']['plist_file'] = test_file
-    # end.converge(described_recipe)
+  let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    chef_run = klass.new(step_into: ["plist_file"]) do |node|
+    klass.new(step_into: ["plist_file"]) do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.set['lyraphase_workstation']['user'] = 'brubble'
@@ -425,10 +420,14 @@ describe "lyraphase_workstation::airfoil" do
       node.set['lyraphase_workstation']['airfoil']['plist_file'] = test_file
       node.set['lyraphase_workstation']['airfoil']['license'] = license_info
     end.converge(described_recipe)
-  end
+  }
+  before(:all) do
+    test_file.open("wb") { |f| f.write(content) }
 
-  before(:example) do
-    stub_const('ENV', ENV.to_hash.merge('SUDO_USER' => 'brubble'))
+    # ChefSpec::ServerRunner.new(step_into: ["plist_file"]) do |node|
+    #   node.set['lyraphase_workstation']['airfoil']['plist_file'] = test_file
+    # end.converge(described_recipe)
+
   end
 
   it 'installs Airfoil Homebrew Cask' do

@@ -13,7 +13,7 @@ end
 # http://berkshelf.com/
 desc "Install Berkshelf to local cookbooks path"
 task :berks do
-  sh %{berks install --path cookbooks}
+  sh %{berks vendor cookbooks}
 end
 
 # http://wiki.opscode.com/display/chef/Managing+Cookbooks+With+Knife#ManagingCookbooksWithKnife-test
