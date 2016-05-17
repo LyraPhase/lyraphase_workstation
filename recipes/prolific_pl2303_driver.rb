@@ -50,3 +50,8 @@ ruby_block "test that Prolific PL2303 Driver install worked" do
   end
 end
 
+bash "Load Prolific PL2303 Driver" do
+  code "kextload -bundle-id #{zip_file['package_id']}"
+  user 'root'
+  not_if "kextfind -loaded -bundle-id #{zip_file['package_id']} | grep -q '#{zip_file['app_paths'].grep(/\.kext$/).first}'"
+end
