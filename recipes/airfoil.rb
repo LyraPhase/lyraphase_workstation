@@ -29,7 +29,7 @@ end
 airfoil_domain = nil
 airfoil_plist_file = nil
 
-if ! node['lyraphase_workstation']['airfoil']['plist_file'].nil?
+if ! node['lyraphase_workstation']['airfoil'].nil? && ! node['lyraphase_workstation']['airfoil']['plist_file'].nil?
   airfoil_plist_file = Pathname.new(node['lyraphase_workstation']['airfoil']['plist_file'].to_s)
   airfoil_plist_resource_name = airfoil_plist_file.basename
 else
