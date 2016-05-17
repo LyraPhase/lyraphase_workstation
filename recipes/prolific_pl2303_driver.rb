@@ -31,7 +31,7 @@ remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}" do
 end
 
 bash "unpack #{zip_file['file_name']}" do
-   code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']} '*.pkg'"
+   code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']} '#{zip_file['pkg_file']}'"
    not_if {
      File.exists?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
    }
