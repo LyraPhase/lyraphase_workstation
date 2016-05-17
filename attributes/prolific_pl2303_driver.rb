@@ -10,4 +10,4 @@ default['lyraphase_workstation']['prolific_pl2303_driver']['zip']['app_paths']  
                                                                                '/Library/Extensions/ProlificUsbSerial.kext/Contents/MacOS',
                                                                                '/Library/Extensions/ProlificUsbSerial.kext/Contents/MacOS/ProlificUsbSerial',
                                                                              ]
-default['lyraphase_workstation']['prolific_pl2303_driver']['zip']['package_id']  = 'com.prolific.pkg.TODO'
+default['lyraphase_workstation']['prolific_pl2303_driver']['zip']['package_id']  = 'com.prolific.driver.PL2303'
