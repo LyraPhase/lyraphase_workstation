@@ -22,7 +22,7 @@
 homebrew_cask "airfoil"
 
 license_info = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'airfoil') rescue nil
-if license_info.nil? && ! node['lyraphase_workstation']['airfoil']['license'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['name'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['code'].nil?
+if license_info.nil? && ! node['lyraphase_workstation']['airfoil'].nil? && ! node['lyraphase_workstation']['airfoil']['license'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['name'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['code'].nil?
   license_info = node['lyraphase_workstation']['airfoil']['license']
 end
 
@@ -40,7 +40,7 @@ end
 
 plist_file airfoil_plist_resource_name do
   file airfoil_plist_file if ! airfoil_plist_file.nil?
-  set "registrationInfo", { "Code" => license_info['code'].to_s, "Name" => license_info['name'].to_s }
+  set "registrationInfo", { "Code" => license_info['code'].to_s, "Name" => license_info['name'].to_s } if ! license_info.nil?
   domain airfoil_domain if ! airfoil_domain.nil?
   owner node['lyraphase_workstation']['user']
   mode 0600
