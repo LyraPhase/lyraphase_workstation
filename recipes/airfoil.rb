@@ -3,6 +3,7 @@
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: airfoil
 # Site:: https://www.rogueamoeba.com/airfoil/
+# Tools:: A/V sync: https://www.youtube.com/playlist?list=PLLe2-UyXnAbGjZKJspkQ8m57GSupVMUdG
 #
 # Copyright (C) 2016 James Cuzella
 # 
