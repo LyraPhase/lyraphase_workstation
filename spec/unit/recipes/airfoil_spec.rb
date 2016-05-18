@@ -405,13 +405,12 @@ license_info = {
 
 test_file = Pathname.new(Dir.tmpdir) + "plist_file_push_spec.plist"
 
-chef_run = nil
 
 describe "lyraphase_workstation::airfoil" do
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(step_into: ["plist_file"]) do |node|
+    klass.new do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.set['lyraphase_workstation']['user'] = 'brubble'
