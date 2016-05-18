@@ -2,6 +2,10 @@
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: prolific_pl2303_driver
 # Site:: http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41
+# Downloads:: http://www.prolific.com.tw/US/supportDownload.aspx?FileType=56&FileID=133&pcid=85&Page=0
+# Note:: Login with Username=GUEST Password=GUEST  for downloads
+# Manual:: Look Inside Zip File: mkdir /tmp/PL2303 && unzip -d /tmp/PL2303 /var/chef/cache/PL2303_MacOSX_1_6_1_20160309.zip
+# Reference:: http://pbxbook.com/other/mac-tty.html
 #
 # Copyright (C) 2016 James Cuzella
 #
