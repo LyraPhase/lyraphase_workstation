@@ -31,14 +31,20 @@ dmg_package "Mixed In Key" do
   action :install
 end
 
+license_key_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'mixed_in_key')['license'] rescue nil
+
+if license_key_data.nil? && ! node['lyraphase_workstation']['mixed_in_key']['license'].nil? && ! node['lyraphase_workstation']['mixed_in_key']['license']['vipcode']
+  license_key_data = node['lyraphase_workstation']['mixed_in_key']['license']
+end
+
 # Install VIPCode via plist
-if ! node['lyraphase_workstation']['mixed_in_key']['vipcode'].nil?
+unless license_key_data.nil? && license_key_data['vipcode'].nil?
   plist_path = File.expand_path('com.mixedinkey.application.plist', File.join(node['lyraphase_workstation']['home'], 'Library', 'Preferences'))
   template plist_path do
     source "com.mixedinkey.application.plist.erb"
     owner node['lyraphase_workstation']['user']
     variables({
-      :vipcode => node['lyraphase_workstation']['mixed_in_key']['vipcode']
+      :vipcode => license_key_data['vipcode']
     })
   end
 end
