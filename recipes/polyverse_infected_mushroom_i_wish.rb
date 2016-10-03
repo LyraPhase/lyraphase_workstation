@@ -40,7 +40,7 @@ recursive_directories([user_library_dir, "Polyverse"]) do
   owner node['lyraphase_workstation']['user']
 end
 
-license_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'polyverse_infected_mushroom_i_wish_license') rescue nil
+license_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'polyverse_infected_mushroom_i_wish')['license'] rescue nil
 
 if license_data.nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'].nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['email'].nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['key'].nil?
   license_data = node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']

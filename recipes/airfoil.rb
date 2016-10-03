@@ -22,7 +22,7 @@
 
 homebrew_cask "airfoil"
 
-license_info = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'airfoil') rescue nil
+license_info = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'airfoil')['license'] rescue nil
 if license_info.nil? && ! node['lyraphase_workstation']['airfoil'].nil? && ! node['lyraphase_workstation']['airfoil']['license'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['name'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['code'].nil?
   license_info = node['lyraphase_workstation']['airfoil']['license']
 end
