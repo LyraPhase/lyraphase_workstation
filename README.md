@@ -18,6 +18,7 @@ This includes Ableton Live [DAW][1], VSTs, and other various tools and utilities
 
 # Author
 
-Author:: James Cuzella (<james.cuzella@lyraphase.com>)
+Author:: James Cuzella ([@trinitronx][keybase-id])
 
 [1]: https://en.wikipedia.org/wiki/Digital_audio_workstation
+[keybase-id]: https://gist.github.com/trinitronx/aee110cbdf55e67185dc44272784e694
