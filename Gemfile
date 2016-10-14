@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 group :task_runners do
-  gem 'thor-foodcritic', :github => 'reset/thor-foodcritic', :ref => 'e38a99d539ff39ea2dfd6f4719ecc547c51d1a08'
+  gem 'thor-foodcritic', :git => 'https://github.com/reset/thor-foodcritic.git', :ref => 'e38a99d539ff39ea2dfd6f4719ecc547c51d1a08'
   gem 'rake'
 end
 
