@@ -17,8 +17,12 @@
 
 homebrew_cask 'iterm2'
 
-cookbook_file "/Users/#{node['lyraphase_workstation']['user']}/Library/Preferences/com.googlecode.iterm2.plist" do
-  source "com.googlecode.iterm2.plist"
+template "/Users/#{node['lyraphase_workstation']['user']}/Library/Preferences/com.googlecode.iterm2.plist" do
+  source "com.googlecode.iterm2.plist.erb"
   user node['lyraphase_workstation']['user']
   mode "0600"
+  variables(
+    :user => node['lyraphase_workstation']['user'],
+    :home => node['lyraphase_workstation']['home']
+  )
 end

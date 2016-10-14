@@ -37,10 +37,12 @@ describe 'lyraphase_workstation::iterm2' do
   end
 
   it 'installs iTerm2 plist' do
-    expect(chef_run).to create_cookbook_file(plist_filename).with(
+    expect(chef_run).to create_template(plist_filename).with(
       user:   'brubble',
       mode: '0600'
     )
+    expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/Dropbox\/AppData\/mac\/iTerm2<\/string>$/)
+    expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/bin\/iterm_open_with \\5 \\1 \\2<\/string>$/)
   end
 
 end
