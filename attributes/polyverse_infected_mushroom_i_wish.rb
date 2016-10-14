@@ -6,3 +6,6 @@ default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['d
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['app']         = 'I Wish Setup'
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['package_id']  = 'com.polyversemusic.iWishSetup.IWish64.pkg'
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['type']        = 'pkg'
+default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'] = {}
+default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['email']   = nil
+default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['key']     = nil

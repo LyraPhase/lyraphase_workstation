@@ -3,6 +3,7 @@
 # Cookbook Name:: lyraphase_workstation
 # Recipe:: airfoil
 # Site:: https://www.rogueamoeba.com/airfoil/
+# Tools:: A/V sync: https://www.youtube.com/playlist?list=PLLe2-UyXnAbGjZKJspkQ8m57GSupVMUdG
 #
 # Copyright (C) 2016 James Cuzella
 # 
@@ -21,7 +22,7 @@
 
 homebrew_cask "airfoil"
 
-license_info = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'airfoil') rescue nil
+license_info = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'airfoil')['license'] rescue nil
 if license_info.nil? && ! node['lyraphase_workstation']['airfoil'].nil? && ! node['lyraphase_workstation']['airfoil']['license'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['name'].nil? && ! node['lyraphase_workstation']['airfoil']['license']['code'].nil?
   license_info = node['lyraphase_workstation']['airfoil']['license']
 end

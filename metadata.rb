@@ -4,7 +4,7 @@ maintainer_email "james.cuzella@lyraphase.com"
 license          "GNU Public License 3.0"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.9.2"
+version          "0.9.4"
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
 issues_url 'https://github.com/trinitronx/lyraphase_workstation/issues' if respond_to?(:issues_url)
@@ -32,6 +32,7 @@ recipe 'lyraphase_workstation::nfs_mounts', 'Manage /etc/auto_nfs entries for [N
 recipe 'lyraphase_workstation::omnifocus', 'Install [OmniFocus](https://www.omnigroup.com/omnifocus)'
 recipe 'lyraphase_workstation::oxium', 'Install [Xils-Lab Oxium](http://www.xils-lab.com/pages/Oxium.html) Synthesizer'
 recipe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish', 'Install [Polyverse - Infected Mushroom - I Wish VST](http://polyversemusic.com/)'
+recipe 'lyraphase_workstation::prolific_pl2303_driver', 'Install [Prolific PL2303 Driver](http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41)'
 recipe 'lyraphase_workstation::sublime_text_settings', 'Installs Settings symlinks for storing [Sublime Text](http://www.sublimetext.com/) configs in Dropbox'
 recipe 'lyraphase_workstation::traktor', 'Installs [Traktor](http://www.native-instruments.com/en/products/traktor/) DJ software'
 recipe 'lyraphase_workstation::traktor_audio_2', 'Installs [Traktor Audio 2 DJ](http://www.native-instruments.com/en/products/traktor/dj-audio-interfaces/traktor-audio-2/) Driver'

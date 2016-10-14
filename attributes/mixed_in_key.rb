@@ -4,4 +4,5 @@ default['lyraphase_workstation']['mixed_in_key']['dmg']['volumes_dir'] = 'Mixed 
 default['lyraphase_workstation']['mixed_in_key']['dmg']['dmg_name']    = 'Mixed+In+Key.7.5.0.2327'
 default['lyraphase_workstation']['mixed_in_key']['dmg']['app']         = 'Mixed In Key 7'
 default['lyraphase_workstation']['mixed_in_key']['dmg']['type']        = 'app'
-default['lyraphase_workstation']['mixed_in_key']['vipcode'] = nil
+default['lyraphase_workstation']['mixed_in_key']['license'] = {}
+default['lyraphase_workstation']['mixed_in_key']['license']['vipcode'] = nil
