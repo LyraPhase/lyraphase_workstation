@@ -1,0 +1,13 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+- name: macosx-10.10
+
+suites:
+- name: default
+  run_list: recipe[lyraphase_workstation::ableton_live]
