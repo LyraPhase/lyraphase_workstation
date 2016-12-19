@@ -36,9 +36,9 @@ class AbletonLiveOptions
                         "NoAutoArming", "NoVstStartupScan",
                         "PluginAutoPopulateThreshold", "ReWireChannels",
                         "ReWireMasterOff", "ShowDeviceSlots",
-                        "ThinningAggressiveness"]
+                        "ThinningAggressiveness"] unless const_defined?(:ALL_KNOWN_OPTIONS)
     # If Ableton doc is ever updated with new options, then fold them into our list
-    ABLETON_LIVE_VALID_OPTIONS = self.ableton_live_get_valid_options
+    ABLETON_LIVE_VALID_OPTIONS = self.ableton_live_get_valid_options unless const_defined?(:ABLETON_LIVE_VALID_OPTIONS)
   end
 end
 
