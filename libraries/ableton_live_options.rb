@@ -34,7 +34,7 @@ class AbletonLiveOptions
                         "DontCombineAPCs", "EnableArmOnSelection",
                         "EnableMapToSiblings", "EnsureKeyMessagesForPlugins",
                         "NoAutoArming", "NoVstStartupScan",
-                        "PluginAutoPopulateThreshold", "ReWireChannels",
+                        "_PluginAutoPopulateThreshold", "ReWireChannels",
                         "ReWireMasterOff", "ShowDeviceSlots",
                         "ThinningAggressiveness"] unless const_defined?(:ALL_KNOWN_OPTIONS)
     # If Ableton doc is ever updated with new options, then fold them into our list
