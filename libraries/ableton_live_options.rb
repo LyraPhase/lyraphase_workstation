@@ -25,10 +25,20 @@ class AbletonLiveOptions
       ableton_possible_options.each do |possible_option|
         valid_options.push( possible_option.text.gsub!(/\A"|"\Z/, '') ) if possible_option.text =~ /^".*?"$/
       end
-      return valid_options
+      # Return the union of both sets of options
+      return valid_options | ALL_KNOWN_OPTIONS
     end
 
-    ABLETON_LIVE_VALID_OPTIONS = !self.ableton_live_get_valid_options.nil? ? self.ableton_live_get_valid_options : ["ReWireMasterOff", "ReWireChannels", "PluginAutoPopulateThreshold", "ThinningAggressiveness", "DontCombineAPCs", "AbsoluteMouseMode", "EnsureKeyMessagesForPlugins"]
+    # All known options as of 12/19/2016
+    ALL_KNOWN_OPTIONS = ["AbsoluteMouseMode", "AutoAdjustMacroMappingRange",
+                        "DontCombineAPCs", "EnableArmOnSelection",
+                        "EnableMapToSiblings", "EnsureKeyMessagesForPlugins",
+                        "NoAutoArming", "NoVstStartupScan",
+                        "PluginAutoPopulateThreshold", "ReWireChannels",
+                        "ReWireMasterOff", "ShowDeviceSlots",
+                        "ThinningAggressiveness"]
+    # If Ableton doc is ever updated with new options, then fold them into our list
+    ABLETON_LIVE_VALID_OPTIONS = self.ableton_live_get_valid_options
   end
 end
 
