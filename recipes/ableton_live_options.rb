@@ -51,24 +51,27 @@ end
 
 ableton_live_managed_versions = ableton_live_managed_versions.map {|el| el.to_s}.reject {|el| el == '' || el.nil? }
 
+Chef::Log.info("Ableton Live Managed Versions: #{ableton_live_managed_versions}")
 
 unless ableton_live_managed_versions.nil? || ableton_live_managed_versions.empty?
-  # Ensure directory exists if Ableton has never been started yet (installed first time)
-  directory "#{ableton_preferences_path}/Live #{ableton_live_version}" do
-    owner node['lyraphase_workstation']['user']
-    group 'staff'
-    mode '0755'
-    action :create
-  end
+  ableton_live_managed_versions.each do |ableton_live_version|
+    # Ensure directory exists if Ableton has never been started yet (installed first time)
+    directory "#{ableton_preferences_path}/Live #{ableton_live_version}" do
+      owner node['lyraphase_workstation']['user']
+      group 'staff'
+      mode '0755'
+      action :create
+    end
 
-  template "#{ableton_preferences_path}/Live #{ableton_live_version}/Options.txt" do
-    source 'Ableton.Options.txt.erb'
-    owner  node['lyraphase_workstation']['user']
-    group 'staff'
-    mode '0644'
-    variables({
-      :ableton_live_options => ableton_live_options
-    })
-    action :create
+    template "#{ableton_preferences_path}/Live #{ableton_live_version}/Options.txt" do
+      source 'Ableton.Options.txt.erb'
+      owner  node['lyraphase_workstation']['user']
+      group 'staff'
+      mode '0644'
+      variables({
+        :ableton_live_options => ableton_live_options
+      })
+      action :create
+    end
   end
 end
