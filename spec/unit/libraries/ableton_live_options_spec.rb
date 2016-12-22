@@ -18,12 +18,14 @@ describe AbletonLiveOptions do
     end
 
     describe "#ableton_live_option_valid?" do
+      let(:dummy_class) { Class.new { include AbletonLiveOptions::Helpers } }
+
       it "returns true" do
         AbletonLiveOptions::Helpers::ALL_KNOWN_OPTIONS.each do |valid_option|
-          expect(dummy_class.ableton_live_option_valid?(valid_option)).to be true
+          expect(dummy_class.new.ableton_live_option_valid?(valid_option)).to be true
         end
         AbletonLiveOptions::Helpers::ABLETON_LIVE_VALID_OPTIONS.each do |valid_option|
-          expect(dummy_class.ableton_live_option_valid?(valid_option + '=' + Random.rand(10...42).to_s)).to be true
+          expect(dummy_class.new.ableton_live_option_valid?(valid_option + '=' + Random.rand(10...42).to_s)).to be true
         end
       end
     end
@@ -35,14 +37,16 @@ describe AbletonLiveOptions do
     end
 
     describe "#ableton_live_option_valid?" do
+      let(:dummy_class) { Class.new { include AbletonLiveOptions::Helpers } }
+
       it "returns false" do
-        expect(dummy_class.ableton_live_option_valid?('FooBarBazInvalid')).to be false
-        expect(dummy_class.ableton_live_option_valid?('')).to be false
-        expect(dummy_class.ableton_live_option_valid?(nil)).to be false
-        expect(dummy_class.ableton_live_option_valid?(1.2)).to be false
-        expect(dummy_class.ableton_live_option_valid?(10)).to be false
-        expect(dummy_class.ableton_live_option_valid?(['Invalid'])).to be false
-        expect(dummy_class.ableton_live_option_valid?({:foo => ['Invalid']})).to be false
+        expect(dummy_class.new.ableton_live_option_valid?('FooBarBazInvalid')).to be false
+        expect(dummy_class.new.ableton_live_option_valid?('')).to be false
+        expect(dummy_class.new.ableton_live_option_valid?(nil)).to be false
+        expect(dummy_class.new.ableton_live_option_valid?(1.2)).to be false
+        expect(dummy_class.new.ableton_live_option_valid?(10)).to be false
+        expect(dummy_class.new.ableton_live_option_valid?(['Invalid'])).to be false
+        expect(dummy_class.new.ableton_live_option_valid?({:foo => ['Invalid']})).to be false
       end
     end
   end

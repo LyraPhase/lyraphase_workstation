@@ -3,7 +3,7 @@ class AbletonLiveOptions
     require 'nokogiri'
     require 'open-uri'
 
-    def self.ableton_live_option_valid?(option)
+    def ableton_live_option_valid?(option)
       return false if option.nil? || ! option.kind_of?(String)
       if ABLETON_LIVE_VALID_OPTIONS.include?(option) || ! ABLETON_LIVE_VALID_OPTIONS.index{|el| el == option.split('=').first }.nil?
         return true
