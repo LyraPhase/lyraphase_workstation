@@ -25,7 +25,7 @@ raise "Attribute: ableton_live.options is not defined well (should be Array)" un
 # Ableton preferences path where Options.txt lives
 ableton_preferences_path = "#{node['lyraphase_workstation']['home']}/Library/Preferences/Ableton"
 # Options to enable
-ableton_live_options = node['lyraphase_workstation']['ableton_live']['options']
+ableton_live_options = node['lyraphase_workstation']['ableton_live']['options'].reject{|opt| ! ableton_live_option_valid?(opt)}
 # Installed ableton versions sorted by version number
 ableton_live_versions = Dir.glob("#{ableton_preferences_path}/*").map {
                           |dir| File.basename(dir).gsub!(/^Live /, '')

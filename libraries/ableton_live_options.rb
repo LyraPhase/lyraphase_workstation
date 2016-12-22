@@ -8,8 +8,8 @@ class AbletonLiveOptions
       if ABLETON_LIVE_VALID_OPTIONS.include?(option) || ! ABLETON_LIVE_VALID_OPTIONS.index{|el| el == option.split('=').first }.nil?
         return true
       else
-        Chef::Log.warn "Possibly invalid Ableton Live Option detected! You may encounter problems!"
-        Chef::Log.warn "Possibly invalid Option: #{option}"
+        Chef::Log.warn "Invalid Ableton Live Option detected! Refusing to write this one to Options.txt!"
+        Chef::Log.warn "Invalid Option: #{option}"
         return false
       end
     end
