@@ -17,6 +17,7 @@ depends          'sprout-base'  # For `libraries/directory#recursive_directories
 depends          'plist' # For `plist_file` LWRP (used in lyraphase_workstation::airfoil recipe)
 
 recipe 'lyraphase_workstation::ableton_live', 'Install [Ableton Live](https://www.ableton.com/) DAW'
+recipe 'lyraphase_workstation::ableton_live_options', 'Manage [Options.txt](https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live) settings for [Ableton Live](https://www.ableton.com/) DAW'
 recipe 'lyraphase_workstation::airfoil', 'Install [Airfoil](https://www.rogueamoeba.com/airfoil/)'
 recipe 'lyraphase_workstation::cycling_74_max', 'Install [CYCLING \'74 MAX](https://cycling74.com/)'
 recipe 'lyraphase_workstation::daisydisk', 'Install [DaisyDisk](http://www.daisydiskapp.com/)'
