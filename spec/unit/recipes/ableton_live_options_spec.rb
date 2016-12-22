@@ -21,7 +21,7 @@ require 'spec_helper'
 describe 'lyraphase_workstation::ableton_live_options' do
 
   let(:ableton_preferences_path) { "/Users/brubble/Library/Preferences/Ableton" }
-  let(:expected_options) { ["EnableMapToSiblings", "AutoAdjustMacroMappingRange"] }
+  expected_options = ["EnableMapToSiblings", "AutoAdjustMacroMappingRange", "_PluginAutoPopulateThreshold=-1"]
   ableton_live_managed_versions = ['9.7.1', '9.1.9', '9.5.1b2', '9.5.1b6']
 
   let(:chef_run) {
@@ -31,8 +31,8 @@ describe 'lyraphase_workstation::ableton_live_options' do
       node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.set['lyraphase_workstation']['user'] = 'brubble'
       node.set['lyraphase_workstation']['home'] = '/Users/brubble'
-      node.set['lyraphase_workstation']['ableton_live']['options'] = ["EnableMapToSiblings", "AutoAdjustMacroMappingRange"]
-      node.set['lyraphase_workstation']['ableton_live']['managed_versions'] = ['9.7.1', '9.1.9', '9.5.1b2', '9.5.1b6']
+      node.set['lyraphase_workstation']['ableton_live']['options'] = expected_options
+      node.set['lyraphase_workstation']['ableton_live']['managed_versions'] = ableton_live_managed_versions
     end.converge(described_recipe)
   }
 
