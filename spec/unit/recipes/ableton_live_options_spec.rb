@@ -189,5 +189,45 @@ describe 'lyraphase_workstation::ableton_live_options' do
       end
     end
   end
+
+  context "when given invalid options and String for managed_versions: '9.5.1b2'" do
+    let(:ableton_preferences_path) { "/Users/brubble/Library/Preferences/Ableton" }
+    expected_options = ["EnableMapToSiblings", "AutoAdjustMacroMappingRange", "_PluginAutoPopulateThreshold=-1"]
+    given_options = ["ReWireRockwellRetroEncabulator", "FizzBuzzInvalid", "EnableMapToSiblings", "AutoAdjustMacroMappingRange", "_PluginAutoPopulateThreshold=-1"]
+    ableton_live_managed_versions = '9.5.1b2'
+    ableton_live_version = ableton_live_managed_versions
+
+    let(:chef_run) {
+      klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
+      klass.new do |node|
+        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+        node.set['lyraphase_workstation']['user'] = 'brubble'
+        node.set['lyraphase_workstation']['home'] = '/Users/brubble'
+        node.set['lyraphase_workstation']['ableton_live']['options'] = given_options
+        node.set['lyraphase_workstation']['ableton_live']['managed_versions'] = ableton_live_managed_versions
+      end.converge(described_recipe)
+    }
+
+
+    it 'creates Ableton Preferences directory' do
+      expected_directory = "#{ableton_preferences_path}/Live #{ableton_live_version}"
+      expect(chef_run).to create_directory(expected_directory)
+    end
+
+    it 'installs Ableton Options.txt' do
+      options_txt_filename = "#{ableton_preferences_path}/Live #{ableton_live_version}/Options.txt"
+      expect(chef_run).to create_template(options_txt_filename).with(
+        user:   'brubble',
+        mode: '0644'
+      )
+      expected_options.each do |expected_option|
+        expect(chef_run).to render_file(options_txt_filename).with_content(Regexp.new("^-#{expected_option}$"))
+      end
+      (given_options - expected_options).each do |invalid_option|
+        expect(chef_run).not_to render_file(options_txt_filename).with_content(Regexp.new("^-#{invalid_option}$"))
+      end
+    end
+  end
 end
 
