@@ -4,12 +4,13 @@ class AbletonLiveOptions
     require 'open-uri'
 
     def self.ableton_live_option_valid?(option)
-      if ! ABLETON_LIVE_VALID_OPTIONS.include?(option)
+      return false if option.nil? || ! option.kind_of?(String)
+      if ABLETON_LIVE_VALID_OPTIONS.include?(option) || ! ABLETON_LIVE_VALID_OPTIONS.index{|el| el == option.split('=').first }.nil?
+        return true
+      else
         Chef::Log.warn "Possibly invalid Ableton Live Option detected! You may encounter problems!"
         Chef::Log.warn "Possibly invalid Option: #{option}"
         return false
-      else
-        return true
       end
     end
 
