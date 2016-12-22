@@ -22,7 +22,7 @@ template "/Users/#{node['lyraphase_workstation']['user']}/Library/Preferences/co
   user node['lyraphase_workstation']['user']
   mode "0600"
   variables(
-    :user => node['lyraphase_workstation']['user'],
+    # :user => node['lyraphase_workstation']['user'],
     :home => node['lyraphase_workstation']['home']
   )
 end
