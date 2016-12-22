@@ -22,6 +22,9 @@ describe AbletonLiveOptions do
         AbletonLiveOptions::Helpers::ALL_KNOWN_OPTIONS.each do |valid_option|
           expect(dummy_class.ableton_live_option_valid?(valid_option)).to be true
         end
+        AbletonLiveOptions::Helpers::ABLETON_LIVE_VALID_OPTIONS.each do |valid_option|
+          expect(dummy_class.ableton_live_option_valid?(valid_option + '=' + Random.rand(10...42).to_s)).to be true
+        end
       end
     end
   end
@@ -39,6 +42,7 @@ describe AbletonLiveOptions do
         expect(dummy_class.ableton_live_option_valid?(1.2)).to be false
         expect(dummy_class.ableton_live_option_valid?(10)).to be false
         expect(dummy_class.ableton_live_option_valid?(['Invalid'])).to be false
+        expect(dummy_class.ableton_live_option_valid?({:foo => ['Invalid']})).to be false
       end
     end
   end
