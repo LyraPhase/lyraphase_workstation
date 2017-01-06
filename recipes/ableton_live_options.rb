@@ -18,9 +18,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-raise "Attribute: lyraphase_workstation is not defined well (should be Hash)" unless Hash === node['lyraphase_workstation']
-raise "Attribute: ableton_live is not defined well (should be Hash)" unless Hash === node['lyraphase_workstation']['ableton_live']
-raise "Attribute: ableton_live.options is not defined well (should be Array)" unless Array === node['lyraphase_workstation']['ableton_live']['options']
+
+raise "Attribute: node['lyraphase_workstation'] is not defined well, should be a kind of Hash" unless node['lyraphase_workstation'].kind_of?(Hash)
+raise "Attribute: node['lyraphase_workstation']['ableton_live'] is not defined well, should be a kind of Hash" unless node['lyraphase_workstation']['ableton_live'].kind_of?(Hash)
+raise "Attribute: node['lyraphase_workstation']['ableton_live']['options'] is not defined well, should be a kind of Array" unless node['lyraphase_workstation']['ableton_live']['options'].kind_of?(Array)
 
 # Ableton preferences path where Options.txt lives
 ableton_preferences_path = "#{node['lyraphase_workstation']['home']}/Library/Preferences/Ableton"
