@@ -412,19 +412,19 @@ describe "lyraphase_workstation::airfoil" do
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
     klass.new do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
-      node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-      node.set['lyraphase_workstation']['user'] = 'brubble'
-      node.set['lyraphase_workstation']['home'] = '/Users/brubble'
+      node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+      node.normal['lyraphase_workstation']['user'] = 'brubble'
+      node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
       # Override the file we will edit for tests
-      node.set['lyraphase_workstation']['airfoil']['plist_file'] = test_file
-      node.set['lyraphase_workstation']['airfoil']['license'] = license_info
+      node.normal['lyraphase_workstation']['airfoil']['plist_file'] = test_file
+      node.normal['lyraphase_workstation']['airfoil']['license'] = license_info
     end.converge(described_recipe)
   }
   before(:all) do
     test_file.open("wb") { |f| f.write(content) }
 
     # ChefSpec::ServerRunner.new(step_into: ["plist_file"]) do |node|
-    #   node.set['lyraphase_workstation']['airfoil']['plist_file'] = test_file
+    #   node.normal['lyraphase_workstation']['airfoil']['plist_file'] = test_file
     # end.converge(described_recipe)
 
   end
