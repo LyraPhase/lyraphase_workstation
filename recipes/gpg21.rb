@@ -27,6 +27,13 @@ end
 
 include_recipe "homebrew::install_formulas"
 
+gpgtools_launchagent_domain = nil
+gpgtools_launchagent_plist_file = nil
+if ! node['lyraphase_workstation']['gpg21'].nil? && ! node['lyraphase_workstation']['gpg21']['gpgtools_plist_file'].nil?
+  gpgtools_launchagent_plist_file = node['lyraphase_workstation']['gpg21']['gpgtools_plist_file']
+  gpgtools_launchagent_domain = File.basename(gpgtools_launchagent_plist_file).gsub(/\.plist$/, '')
+end
+
 template "/usr/local/bin/fixGpgHome" do
   source "fixGpgHome.erb"
   user node['lyraphase_workstation']['user']
@@ -39,4 +46,23 @@ template "/Library/LaunchAgents/com.lyraphase.gpg21.fix.plist" do
   user node['lyraphase_workstation']['user']
   mode "0644"
   # No variables for now
+end
+
+plist_file gpgtools_launchagent_plist_file do
+  file gpgtools_launchagent_plist_file if ! gpgtools_launchagent_plist_file.nil?
+  domain gpgtools_launchagent_domain if ! gpgtools_launchagent_domain.nil?
+  set "RunAtLoad", false
+  owner 'root'
+  group 'wheel'
+  mode 0600
+  action :update
+end
+
+ruby_block "add StreamLocalBindUnlink to sshd config" do
+  block do
+    file = Chef::Util::FileEdit.new("/etc/ssh/sshd_config")
+    file.insert_line_if_no_match("/^# Remove stale forwarding sockets (https://wiki.gnupg.org/AgentForwarding)/", "# Remove stale forwarding sockets (https://wiki.gnupg.org/AgentForwarding)")
+    file.insert_line_if_no_match("/^StreamLocalBindUnlink.*/", "StreamLocalBindUnlink yes")
+    file.write_file
+  end
 end
