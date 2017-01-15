@@ -112,35 +112,6 @@ describe 'lyraphase_workstation::gpg21' do
     expect(chef_run).to render_file(launchd_plist).with_content(Regexp.new("^\\s+<string>#{Regexp.escape(File.basename(launchd_plist).gsub(/\.plist$/, ''))}</string>$"))
   end
 
-
-  # Avoid using let(:sshd_config_file) here, because the lazy evaluation causes a recursion loop (mock code runs before the lazy eval of sshd_config_file)
-  # sshd_config_file = Chef::Util::FileEdit.new('/etc/ssh/sshd_config')
-  # Create a dummy class to include helper method: add_streamlocalbindunlink_to_sshd_config
-  let(:dummy_class) { Class.new { include LyraPhase::Helpers } }
-
-  before(:each) do
-    # Set up mock LyraPhase::ConfigFile / FileEdit Object using our test fixture sample file
-    test_fixture_filename = File.join(
-      File.dirname(__FILE__), '..', '..', 'fixtures', 'sshd_config'
-    )
-    @sshd_config_file = nil # Ensure new one each example group
-    # @sshd_config_file = Chef::Util::FileEdit.new(test_fixture_filename)
-    ##@sshd_config_file = Chef::Util::FileEdit.new('/etc/ssh/sshd_config')
-
-    @sshd_config_file = LyraPhase::ConfigFile.new(test_fixture_filename)
-
-    # allow_any_instance_of(Chef::Util::FileEdit).to receive(:new).with('/etc/ssh/sshd_config') { sshd_config_file }
-    allow(LyraPhase::ConfigFile).to receive(:new).with('/etc/ssh/sshd_config') { @sshd_config_file }
-
-    # Do not modify the file for real in ChefSpec tests!
-    # Just return the success return value 'false'
-    allow_any_instance_of(Chef::Util::FileEdit).to receive(:write_file) { false }
-    # allow_any_instance_of(LyraPhase::ConfigFile).to receive(:write_file) { false }
-    # allow(sshd_config_file).to receive(:write_file) { false }
-    # RSpec 2 syntax does not work anymore
-    # Chef::Util::FileEdit.stub(:new).with('/etc/ssh/sshd_config').and_return(sshd_config_file)
-  end
-
   it "disables the gpgtools launchd plist file" do
     # File.open('/tmp/chefspec.plist', 'w') do |f|
     #   f.write(test_file.open("rb") { |f| f.read })
@@ -149,53 +120,91 @@ describe 'lyraphase_workstation::gpg21' do
     expect(chef_run).to update_plist_file(test_file)
   end
 
-  it 'ChefSpec tests should mock the /etc/ssh/sshd_config Chef::Util::FileEdit Object' do
-    expect(chef_run).to receive(:converge)
-    chef_run.converge(described_recipe)
-    expect(@sshd_config_file).to receive(:insert_line_if_no_match).twice
-    expect(@sshd_config_file).to receive(:write_file)
-    # Sanity check that RSpec Mocks is working
-    # Check Mock object is eq & identical to the one that the recipe ruby_block & ChefSpec tests will always get
-    expect(LyraPhase::ConfigFile.new('/etc/ssh/sshd_config')).to eq(@sshd_config_file)
-    expect(LyraPhase::ConfigFile.new('/etc/ssh/sshd_config')).to be @sshd_config_file
-    expect(@sshd_config_file).to be_an_instance_of(LyraPhase::ConfigFile)
+  [
+    {:description => 'when sshd_config does NOT already include StreamLocalBindUnlink',
+     :test_fixture_filename => 'sshd_config',
+     :post_edit_has_unwritten_changes => true},
+    {:description => 'when sshd_config already includes StreamLocalBindUnlink',
+     :test_fixture_filename => 'sshd_config_preexisting',
+     :post_edit_has_unwritten_changes => false}
+  ].each do |rspec_context|
+    context rspec_context[:description] do
+      # Avoid using let(:sshd_config_file) here, because the lazy evaluation causes a recursion loop (mock code runs before the lazy eval of sshd_config_file)
+      # sshd_config_file = Chef::Util::FileEdit.new('/etc/ssh/sshd_config')
+      # Create a dummy class to include helper method: add_streamlocalbindunlink_to_sshd_config
+      let(:dummy_class) { Class.new { include LyraPhase::Helpers } }
 
-    # See git history for RSpec 2 code reference
+      before(:each) do
+        # Set up mock LyraPhase::ConfigFile / FileEdit Object using our test fixture sample file
+        test_fixture_filename = File.join(
+          File.dirname(__FILE__), '..', '..', 'fixtures', rspec_context[:test_fixture_filename]
+        )
+        @sshd_config_file = nil # Ensure new one each example group
+        # @sshd_config_file = Chef::Util::FileEdit.new(test_fixture_filename)
+        ##@sshd_config_file = Chef::Util::FileEdit.new('/etc/ssh/sshd_config')
 
-    # Before any calls to insert_line_if_no_match
-    expect(@sshd_config_file.file_edited?).to be false
-    expect(@sshd_config_file.unwritten_changes?).to be false
+        @sshd_config_file = LyraPhase::ConfigFile.new(test_fixture_filename)
 
-    # ChefSpec does not run the ruby_block, so we must simulate
-    # Simulate what the recipe does on our Mock Wrapper Object
-    dummy_class.new.add_streamlocalbindunlink_to_sshd_config
+        # allow_any_instance_of(Chef::Util::FileEdit).to receive(:new).with('/etc/ssh/sshd_config') { sshd_config_file }
+        allow(LyraPhase::ConfigFile).to receive(:new).with('/etc/ssh/sshd_config') { @sshd_config_file }
 
-    # This is a simulation, so write_file should be stubbed & never really edit file
-    expect(@sshd_config_file.file_edited?).to be false
+        # Do not modify the file for real in ChefSpec tests!
+        # Just return the success return value 'false'
+        allow_any_instance_of(Chef::Util::FileEdit).to receive(:write_file) { false }
+        # allow_any_instance_of(LyraPhase::ConfigFile).to receive(:write_file) { false }
+        # allow(sshd_config_file).to receive(:write_file) { false }
+        # RSpec 2 syntax does not work anymore
+        # Chef::Util::FileEdit.stub(:new).with('/etc/ssh/sshd_config').and_return(sshd_config_file)
+      end
+
+      it 'ChefSpec tests should mock the /etc/ssh/sshd_config Chef::Util::FileEdit Object' do
+        expect(chef_run).to receive(:converge)
+        chef_run.converge(described_recipe)
+        expect(@sshd_config_file).to receive(:insert_line_if_no_match).twice
+        expect(@sshd_config_file).to receive(:write_file)
+        # Sanity check that RSpec Mocks is working
+        # Check Mock object is eq & identical to the one that the recipe ruby_block & ChefSpec tests will always get
+        expect(LyraPhase::ConfigFile.new('/etc/ssh/sshd_config')).to eq(@sshd_config_file)
+        expect(LyraPhase::ConfigFile.new('/etc/ssh/sshd_config')).to be @sshd_config_file
+        expect(@sshd_config_file).to be_an_instance_of(LyraPhase::ConfigFile)
+
+        # See git history for RSpec 2 code reference
+
+        # Before any calls to insert_line_if_no_match
+        expect(@sshd_config_file.file_edited?).to be false
+        expect(@sshd_config_file.unwritten_changes?).to be false
+
+        # ChefSpec does not run the ruby_block, so we must simulate
+        # Simulate what the recipe does on our Mock Wrapper Object
+        dummy_class.new.add_streamlocalbindunlink_to_sshd_config
+
+        # This is a simulation, so write_file should be stubbed & never really edit file
+        expect(@sshd_config_file.file_edited?).to be false
+      end
+
+      it 'adds StreamLocalBindUnlink to sshd config' do
+        # chef_run.converge(described_recipe)
+        # task_ruby_block = chef_run.find_resources(:ruby_block).find { |r| r.name == 'add StreamLocalBindUnlink to sshd config' }
+        task_ruby_block = chef_run.ruby_block('add StreamLocalBindUnlink to sshd config')
+        expect(task_ruby_block.instance_variable_get(:@action)).to eq [:run]
+        expect(chef_run).to run_ruby_block('add StreamLocalBindUnlink to sshd config')
+
+        # Inspect inside the object's file lines
+        file_lines = @sshd_config_file.instance_variable_get(:@editor).instance_variable_get(:@lines)
+
+        # ChefSpec does not run the ruby_block, so we must simulate
+        # Simulate what the recipe does on our Mock Wrapper Object
+        dummy_class.new.add_streamlocalbindunlink_to_sshd_config
+
+        # It should add 1 line matching each pattern to be Idempotent & avoid appending more each run
+        expect(file_lines.grep(/.*Remove stale forwarding sockets.*/).length).to eq 1
+        expect(file_lines.grep(/^\s*StreamLocalBindUnlink.*/).length).to eq 1
+        # Check the exact setting is enabled
+        expect(file_lines.grep(/^\s*StreamLocalBindUnlink.*/)[0]).to match 'StreamLocalBindUnlink yes'
+
+        expect(@sshd_config_file.unwritten_changes?).to be rspec_context[:post_edit_has_unwritten_changes]
+      end
+    end
   end
-
-  it 'adds StreamLocalBindUnlink to sshd config' do
-    # chef_run.converge(described_recipe)
-    # task_ruby_block = chef_run.find_resources(:ruby_block).find { |r| r.name == 'add StreamLocalBindUnlink to sshd config' }
-    task_ruby_block = chef_run.ruby_block('add StreamLocalBindUnlink to sshd config')
-    expect(task_ruby_block.instance_variable_get(:@action)).to eq [:run]
-    expect(chef_run).to run_ruby_block('add StreamLocalBindUnlink to sshd config')
-
-    # Inspect inside the object's file lines
-    file_lines = @sshd_config_file.instance_variable_get(:@editor).instance_variable_get(:@lines)
-
-    # ChefSpec does not run the ruby_block, so we must simulate
-    # Simulate what the recipe does on our Mock Wrapper Object
-    dummy_class.new.add_streamlocalbindunlink_to_sshd_config
-
-    # It should add 1 line matching each pattern to be Idempotent & avoid appending more each run
-    expect(file_lines.grep(/.*Remove stale forwarding sockets.*/).length).to eq 1
-    expect(file_lines.grep(/^\s*StreamLocalBindUnlink.*/).length).to eq 1
-    # Check the exact setting is enabled
-    expect(file_lines.grep(/^\s*StreamLocalBindUnlink.*/)[0]).to match 'StreamLocalBindUnlink yes'
-
-    expect(@sshd_config_file.unwritten_changes?).to be true
-  end
-
 end
 
