@@ -60,9 +60,6 @@ end
 
 ruby_block "add StreamLocalBindUnlink to sshd config" do
   block do
-    file = Chef::Util::FileEdit.new("/etc/ssh/sshd_config")
-    file.insert_line_if_no_match("/^# Remove stale forwarding sockets (https://wiki.gnupg.org/AgentForwarding)/", "# Remove stale forwarding sockets (https://wiki.gnupg.org/AgentForwarding)")
-    file.insert_line_if_no_match("/^StreamLocalBindUnlink.*/", "StreamLocalBindUnlink yes")
-    file.write_file
+    add_streamlocalbindunlink_to_sshd_config
   end
 end
