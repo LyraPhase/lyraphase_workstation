@@ -33,9 +33,9 @@ class LyraPhase
     #  - Code follows D.R.Y.
     #  - Ensure that tested behavior always matches Recipe's behavior
     def add_streamlocalbindunlink_to_sshd_config()
-      file = LyraPhase::ConfigFile.new("/etc/ssh/sshd_config")
-      file.insert_line_if_no_match(/.*Remove stale forwarding sockets.*/, "# Remove stale forwarding sockets (https://wiki.gnupg.org/AgentForwarding)")
-      file.insert_line_if_no_match(/.*StreamLocalBindUnlink.*/, "StreamLocalBindUnlink yes")
+      file = LyraPhase::ConfigFile.new('/etc/ssh/sshd_config')
+      file.insert_line_if_no_match(/.*Remove stale forwarding sockets.*/, '# Remove stale forwarding sockets (https://wiki.gnupg.org/AgentForwarding)')
+      file.insert_line_if_no_match(/.*StreamLocalBindUnlink.*/, 'StreamLocalBindUnlink yes')
       file.write_file
     end
   end
