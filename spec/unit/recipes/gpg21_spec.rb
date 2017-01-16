@@ -37,6 +37,10 @@ content = <<EOPLIST
 
 EOPLIST
 
+# Because Nokogiri & plutil treat whitespace & XML indents differently,
+# we must strip whitespace on the file content before comparing it
+# We really don't care whether it's indented by spaces, tabs, etc...
+# The test should only care about which XML elements change as modified by the plist_file LWRP
 updated_content = <<EOPLIST.gsub!(/^\s+/,'').gsub!(/\s+$/,'')
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -56,14 +60,8 @@ updated_content = <<EOPLIST.gsub!(/^\s+/,'').gsub!(/\s+$/,'')
 </plist>
 
 EOPLIST
-# Hack to format XML with tab indents instead of spaces
-require 'nokogiri'
-require 'stringio'
-io = StringIO.new
-doc = Nokogiri::XML(updated_content) { |x| x.noblanks }
-doc.write_to(io, :encoding => 'UTF-8', :indent => 1, :indent_text => "\t")
-io.seek(0)
-updated_content = io.read
+# Trim trailing newline / whitespace
+updated_content.rstrip!
 
 # The test filename we should write into a tmpdir sandbox
 # so the spec test does not actually modify the real /Library/LaunchAgents/* file
@@ -124,10 +122,7 @@ describe 'lyraphase_workstation::gpg21' do
   end
 
   it "disables the gpgtools launchd plist file" do
-    # File.open('/tmp/chefspec.plist', 'w') do |f|
-    #   f.write(test_file.open("rb") { |f| f.read })
-    # end
-    expect(test_file.open("rb") { |f| f.read }).to eq(updated_content)
+    expect(test_file.open("rb").read.gsub!(/^\s+/,'').rstrip).to eq(updated_content)
     expect(chef_run).to update_plist_file(test_file)
   end
 
