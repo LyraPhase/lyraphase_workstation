@@ -73,6 +73,7 @@ describe 'lyraphase_workstation::gpg21' do
       node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = test_file
+      stub_command("which git").and_return('/usr/local/bin/git')
     end.converge(described_recipe)
   }
 
@@ -82,7 +83,6 @@ describe 'lyraphase_workstation::gpg21' do
     # ChefSpec::ServerRunner.new(step_into: ["plist_file"]) do |node|
     #   node.set['lyraphase_workstation']['airfoil']['plist_file'] = test_file
     # end.converge(described_recipe)
-
   end
 
   it 'taps homebrew/versions' do
