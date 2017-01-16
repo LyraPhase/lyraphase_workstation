@@ -37,27 +37,37 @@ content = <<EOPLIST
 
 EOPLIST
 
-updated_content = <<EOPLIST
+updated_content = <<EOPLIST.gsub!(/^\s+/,'').gsub!(/\s+$/,'')
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-  <key>KeepAlive</key>
-  <false/>
-  <key>Label</key>
-  <string>org.gpgtools.macgpg2.fix</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/usr/local/MacGPG2/libexec/fixGpgHome</string>
-  </array>
-  <key>RunAtLoad</key>
-  <false/>
-</dict>
+  <dict>
+    <key>KeepAlive</key>
+    <false/>
+    <key>Label</key>
+    <string>org.gpgtools.macgpg2.fix</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/MacGPG2/libexec/fixGpgHome</string>
+    </array>
+    <key>RunAtLoad</key>
+    <false/>
+  </dict>
 </plist>
 
 EOPLIST
+# Hack to format XML with tab indents instead of spaces
+require 'nokogiri'
+require 'stringio'
+io = StringIO.new
+doc = Nokogiri::XML(updated_content) { |x| x.noblanks }
+doc.write_to(io, :encoding => 'UTF-8', :indent => 1, :indent_text => "\t")
+io.seek(0)
+updated_content = io.read
 
-test_file = Pathname.new(Dir.tmpdir) + "plist_file_push_spec.plist"
+# The test filename we should write into a tmpdir sandbox
+# so the spec test does not actually modify the real /Library/LaunchAgents/* file
+test_file = Pathname.new(Dir.tmpdir) + "gpgtools_launchagent_plist_file_spec.plist"
 
 describe 'lyraphase_workstation::gpg21' do
 
@@ -66,7 +76,7 @@ describe 'lyraphase_workstation::gpg21' do
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
+    klass.new(platform: 'mac_os_x', version: '10.11.1', step_into: ["plist_file"]) do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'
@@ -78,10 +88,11 @@ describe 'lyraphase_workstation::gpg21' do
   }
 
   before(:all) do
+    # Set up the gpgtools LaunchAgent test file for exercising & testing the plist_file LWRP
     test_file.open("wb") { |f| f.write(content) }
 
     # ChefSpec::ServerRunner.new(step_into: ["plist_file"]) do |node|
-    #   node.set['lyraphase_workstation']['airfoil']['plist_file'] = test_file
+    #   node.set['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = test_file
     # end.converge(described_recipe)
   end
 
@@ -116,7 +127,7 @@ describe 'lyraphase_workstation::gpg21' do
     # File.open('/tmp/chefspec.plist', 'w') do |f|
     #   f.write(test_file.open("rb") { |f| f.read })
     # end
-    # expect(test_file.open("rb") { |f| f.read }).to eq(updated_content)
+    expect(test_file.open("rb") { |f| f.read }).to eq(updated_content)
     expect(chef_run).to update_plist_file(test_file)
   end
 
