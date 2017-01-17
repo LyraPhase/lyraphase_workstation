@@ -17,56 +17,6 @@
 
 require 'spec_helper'
 
-content = <<EOPLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>KeepAlive</key>
-  <false/>
-  <key>Label</key>
-  <string>org.gpgtools.macgpg2.fix</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/usr/local/MacGPG2/libexec/fixGpgHome</string>
-  </array>
-  <key>RunAtLoad</key>
-  <true/>
-</dict>
-</plist>
-
-EOPLIST
-
-# Because Nokogiri & plutil treat whitespace & XML indents differently,
-# we must strip whitespace on the file content before comparing it
-# We really don't care whether it's indented by spaces, tabs, etc...
-# The test should only care about which XML elements change as modified by the plist_file LWRP
-updated_content = <<EOPLIST.gsub!(/^\s+/,'').gsub!(/\s+$/,'')
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-  <dict>
-    <key>KeepAlive</key>
-    <false/>
-    <key>Label</key>
-    <string>org.gpgtools.macgpg2.fix</string>
-    <key>ProgramArguments</key>
-    <array>
-      <string>/usr/local/MacGPG2/libexec/fixGpgHome</string>
-    </array>
-    <key>RunAtLoad</key>
-    <false/>
-  </dict>
-</plist>
-
-EOPLIST
-# Trim trailing newline / whitespace
-updated_content.rstrip!
-
-# The test filename we should write into a tmpdir sandbox
-# so the spec test does not actually modify the real /Library/LaunchAgents/* file
-test_file = Pathname.new(Dir.tmpdir) + "gpgtools_launchagent_plist_file_spec.plist"
-
 describe 'lyraphase_workstation::gpg21' do
 
   let(:launchd_plist) { "/Library/LaunchAgents/com.lyraphase.gpg21.fix.plist" }
@@ -74,25 +24,15 @@ describe 'lyraphase_workstation::gpg21' do
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(platform: 'mac_os_x', version: '10.11.1', step_into: ["plist_file"]) do |node|
+    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'
       node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
 
-      node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = test_file
       stub_command("which git").and_return('/usr/local/bin/git')
     end.converge(described_recipe)
   }
-
-  before(:all) do
-    # Set up the gpgtools LaunchAgent test file for exercising & testing the plist_file LWRP
-    test_file.open("wb") { |f| f.write(content) }
-
-    # ChefSpec::ServerRunner.new(step_into: ["plist_file"]) do |node|
-    #   node.set['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = test_file
-    # end.converge(described_recipe)
-  end
 
   it 'taps homebrew/versions' do
     expect(chef_run).to tap_homebrew_tap('homebrew/versions')
@@ -122,7 +62,6 @@ describe 'lyraphase_workstation::gpg21' do
   end
 
   it "disables the gpgtools launchd plist file" do
-    expect(test_file.open("rb").read.gsub!(/^\s+/,'').rstrip).to eq(updated_content)
     expect(chef_run).to update_plist_file(test_file)
   end
 
