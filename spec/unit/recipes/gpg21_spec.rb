@@ -21,6 +21,7 @@ describe 'lyraphase_workstation::gpg21' do
 
   let(:launchd_plist) { "/Library/LaunchAgents/com.lyraphase.gpg21.fix.plist" }
   let(:fixGpgHome_script_path) { "/usr/local/bin/fixGpgHome" }
+  let(:gpgtools_plist_file_test) { '/Library/LaunchAgents/org.gpgtools.macgpg2.fix.ChefSpec.plist' }
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
@@ -30,6 +31,7 @@ describe 'lyraphase_workstation::gpg21' do
       node.normal['lyraphase_workstation']['user'] = 'brubble'
       node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
 
+      node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
     end.converge(described_recipe)
   }
@@ -62,7 +64,7 @@ describe 'lyraphase_workstation::gpg21' do
   end
 
   it "disables the gpgtools launchd plist file" do
-    expect(chef_run).to update_plist_file(test_file)
+    expect(chef_run).to update_plist_file(gpgtools_plist_file_test)
   end
 
   [
