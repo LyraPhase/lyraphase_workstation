@@ -27,13 +27,14 @@ directory '/etc/sudoers.d' do
   action :create
 end
 
-# Depends on attributes:
-#   node['lyraphase_workstation']['user']
-#   node['hostname']
 template '/etc/sudoers.d/homebrew_chef' do
   owner 'root'
   group 'wheel'
   mode '0644'
   source 'sudoers.d/homebrew_chef.erb'
+  variables({
+    :hostname => node['hostname'],
+    :user => node['lyraphase_workstation']['user']
+    })
   action :create
 end
