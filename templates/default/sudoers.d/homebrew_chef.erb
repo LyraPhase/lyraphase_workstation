@@ -1,11 +1,11 @@
 # From https://github.com/chef-cookbooks/homebrew/issues/105
 # Allow NOPASSWD for homebrew actions
 Defaults:<%- node['lyraphase_workstation']['user'] -%>         env_keep += "ARCHFLAGS PKG_CONFIG_PATH GOPATH PYTHONPATH COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS GIT_WORK_TREE GIT_DIR HTTP_PROXY HTTPS_PROXY FTP_PROXY RSYNC_PROXY", !requiretty
-<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD: /bin/chmod
-<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD: /usr/sbin/chown
-<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD: /bin/mkdir
-<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD: /usr/bin/chgrp
-<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD: /usr/bin/touch
-<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD: /usr/sbin/softwareupdate
+<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /bin/chmod
+<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /usr/sbin/chown
+<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /bin/mkdir
+<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /usr/bin/chgrp
+<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /usr/bin/touch
+<%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /usr/sbin/softwareupdate
 <%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /bin/rm
 <%- node['lyraphase_workstation']['user'] -%> <%- node['hostname'] -%>=(root) NOPASSWD:SETENV: /usr/sbin/installer
