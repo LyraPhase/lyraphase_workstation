@@ -19,15 +19,15 @@ require 'spec_helper'
 
 describe 'lyraphase_workstation::homebrew_sudoers' do
 
-  before(:all) do
-    # To use GitHub for latest platform (customink/fauxhai#201)
-    # edge: true
-    Fauxhai.mock(platform:'mac_os_x', version:'10.11.1') do |node|
-      node['hostname'] = 'bedrock'
-      Chef::Log.warn("INSIDE ChefSpec: node['hostname'] = #{node['hostname']}")
-      # node['lyraphase_workstation']['user'] = 'brubble'
-    end
-  end
+  # before(:all) do
+  #   # To use GitHub for latest platform (customink/fauxhai#201)
+  #   # edge: true
+  #   Fauxhai.mock(platform:'mac_os_x', version:'10.11.1') do |node|
+  #     node['hostname'] = 'bedrock'
+  #     Chef::Log.warn("INSIDE ChefSpec: node['hostname'] = #{node['hostname']}")
+  #     # node['lyraphase_workstation']['user'] = 'brubble'
+  #   end
+  # end
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
@@ -36,7 +36,7 @@ describe 'lyraphase_workstation::homebrew_sudoers' do
       node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.set['lyraphase_workstation']['user'] = 'brubble'
       node.set['lyraphase_workstation']['home'] = '/Users/brubble'
-      node.set['hostname'] = 'bedrock'
+      node.automatic['hostname'] = 'bedrock'
     end.converge(described_recipe)
   }
 
@@ -70,7 +70,7 @@ describe 'lyraphase_workstation::homebrew_sudoers' do
     )
     expected_commands.each do |expected_command|
       expect(chef_run).to render_file('/etc/sudoers.d/homebrew_chef').with_content(
-        Regexp.new("^brubble\s+bedrock=\(root\)\s+NOPASSWD:SETENV:\s+#{expected_command}$")
+        Regexp.new("^brubble\\s+bedrock=\\(root\\)\\s+NOPASSWD:SETENV:\\s+#{expected_command}$")
       )
     end
   end
