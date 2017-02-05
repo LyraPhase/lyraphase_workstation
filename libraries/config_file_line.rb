@@ -43,3 +43,4 @@ end
 
 
 Chef::Recipe.send(:include, LyraPhase::Helpers)
+Chef::Resource::RubyBlock.send(:include, LyraPhase::Helpers)
