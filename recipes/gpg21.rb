@@ -58,6 +58,7 @@ template "/Library/LaunchAgents/com.lyraphase.gpg21.fix.plist" do
   user node['lyraphase_workstation']['user']
   mode "0644"
   # No variables for now
+  notifies :run, 'execute[load the fixGpgHome / gpg-agent plist into launchd]'
 end
 
 plist_file gpgtools_launchagent_plist_file do
@@ -74,4 +75,10 @@ ruby_block "add StreamLocalBindUnlink to sshd config" do
   block do
     add_streamlocalbindunlink_to_sshd_config
   end
+end
+
+execute "load the fixGpgHome / gpg-agent plist into launchd" do
+  command "launchctl load -w /Library/LaunchAgents/com.lyraphase.gpg21.fix.plist"
+  user node['lyraphase_workstation']['user']
+  not_if 'launchctl list com.lyraphase.gpg21.fix'
 end
