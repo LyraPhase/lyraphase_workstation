@@ -18,9 +18,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-raise "Attribute: lyraphase_workstation is not defined well" unless Hash === node['lyraphase_workstation']
-raise "Attribute: ableton_live is not defined well" unless Hash === node['lyraphase_workstation']['ableton_live']
-raise "Attribute: ableton_live is not defined well" unless Hash === node['lyraphase_workstation']['ableton_live']['dmg']
+# node.set['lyraphase_workstation']['ableton_live']['dmg'] = {}
+# Chef::Log.warn("INSIDE RECIPE: is node['lyraphase_workstation']['ableton_live']['dmg'] a kind of Hash? #{node['lyraphase_workstation']['ableton_live']['dmg'].kind_of?(Hash)}")
+# Chef::Log.warn("INSIDE RECIPE: Class of node['lyraphase_workstation']['ableton_live']['dmg'] is: #{node['lyraphase_workstation']['ableton_live']['dmg'].class}")
+# Chef::Log.warn("INSIDE RECIPE: debug_value of node['lyraphase_workstation']['ableton_live']['dmg']:")
+# Chef::Log.warn(node.debug_value(:lyraphase_workstation, :ableton_live, :dmg) )
+raise "Attribute: node['lyraphase_workstation'] is not defined well, should be a kind of Hash" unless node['lyraphase_workstation'].kind_of?(Hash)
+raise "Attribute: node['lyraphase_workstation']['ableton_live'] is not defined well, should be a kind of Hash" unless node['lyraphase_workstation']['ableton_live'].kind_of?(Hash)
+raise "Attribute: node['lyraphase_workstation']['ableton_live']['dmg'] is not defined well, should be a kind of Hash" unless node['lyraphase_workstation']['ableton_live']['dmg'].kind_of?(Hash)
 
 dmg_properties = node['lyraphase_workstation']['ableton_live']['dmg']
 

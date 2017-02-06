@@ -18,10 +18,10 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
       klass.new do |node|
         # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
         create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
-        node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-        node.set['lyraphase_workstation']['user'] = 'brubble'
+        node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+        node.normal['lyraphase_workstation']['user'] = 'brubble'
 
-        node.set['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg'] = dmg_properties
+        node.normal['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg'] = dmg_properties
       end.converge(described_recipe)
     }
 
@@ -46,12 +46,12 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
       klass.new do |node|
         # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
         create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
-        node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-        node.set['lyraphase_workstation']['user'] = 'brubble'
-        node.set['lyraphase_workstation']['home'] = '/Users/brubble'
-        node.set['current_user'] = 'brubble'
+        node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+        node.normal['lyraphase_workstation']['user'] = 'brubble'
+        node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
+        node.normal['current_user'] = 'brubble'
 
-        node.set['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'] = license_data
+        node.normal['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'] = license_data
       end.converge(described_recipe)
     }
 
@@ -76,8 +76,8 @@ describe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish' do
         klass.new do |node|
           # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
           create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
-          node.set['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-          node.set['lyraphase_workstation']['user'] = 'brubble'
+          node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+          node.normal['lyraphase_workstation']['user'] = 'brubble'
         end.converge(described_recipe)
       end
 
