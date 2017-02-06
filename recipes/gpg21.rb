@@ -25,6 +25,17 @@ unless node['homebrew']['formulas'].include?('gnupg21')
   node.default['homebrew']['formulas'].push('gnupg21')
 end
 
+# Unlink all MacGPG binaries from /usr/local/bin
+# gnupg21 Homebrew formula will link these to our gpg2 version
+if ( (!node['lyraphase_workstation']['gpg21']['binary_paths'].nil?) rescue false)
+  node['lyraphase_workstation']['gpg21']['binary_paths'].each do |binary_symlink|
+    link binary_symlink do
+      action :delete
+      only_if "test -L #{binary_symlink} && readlink #{binary_symlink} | grep -qi 'MacGPG'"
+    end
+  end
+end
+
 include_recipe "homebrew::install_formulas"
 
 gpgtools_launchagent_domain = nil

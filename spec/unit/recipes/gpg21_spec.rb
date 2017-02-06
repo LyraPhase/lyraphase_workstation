@@ -33,6 +33,8 @@ describe 'lyraphase_workstation::gpg21' do
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
+
+      node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = []
     end.converge(described_recipe)
   }
 
@@ -65,6 +67,105 @@ describe 'lyraphase_workstation::gpg21' do
 
   it "disables the gpgtools launchd plist file" do
     expect(chef_run).to update_plist_file(gpgtools_plist_file_test)
+  end
+
+  context 'when gpg binary symlinks exist' do
+    gpg_binary_paths =
+      [
+        '/usr/local/bin/addgnupghome',
+        '/usr/local/bin/applygnupgdefaults',
+        '/usr/local/bin/dirmngr',
+        '/usr/local/bin/dirmngr-client',
+        '/usr/local/bin/gpg-agent',
+        '/usr/local/bin/gpg-connect-agent',
+        '/usr/local/bin/gpg2',
+        '/usr/local/bin/gpgconf',
+        '/usr/local/bin/gpgparsemail',
+        '/usr/local/bin/gpgscm',
+        '/usr/local/bin/gpgsm',
+        '/usr/local/bin/gpgtar',
+        '/usr/local/bin/gpgv2',
+        '/usr/local/bin/kbxutil',
+        '/usr/local/bin/symcryptrun',
+        '/usr/local/bin/watchgnupg'
+      ]
+
+  let(:chef_run) {
+    klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
+    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
+      create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+      node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+      node.normal['lyraphase_workstation']['user'] = 'brubble'
+      node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
+
+      node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
+      stub_command("which git").and_return('/usr/local/bin/git')
+
+      node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
+    end.converge(described_recipe)
+  }
+
+    before(:each) do
+      gpg_binary_paths.each do |binary_symlink|
+        delete_symlink_only_if_cmd = "test -L #{binary_symlink} && readlink #{binary_symlink} | grep -qi 'MacGPG'"
+        stub_command(delete_symlink_only_if_cmd).and_return(true)
+      end
+    end
+
+    gpg_binary_paths.each do |binary_symlink|
+      it 'should unlink them first' do
+        expect(chef_run).to delete_link(binary_symlink)
+      end
+    end
+  end
+
+  context 'when gpg binary symlinks DO NOT exist' do
+    gpg_binary_paths =
+      [
+        '/usr/local/bin/addgnupghome',
+        '/usr/local/bin/applygnupgdefaults',
+        '/usr/local/bin/dirmngr',
+        '/usr/local/bin/dirmngr-client',
+        '/usr/local/bin/gpg-agent',
+        '/usr/local/bin/gpg-connect-agent',
+        '/usr/local/bin/gpg2',
+        '/usr/local/bin/gpgconf',
+        '/usr/local/bin/gpgparsemail',
+        '/usr/local/bin/gpgscm',
+        '/usr/local/bin/gpgsm',
+        '/usr/local/bin/gpgtar',
+        '/usr/local/bin/gpgv2',
+        '/usr/local/bin/kbxutil',
+        '/usr/local/bin/symcryptrun',
+        '/usr/local/bin/watchgnupg'
+      ]
+
+  let(:chef_run) {
+    klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
+    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
+      create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+      node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+      node.normal['lyraphase_workstation']['user'] = 'brubble'
+      node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
+
+      node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
+      stub_command("which git").and_return('/usr/local/bin/git')
+
+      node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
+    end.converge(described_recipe)
+  }
+    before(:each) do
+      gpg_binary_paths.each do |binary_symlink|
+        delete_symlink_only_if_cmd = "test -L #{binary_symlink} && readlink #{binary_symlink} | grep -qi 'MacGPG'"
+        stub_command(delete_symlink_only_if_cmd).and_return(false)
+      end
+    end
+
+    gpg_binary_paths.each do |binary_symlink|
+      it 'should NOT unlink them first' do
+        expect(chef_run).to_not delete_link(binary_symlink)
+      end
+    end
   end
 
   [
