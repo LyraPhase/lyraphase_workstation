@@ -63,10 +63,23 @@ describe 'lyraphase_workstation::gpg21' do
     )
     expect(chef_run).to render_file(launchd_plist).with_content(Regexp.new("^\\s+<string>#{Regexp.escape(fixGpgHome_script_path)}</string>$"))
     expect(chef_run).to render_file(launchd_plist).with_content(Regexp.new("^\\s+<string>#{Regexp.escape(File.basename(launchd_plist).gsub(/\.plist$/, ''))}</string>$"))
+
+    expect(chef_run.template(launchd_plist)).to notify('execute[load the fixGpgHome / gpg-agent plist into launchd]').to(:run)
   end
 
   it "disables the gpgtools launchd plist file" do
     expect(chef_run).to update_plist_file(gpgtools_plist_file_test)
+  end
+
+  context "when launchd plist is already loaded" do
+    before(:all) do
+      stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
+    end
+
+    it "loads our fixGpgHome / gpg-agent launchd plist file" do
+      expect(chef_run.execute('load the fixGpgHome / gpg-agent plist into launchd')).to do_nothing
+    end
+
   end
 
   context 'when gpg binary symlinks exist' do
