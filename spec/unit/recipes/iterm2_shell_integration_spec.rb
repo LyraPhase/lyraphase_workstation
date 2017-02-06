@@ -35,6 +35,7 @@ describe 'lyraphase_workstation::iterm2_shell_integration' do
   }
 
   it 'installs iTerm2 + plist via lyraphase_workstation::iterm2' do
+    expect(chef_run).to create_remote_file(src_filepath).with(owner: 'brubble', mode: '0755')
     expect(chef_run).to include_recipe 'lyraphase_workstation::iterm2'
   end
 
