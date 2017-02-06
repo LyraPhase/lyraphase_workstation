@@ -80,5 +80,5 @@ end
 execute "load the fixGpgHome / gpg-agent plist into launchd" do
   command "launchctl load -w /Library/LaunchAgents/com.lyraphase.gpg21.fix.plist"
   user node['lyraphase_workstation']['user']
-  not_if { 'launchctl list com.lyraphase.gpg21.fix' }
+  not_if 'launchctl list com.lyraphase.gpg21.fix'
 end
