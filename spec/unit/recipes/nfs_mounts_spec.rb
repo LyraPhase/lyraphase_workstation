@@ -32,4 +32,9 @@ describe 'lyraphase_workstation::nfs_mounts' do
       expect(resource).to notify('execute[reload automount]').to(:run).delayed
     end
   end
+
+  it 'sets up an execute task for "reload automount" that does nothing until notified' do
+    execute = chef_run.execute('reload automount')
+    expect(execute).to do_nothing
+  end
 end
