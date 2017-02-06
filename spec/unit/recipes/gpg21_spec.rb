@@ -35,6 +35,7 @@ describe 'lyraphase_workstation::gpg21' do
       stub_command("which git").and_return('/usr/local/bin/git')
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = []
+      stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
     end.converge(described_recipe)
   }
 
@@ -115,6 +116,7 @@ describe 'lyraphase_workstation::gpg21' do
       stub_command("which git").and_return('/usr/local/bin/git')
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
+      stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
     end.converge(described_recipe)
   }
 
@@ -165,6 +167,7 @@ describe 'lyraphase_workstation::gpg21' do
       stub_command("which git").and_return('/usr/local/bin/git')
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
+      stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
     end.converge(described_recipe)
   }
     before(:each) do
