@@ -21,7 +21,7 @@ if ! node.attribute?(node['homebrew']['formulas'])
   node.default['homebrew']['formulas'] = []
 end
 
-unless node['homebrew']['formulas'].include?('gnupg21')
+unless has_formula_named?(node['homebrew']['formulas'], 'gnupg21')
   node.default['homebrew']['formulas'].push('gnupg21')
 end
 
