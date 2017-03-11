@@ -4,7 +4,7 @@ default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['dmg
 default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['dmg']['volumes_dir'] = "Manipulator Setup"
 default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['dmg']['dmg_name']    = 'Infected Mushroom - Manipulator v1.01'
 default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['dmg']['app']         = 'Manipulator Setup'
-#default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['dmg']['package_id']  = 'com.polyversemusic.ManipulatorSetup.IWish64.pkg'
+default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['dmg']['package_id']  = 'com.polyversemusic.manipulatorSetup.Manipulator.pkg'
 default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['dmg']['type']        = 'pkg'
 default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['license'] = {}
 default['lyraphase_workstation']['polyverse_infected_mushroom_manipulator']['license']['email']   = nil
