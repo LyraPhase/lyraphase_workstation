@@ -27,7 +27,8 @@ unless has_formula_named?(node['homebrew']['formulas'], 'bash-completion@2')
   node.default['homebrew']['formulas'].push('bash-completion@2')
 end
 
-include_recipe "homebrew::install_formulas"
+package 'bash'
+package 'bash-completion@2'
 
 etc_shells = nil
 etc_shells_path = nil
