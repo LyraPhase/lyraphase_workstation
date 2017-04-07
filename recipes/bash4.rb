@@ -46,3 +46,10 @@ template etc_shells_file do
   variables({ etc_shells: etc_shells })
 end
 
+if ! node['lyraphase_workstation']['bash'].nil? && ! node['lyraphase_workstation']['bash']['set_login_shell'].nil? && node['lyraphase_workstation']['bash']['set_login_shell']
+  execute 'change login shell to homebrew bash4' do
+    command "chsh -s -u #{node['lyraphase_workstation']['user']} /usr/local/bin/bash"
+    user 'root'
+    not_if "dscl /Search -read '/Users/#{node['lyraphase_workstation']['user']}' UserShell | grep -q '\/usr\/local\/bin\/bash'"
+  end
+end
