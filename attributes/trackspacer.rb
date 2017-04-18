@@ -4,5 +4,6 @@ default['lyraphase_workstation']['trackspacer']['dmg']['volumes_dir'] = 'Tracksp
 default['lyraphase_workstation']['trackspacer']['dmg']['dmg_name']    = 'Trackspacer_V205'
 default['lyraphase_workstation']['trackspacer']['dmg']['app']         = 'Trackspacer_V205'
 default['lyraphase_workstation']['trackspacer']['dmg']['type']        = 'mpkg'
+default['lyraphase_workstation']['trackspacer']['dmg']['package_id']  = 'com.wavesfactory.pkg.trackspacer'
 default['lyraphase_workstation']['trackspacer']['license'] = {}
 default['lyraphase_workstation']['trackspacer']['license']['serial'] = nil
