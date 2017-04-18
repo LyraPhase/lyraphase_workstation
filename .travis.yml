@@ -21,4 +21,6 @@ script:
   - rake knife
   - rake foodcritic
   - rake chefspec
+  - find /opt/chefdk/embedded/lib/ruby/gems/2.3.0/gems  -type f -iwholename '*/fauxhai-*/lib/fauxhai/platforms/mac_os_x/*'
+  - cat /opt/chefdk/version-manifest.txt
 
