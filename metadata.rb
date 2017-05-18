@@ -4,7 +4,7 @@ maintainer_email "james.cuzella@lyraphase.com"
 license          "GNU Public License 3.0"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "1.2.3"
+version          "1.3.1"
 chef_version     ">= 12.0"
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
@@ -20,6 +20,7 @@ depends          'plist' # For `plist_file` LWRP (used in lyraphase_workstation:
 recipe 'lyraphase_workstation::ableton_live', 'Install [Ableton Live](https://www.ableton.com/) DAW'
 recipe 'lyraphase_workstation::ableton_live_options', 'Manage [Options.txt](https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live) settings for [Ableton Live](https://www.ableton.com/) DAW'
 recipe 'lyraphase_workstation::airfoil', 'Install [Airfoil](https://www.rogueamoeba.com/airfoil/)'
+recipe 'lyraphase_workstation::bash4', 'Install [bash v4](https://github.com/Homebrew/homebrew-core/blob/master/Formula/bash.rb) from Homebrew'
 recipe 'lyraphase_workstation::cycling_74_max', 'Install [CYCLING \'74 MAX](https://cycling74.com/)'
 recipe 'lyraphase_workstation::daisydisk', 'Install [DaisyDisk](http://www.daisydiskapp.com/)'
 recipe 'lyraphase_workstation::default', 'No-Op recipe for just loading libraries this cookbook provides'
