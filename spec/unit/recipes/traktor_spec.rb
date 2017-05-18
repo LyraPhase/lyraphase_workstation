@@ -31,15 +31,55 @@ describe 'lyraphase_workstation::traktor' do
     end
   end
 
+## Fauxhai 4.1.0 in ChefDK 1.3.43 only supports the following mac_os_x versions:
+# 10.10
+# 10.11.1
+# 10.9.2
+# 10.12
+## Older Fauxhai  & ChefDK <= 1.2.22 supports older versions:
+# 10.6.8
+# 10.7.4
+# 10.8.2
+# 10.9.2
+# 10.10
+# 10.11.1
+# Versions: 10.6.8, 10.7.4, 10.8.2 were removed in customink/fauxhai@19296a8ba49c2265d491847653152bad3f02b392
+# which was released as fauxhai v4.0.0
+# Old install: 
+## export DEBIAN_FRONTEND=noninteractive ;  curl -sSL "https://downloads.chef.io/packages-chef-io-public.key" | apt-key add -
+## echo "deb https://packages.chef.io/stable-apt precise main" | sudo tee -a /etc/apt/sources.list > /dev/null
+## apt-get -yq --no-install-suggests --no-install-recommends --force-yes install chefdk=1.2.22-1
 
-  [
-    { platform: 'mac_os_x', version: '10.6.8',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Snow Leopard',  disable_app_nap: false },
-    { platform: 'mac_os_x', version: '10.7.4',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Lion',          disable_app_nap: false },
-    { platform: 'mac_os_x', version: '10.8.2',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mountain Lion', disable_app_nap: false },
+  Chef::Log.warn( "Fauxhai version: " )
+  Chef::Log.warn( Gem.loaded_specs["fauxhai"].version )
+  Chef::Log.warn( "Is Fauxhai >= 4.0: " )
+  Chef::Log.warn( Gem.loaded_specs["fauxhai"].version >= Gem::Version.new('4.0.0') )
+
+  # Intersection of both version sets (old_platforms & new_platforms)
+  platforms_to_test = [
     { platform: 'mac_os_x', version: '10.9.2',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mavericks',     disable_app_nap: true },
     { platform: 'mac_os_x', version: '10.10',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Yosemite',      disable_app_nap: true },
     { platform: 'mac_os_x', version: '10.11.1', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true }
-  ].each do |os|
+  ]
+
+
+
+  if Gem.loaded_specs["fauxhai"].version < Gem::Version.new('4.0.0')
+    [
+      { platform: 'mac_os_x', version: '10.6.8',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Snow Leopard',  disable_app_nap: false },
+      { platform: 'mac_os_x', version: '10.7.4',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Lion',          disable_app_nap: false },
+      { platform: 'mac_os_x', version: '10.8.2',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mountain Lion', disable_app_nap: false },
+    ].each do |old_platform|
+      platforms_to_test.unshift( old_platform )
+    end
+  end
+
+  if Gem.loaded_specs["fauxhai"].version >= Gem::Version.new('3.9.0')
+    platforms_to_test.push( { platform: 'mac_os_x', version: '10.12',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra', disable_app_nap: true } )
+  end
+
+
+  platforms_to_test.each do |os|
     context "on #{os[:platform].split('_').map(&:capitalize).join(' ')} #{os[:version]} (#{os[:code_name]})" do
       let(:cf_bundle_id) { 'com.native-instruments.Traktor2.Application' }
       let(:chef_run) do
