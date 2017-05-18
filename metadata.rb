@@ -5,6 +5,7 @@ license          "GNU Public License 3.0"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "1.2.3"
+chef_version     ">= 12.0"
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
 issues_url 'https://github.com/trinitronx/lyraphase_workstation/issues' if respond_to?(:issues_url)
