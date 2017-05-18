@@ -15,7 +15,16 @@ class AbletonLiveOptions
     end
 
     def self.ableton_live_get_valid_options
-      ableton_options_help_page = open('https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live').read
+      begin
+        ableton_options_help_page = open('https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live').read
+      rescue OpenURI::HTTPError => error
+        response = error.io
+        Chef::Log.warn("Got HTTP #{response.status} from Ableton page https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live when trying to get updated list of valid Options.txt entries")
+        # => ["503", "Service Unavailable"]
+        Chef::Log.warn("Got Response: #{response.string}")
+        # => <!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n<html DIR=\"LTR\">\n<head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"><meta name=\"viewport\" content=\"initial-scale=1\">...
+        raise unless e.message =~ /^(304|404)/
+      end
 
       nokogiri_obj = Nokogiri::HTML(ableton_options_help_page)
 
