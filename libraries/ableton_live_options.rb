@@ -15,8 +15,8 @@ class AbletonLiveOptions
     end
 
     def self.ableton_live_get_valid_options
-      # mtime = File.mtime(__FILE__).utc
-      mtime = Time.at(1495134812).utc # testing
+      mtime = File.mtime(__FILE__).utc
+      # mtime = Time.at(1495134812).utc # testing
       Chef::Log.info("libraries/ableton_live_options.rb mtime: #{mtime}")
       begin
         ableton_options_help_page = open('https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live', 'If-Modified-Since' => mtime.rfc2822 ) do |f|
