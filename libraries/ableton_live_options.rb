@@ -19,13 +19,7 @@ class AbletonLiveOptions
       # mtime = Time.at(1495134812).utc # testing
       Chef::Log.info("libraries/ableton_live_options.rb mtime: #{mtime}")
       begin
-        ableton_options_help_page = open('https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live', 'If-Modified-Since' => mtime.rfc2822 ) do |f|
-          Chef::Log.debug(f.base_uri)
-          Chef::Log.debug(f.content_type)
-          Chef::Log.debug(f.charset)
-          Chef::Log.debug(f.content_encoding)
-          Chef::Log.debug(f.last_modified)
-        end
+        ableton_options_help_page = open('https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live', 'If-Modified-Since' => mtime.rfc2822 )
       rescue OpenURI::HTTPError => error
         response = error.io
         Chef::Log.warn("AbletonLiveOptions#ableton_live_get_valid_options: Got HTTP #{response.status} from Ableton page https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live when trying to get updated list of valid Options.txt entries")
