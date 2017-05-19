@@ -15,15 +15,25 @@ class AbletonLiveOptions
     end
 
     def self.ableton_live_get_valid_options
+      # mtime = File.mtime(__FILE__).utc
+      mtime = Time.at(1495134812).utc # testing
+      Chef::Log.info("libraries/ableton_live_options.rb mtime: #{mtime}")
       begin
-        ableton_options_help_page = open('https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live').read
+        ableton_options_help_page = open('https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live', 'If-Modified-Since' => mtime.rfc2822 ) do |f|
+          Chef::Log.debug(f.base_uri)
+          Chef::Log.debug(f.content_type)
+          Chef::Log.debug(f.charset)
+          Chef::Log.debug(f.content_encoding)
+          Chef::Log.debug(f.last_modified)
+        end
       rescue OpenURI::HTTPError => error
         response = error.io
-        Chef::Log.warn("Got HTTP #{response.status} from Ableton page https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live when trying to get updated list of valid Options.txt entries")
+        Chef::Log.warn("AbletonLiveOptions#ableton_live_get_valid_options: Got HTTP #{response.status} from Ableton page https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live when trying to get updated list of valid Options.txt entries")
         # => ["503", "Service Unavailable"]
-        Chef::Log.warn("Got Response: #{response.string}")
+        Chef::Log.debug("AbletonLiveOptions#ableton_live_get_valid_options: Got error message: #{response.string}")
+        Chef::Log.warn("AbletonLiveOptions#ableton_live_get_valid_options: Falling back to cached list of valid options.  This is safe to ignore.")
         # => <!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n<html DIR=\"LTR\">\n<head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"><meta name=\"viewport\" content=\"initial-scale=1\">...
-        raise unless e.message =~ /^(304|404)/
+        raise unless error.message =~ /^(304|404)/
       end
 
       nokogiri_obj = Nokogiri::HTML(ableton_options_help_page)
@@ -36,6 +46,8 @@ class AbletonLiveOptions
         valid_options.push( possible_option.text.gsub!(/\A"|"\Z/, '') ) if possible_option.text =~ /^".*?"$/
       end
       # Return the union of both sets of options
+      Chef::Log.debug("ableton_possible_options: #{ableton_possible_options}")
+      Chef::Log.debug("All valid options: #{valid_options | ALL_KNOWN_OPTIONS}")
       return valid_options | ALL_KNOWN_OPTIONS
     end
 
