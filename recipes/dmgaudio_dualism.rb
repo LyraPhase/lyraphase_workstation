@@ -52,7 +52,7 @@ end
 
 dmgaudio_dualism_appsupport_dir = "#{node['lyraphase_workstation']['home']}/Library/Application Support/DMGAudio/Dualism"
 
-license_key_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'dmgaudio_dualism') rescue nil
+license_key_data = data_bag_item('lyraphase_workstation', 'dmgaudio_dualism') rescue nil
 
 if license_key_data.nil? && ! node['lyraphase_workstation']['dmgaudio_dualism']['license_key'].nil?
   license_key_data = node['lyraphase_workstation']['dmgaudio_dualism']

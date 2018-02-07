@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# node.set['lyraphase_workstation']['ableton_live']['dmg'] = {}
+# node.default['lyraphase_workstation']['ableton_live']['dmg'] = {}
 # Chef::Log.warn("INSIDE RECIPE: is node['lyraphase_workstation']['ableton_live']['dmg'] a kind of Hash? #{node['lyraphase_workstation']['ableton_live']['dmg'].kind_of?(Hash)}")
 # Chef::Log.warn("INSIDE RECIPE: Class of node['lyraphase_workstation']['ableton_live']['dmg'] is: #{node['lyraphase_workstation']['ableton_live']['dmg'].class}")
 # Chef::Log.warn("INSIDE RECIPE: debug_value of node['lyraphase_workstation']['ableton_live']['dmg']:")

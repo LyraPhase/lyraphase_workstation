@@ -31,7 +31,7 @@ dmg_package "Mixed In Key" do
   action :install
 end
 
-license_key_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'mixed_in_key')['license'] rescue nil
+license_key_data = data_bag_item('lyraphase_workstation', 'mixed_in_key')['license'] rescue nil
 
 if license_key_data.nil? && ! node['lyraphase_workstation']['mixed_in_key']['license'].nil? && ! node['lyraphase_workstation']['mixed_in_key']['license']['vipcode']
   license_key_data = node['lyraphase_workstation']['mixed_in_key']['license']

@@ -55,7 +55,7 @@ recursive_directories([app_supportdir, "DaisyDisk"]) do
   owner node['lyraphase_workstation']['user']
 end
 
-license_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'daisydisk')['license'] rescue nil
+license_data = data_bag_item('lyraphase_workstation', 'daisydisk')['license'] rescue nil
 
 if license_data.nil? && ! node['lyraphase_workstation']['daisydisk']['license'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['customer_name'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['registration_key'].nil?
   license_data = node['lyraphase_workstation']['daisydisk']['license']
