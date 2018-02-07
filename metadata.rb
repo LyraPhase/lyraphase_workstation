@@ -1,10 +1,10 @@
 name             "lyraphase_workstation"
 maintainer       "James Cuzella"
 maintainer_email "james.cuzella@lyraphase.com"
-license          "GNU Public License 3.0"
+license          "GPL-3.0+"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "1.5.0"
+version          "1.6.0"
 chef_version     ">= 12.0" if respond_to?(:chef_version)
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)

@@ -32,7 +32,7 @@ dmg_package "Trackspacer" do
   action :install
 end
 
-license_key_data = Chef::EncryptedDataBagItem.load('lyraphase_workstation', 'trackspacer')['license'] rescue nil
+license_key_data = data_bag_item('lyraphase_workstation', 'trackspacer')['license'] rescue nil
 
 if license_key_data.nil? && ! node['lyraphase_workstation']['trackspacer']['license'].nil? && ! node['lyraphase_workstation']['trackspacer']['license']['serial']
   license_key_data = node['lyraphase_workstation']['trackspacer']['license']

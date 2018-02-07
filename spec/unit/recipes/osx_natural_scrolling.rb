@@ -18,7 +18,13 @@ describe 'lyraphase_workstation::osx_natural_scrolling' do
     }
 
     it 'sets OSX natural scrolling direction via com.apple.swipescrolldirection' do
-      expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with_boolean(true)
+      chef_run.converge(described_recipe)
+      # Workaround a very weird problem with ChefSpec Matcher arity being different on Chef 13 vs 11 & 12
+      if self.method(:write_osx_defaults).arity == 1
+        expect(chef_run).to write_osx_defaults('Disable natural scrolling').with(domain: global_domain, key: 'com.apple.swipescrolldirection', boolean: true)
+      elsif self.method(:write_osx_defaults).arity == 2
+        expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with(boolean: true)
+      end
     end
   end
 
@@ -38,7 +44,13 @@ describe 'lyraphase_workstation::osx_natural_scrolling' do
     }
 
     it 'sets OSX natural scrolling direction via com.apple.swipescrolldirection' do
-      expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with_boolean(false)
+      chef_run.converge(described_recipe)
+      # Workaround a very weird problem with ChefSpec Matcher arity being different on Chef 13 vs 11 & 12
+      if self.method(:write_osx_defaults).arity == 1
+        expect(chef_run).to write_osx_defaults('Disable natural scrolling').with(domain: global_domain, key: 'com.apple.swipescrolldirection', boolean: false)
+      elsif self.method(:write_osx_defaults).arity == 2
+        expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with(boolean: false)
+      end
     end
   end
 
