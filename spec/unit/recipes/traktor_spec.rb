@@ -31,6 +31,8 @@ describe 'lyraphase_workstation::traktor' do
     end
   end
 
+## Fauxhai 5.5.0 Adds support for:
+# 10.13
 ## Fauxhai 5.3.0 in ChefDK  2.3.1 only supports the following mac_os_x versions:
 # 10.10
 # 10.11
@@ -71,11 +73,18 @@ describe 'lyraphase_workstation::traktor' do
   ]
   fauxhai_ver = Gem.loaded_specs["fauxhai"].version
   case
-    when fauxhai_ver < Gem::Version.new('6.0.0') && fauxhai_ver > Gem::Version.new('5.0.0')
+    when fauxhai_ver < Gem::Version.new('6.0.0') && fauxhai_ver > Gem::Version.new('5.5.0')
       [
         { platform: 'mac_os_x', version: '10.11',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
         { platform: 'mac_os_x', version: '10.12',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true },
         { platform: 'mac_os_x', version: '10.13',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'High Sierra',   disable_app_nap: true }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
+    when fauxhai_ver < Gem::Version.new('5.5.0') && fauxhai_ver > Gem::Version.new('5.0.0')
+      [
+        { platform: 'mac_os_x', version: '10.11',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true }
       ].each do |old_platform|
         platforms_to_test.unshift( old_platform )
       end
