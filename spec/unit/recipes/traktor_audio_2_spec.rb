@@ -140,7 +140,14 @@ describe 'lyraphase_workstation::traktor_audio_2' do
 
       if os[:disable_app_nap]
         it "disables app nap" do
-          expect(chef_run).to write_osx_defaults("Disable App Nap for #{cf_bundle_id}").with(domain: cf_bundle_id, key: 'NSAppSleepDisabled', boolean: true)
+          # Chef::Log.warn("METHOD: #{self.method(:write_osx_defaults)}")
+          # Chef::Log.warn("ARITY: #{self.method(:write_osx_defaults).arity}")
+          # Workaround a very weird problem with ChefSpec Matcher arity being different on Chef 13 vs 11 & 12
+          if self.method(:write_osx_defaults).arity == 1
+            expect(chef_run).to write_osx_defaults("Disable App Nap for #{cf_bundle_id}").with(domain: cf_bundle_id, key: 'NSAppSleepDisabled', boolean: true)
+          elsif self.method(:write_osx_defaults).arity == 2
+            expect(chef_run).to write_osx_defaults(cf_bundle_id, 'NSAppSleepDisabled').with(boolean: true)
+          end
         end
       end
     end
