@@ -33,6 +33,13 @@ describe 'lyraphase_workstation::traktor_audio_2' do
   end
 
 
+## Fauxhai 5.5.0 Adds support for:
+# 10.13
+## Fauxhai 5.3.0 in ChefDK  2.3.1 only supports the following mac_os_x versions:
+# 10.10
+# 10.11
+# 10.12
+# 10.13
 ## Fauxhai 4.1.0 in ChefDK 1.3.43 only supports the following mac_os_x versions:
 # 10.10
 # 10.11.1
@@ -56,27 +63,61 @@ describe 'lyraphase_workstation::traktor_audio_2' do
   Chef::Log.warn( Gem.loaded_specs["fauxhai"].version )
   Chef::Log.warn( "Is Fauxhai >= 4.0: " )
   Chef::Log.warn( Gem.loaded_specs["fauxhai"].version >= Gem::Version.new('4.0.0') )
+  Chef::Log.warn( "Is Fauxhai >= 5.0: " )
+  Chef::Log.warn( Gem.loaded_specs["fauxhai"].version >= Gem::Version.new('5.0.0') )
+  Chef::Log.warn( "Is Fauxhai < 6.0: " )
+  Chef::Log.warn( Gem.loaded_specs["fauxhai"].version < Gem::Version.new('6.0.0') )
 
-  # Intersection of both version sets (old_platforms & new_platforms)
+  # Intersection of all version sets (old_platforms & new_platforms & fauxhai_5_platforms)
+  # This is used as default platforms to test Array until we detect Fauxhai version
   platforms_to_test = [
-    { platform: 'mac_os_x', version: '10.9.2',  dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Mavericks',     disable_app_nap: true },
-    { platform: 'mac_os_x', version: '10.10',   dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Yosemite',      disable_app_nap: true },
-    { platform: 'mac_os_x', version: '10.11.1', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'El Capitan',    disable_app_nap: true }
+    { platform: 'mac_os_x', version: '10.10',   dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Yosemite',      disable_app_nap: true }
   ]
+  fauxhai_ver = Gem.loaded_specs["fauxhai"].version
+  case
+    when fauxhai_ver < Gem::Version.new('6.0.0') && fauxhai_ver > Gem::Version.new('5.5.0')
+      [
+        { platform: 'mac_os_x', version: '10.11', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Sierra',        disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.13', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'High Sierra',   disable_app_nap: true }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
+    when fauxhai_ver < Gem::Version.new('5.5.0') && fauxhai_ver > Gem::Version.new('5.0.0')
+      [
+        { platform: 'mac_os_x', version: '10.11', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Sierra',        disable_app_nap: true }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
+    when fauxhai_ver < Gem::Version.new('5.0.0') && fauxhai_ver > Gem::Version.new('4.0.0')
+      [
+        # 10.10 already in union set above
+        { platform: 'mac_os_x', version: '10.9.2',  dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Mavericks',     disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.11.1', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12',   dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Sierra',        disable_app_nap: true }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
 
-  if Gem.loaded_specs["fauxhai"].version < Gem::Version.new('4.0.0')
-    [
-      { platform: 'mac_os_x', version: '10.6.8',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Snow Leopard',  disable_app_nap: false },
-      { platform: 'mac_os_x', version: '10.7.4',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Lion',          disable_app_nap: false },
-      { platform: 'mac_os_x', version: '10.8.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mountain Lion', disable_app_nap: false },
-    ].each do |old_platform|
-      platforms_to_test.unshift( old_platform )
+    when fauxhai_ver < Gem::Version.new('4.0.0')
+      [
+        { platform: 'mac_os_x', version: '10.6.8',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Snow Leopard',  disable_app_nap: false },
+        { platform: 'mac_os_x', version: '10.7.4',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Lion',          disable_app_nap: false },
+        { platform: 'mac_os_x', version: '10.8.2',  dmg_app: 'Traktor Audio 2 2.7.0 Installer Mac', code_name: 'Mountain Lion', disable_app_nap: false }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
+  end
+
+  if fauxhai_ver >= Gem::Version.new('3.9.0')
+    unless platforms_to_test.select{|x| x[:version] == '10.10'}
+      platforms_to_test.push( { platform: 'mac_os_x', version: '10.12', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Sierra', disable_app_nap: true } )
     end
   end
 
-  if Gem.loaded_specs["fauxhai"].version >= Gem::Version.new('3.9.0')
-    platforms_to_test.push( { platform: 'mac_os_x', version: '10.12',  dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', code_name: 'Sierra', disable_app_nap: true } )
-  end
+  Chef::Log.warn( "Detected Platforms to Test: " )
+  Chef::Log.warn( platforms_to_test )
 
 
   platforms_to_test.each do |os|
