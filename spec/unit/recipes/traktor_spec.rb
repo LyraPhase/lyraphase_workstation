@@ -137,7 +137,7 @@ describe 'lyraphase_workstation::traktor' do
 
       if os[:disable_app_nap]
         it "disables app nap" do
-          expect(chef_run).to write_osx_defaults(cf_bundle_id, 'NSAppSleepDisabled').with_boolean(true)
+          expect(chef_run).to write_osx_defaults(cf_bundle_id, 'NSAppSleepDisabled').with(boolean: true)
         end
       end
     end

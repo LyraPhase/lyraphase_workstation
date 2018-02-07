@@ -18,7 +18,7 @@ describe 'lyraphase_workstation::osx_natural_scrolling' do
     }
 
     it 'sets OSX natural scrolling direction via com.apple.swipescrolldirection' do
-      expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with_boolean(true)
+      expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with(boolean: true)
     end
   end
 
@@ -38,7 +38,7 @@ describe 'lyraphase_workstation::osx_natural_scrolling' do
     }
 
     it 'sets OSX natural scrolling direction via com.apple.swipescrolldirection' do
-      expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with_boolean(false)
+      expect(chef_run).to write_osx_defaults(global_domain, 'com.apple.swipescrolldirection').with(boolean: false)
     end
   end
 
