@@ -65,43 +65,48 @@ describe 'lyraphase_workstation::traktor' do
   Chef::Log.warn( Gem.loaded_specs["fauxhai"].version < Gem::Version.new('6.0.0') )
 
   # Intersection of all version sets (old_platforms & new_platforms & fauxhai_5_platforms)
+  # This is used as default platforms to test Array until we detect Fauxhai version
   platforms_to_test = [
     { platform: 'mac_os_x', version: '10.10',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Yosemite',      disable_app_nap: true }
   ]
+  fauxhai_ver = Gem.loaded_specs["fauxhai"].version
+  case
+    when fauxhai_ver < Gem::Version.new('6.0.0') && fauxhai_ver > Gem::Version.new('5.0.0')
+      [
+        { platform: 'mac_os_x', version: '10.11',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.13',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'High Sierra',   disable_app_nap: true }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
+    when fauxhai_ver < Gem::Version.new('5.0.0') && fauxhai_ver > Gem::Version.new('4.0.0')
+      [
+        # 10.10 already in union set above
+        { platform: 'mac_os_x', version: '10.9.2',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mavericks',     disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.11.1', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
 
-  if Gem.loaded_specs["fauxhai"].version < Gem::Version.new('6.0.0')
-    [
-      { platform: 'mac_os_x', version: '10.11',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
-      { platform: 'mac_os_x', version: '10.12',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true },
-      { platform: 'mac_os_x', version: '10.13',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'High Sierra',   disable_app_nap: true }
-    ].each do |old_platform|
-      platforms_to_test.unshift( old_platform )
+    when fauxhai_ver < Gem::Version.new('4.0.0')
+      [
+        { platform: 'mac_os_x', version: '10.6.8',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Snow Leopard',  disable_app_nap: false },
+        { platform: 'mac_os_x', version: '10.7.4',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Lion',          disable_app_nap: false },
+        { platform: 'mac_os_x', version: '10.8.2',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mountain Lion', disable_app_nap: false }
+      ].each do |old_platform|
+        platforms_to_test.unshift( old_platform )
+      end
+  end
+
+  if fauxhai_ver >= Gem::Version.new('3.9.0')
+    unless platforms_to_test.select{|x| x[:version] == '10.10'}
+      platforms_to_test.push( { platform: 'mac_os_x', version: '10.12',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra', disable_app_nap: true } )
     end
   end
 
-  if Gem.loaded_specs["fauxhai"].version < Gem::Version.new('5.0.0')
-    [
-      { platform: 'mac_os_x', version: '10.9.2',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mavericks',     disable_app_nap: true },
-      { platform: 'mac_os_x', version: '10.11.1', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true }
-    ].each do |old_platform|
-      platforms_to_test.unshift( old_platform )
-    end
-  end
-
-  if Gem.loaded_specs["fauxhai"].version < Gem::Version.new('4.0.0')
-    [
-      { platform: 'mac_os_x', version: '10.6.8',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Snow Leopard',  disable_app_nap: false },
-      { platform: 'mac_os_x', version: '10.7.4',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Lion',          disable_app_nap: false },
-      { platform: 'mac_os_x', version: '10.8.2',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mountain Lion', disable_app_nap: false }
-    ].each do |old_platform|
-      platforms_to_test.unshift( old_platform )
-    end
-  end
-
-  if Gem.loaded_specs["fauxhai"].version >= Gem::Version.new('3.9.0')
-    platforms_to_test.push( { platform: 'mac_os_x', version: '10.12',  dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra', disable_app_nap: true } )
-  end
-
+  Chef::Log.warn( "Detected Platforms to Test: " )
+  Chef::Log.warn( platforms_to_test )
 
   platforms_to_test.each do |os|
     context "on #{os[:platform].split('_').map(&:capitalize).join(' ')} #{os[:version]} (#{os[:code_name]})" do
