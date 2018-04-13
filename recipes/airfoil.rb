@@ -45,5 +45,5 @@ plist_file airfoil_plist_resource_name do
   domain airfoil_domain if ! airfoil_domain.nil?
   owner node['lyraphase_workstation']['user']
   mode 0600
-  action :update
+  action :create
 end
