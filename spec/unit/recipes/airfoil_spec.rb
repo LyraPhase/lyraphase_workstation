@@ -438,7 +438,7 @@ describe "lyraphase_workstation::airfoil" do
     #   f.write(test_file.open("rb") { |f| f.read })
     # end
     # expect(test_file.open("rb") { |f| f.read }).to eq(updated_content)
-    expect(chef_run).to update_plist_file('plist_file_push_spec.plist')
+    expect(chef_run).to create_plist_file('plist_file_push_spec.plist')
   end
 
   after(:all) do
