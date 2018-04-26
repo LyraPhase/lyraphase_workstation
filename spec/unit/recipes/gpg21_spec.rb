@@ -69,7 +69,7 @@ describe 'lyraphase_workstation::gpg21' do
   end
 
   it "disables the gpgtools launchd plist file" do
-    expect(chef_run).to update_plist_file(gpgtools_plist_file_test)
+    expect(chef_run).to create_plist_file(gpgtools_plist_file_test)
   end
 
   context "when launchd plist is already loaded" do

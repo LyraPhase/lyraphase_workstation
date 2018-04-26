@@ -68,7 +68,7 @@ plist_file gpgtools_launchagent_plist_file do
   owner 'root'
   group 'wheel'
   mode 0600
-  action :update
+  action :create
 end
 
 ruby_block "add StreamLocalBindUnlink to sshd config" do
