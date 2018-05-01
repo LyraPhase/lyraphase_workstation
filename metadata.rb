@@ -4,7 +4,7 @@ maintainer_email "james.cuzella@lyraphase.com"
 license          "GPL-3.0+"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "2.0.0"
+version          "2.0.1"
 chef_version     ">= 12.0" if respond_to?(:chef_version)
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
@@ -15,7 +15,7 @@ depends          'homebrew'
 depends          'dmg'
 depends          'osx' # For osx_defaults LWRP
 depends          'sprout-base'  # For `libraries/directory#recursive_directories()` function
-depends          'plist', '~> 0.9.4' # For `plist_file` LWRP (used in lyraphase_workstation::airfoil recipe)
+depends          'plist', '~> 0.9' # For `plist_file` LWRP (used in lyraphase_workstation::airfoil recipe)
 
 recipe 'lyraphase_workstation::ableton_live', 'Install [Ableton Live](https://www.ableton.com/) DAW'
 recipe 'lyraphase_workstation::ableton_live_options', 'Manage [Options.txt](https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live) settings for [Ableton Live](https://www.ableton.com/) DAW'
