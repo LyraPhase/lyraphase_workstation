@@ -29,17 +29,28 @@ describe 'lyraphase_workstation::bashrc' do
       node.normal['lyraphase_workstation']['user'] = 'brubble'
       node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
 
-      stub_command("dscl /Search -read '/Users/brubble' UserShell | grep -q '\/usr\/local\/bin\/bash'").and_return(false)
+      require 'securerandom'
+      node.normal['lyraphase_workstation']['bashrc']['homebrew_github_api_token'] = SecureRandom.hex(20)
+      node.normal['lyraphase_workstation']['bashrc']['user_fullname'] = 'Barney Rubble'
+      node.normal['lyraphase_workstation']['bashrc']['user_email'] = 'barney.rubble@lyraphase.com'
+      node.normal['lyraphase_workstation']['bashrc']['user_gpg_keyid'] = "0x#{SecureRandom.hex(8)}"
+
     end.converge(described_recipe)
   }
 
   it 'installs custom .bashrc into user homedir' do
-    expect(chef_run).to create_file(bashrc_path).with(
+    expect(chef_run).to create_template(bashrc_path).with(
       user:   'brubble',
       mode: '0644'
     )
 
-    expect(chef_run).to render_file(bashrc_path) #.with_content()
+    [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
+      "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
+      "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
+      "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'",
+    ].each do |expected_regex|
+      expect(chef_run).to render_file(bashrc_path).with_content(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
+    end
   end
 
 end
