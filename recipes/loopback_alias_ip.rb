@@ -21,6 +21,13 @@ if ! node['lyraphase_workstation']['loopback_alias_ip'].nil? && ! node['lyraphas
   loopback_alias_ip = node['lyraphase_workstation']['loopback_alias_ip']['alias_ip']
 end
 
+file "/var/log/loopback-alias.log" do
+  action :create
+  owner "root"
+  group "wheel"
+  mode "0664"
+end
+
 template "/Library/LaunchDaemons/com.runlevel1.lo0.alias.plist" do
   source "com.runlevel1.lo0.alias.plist.erb"
   user "root"
