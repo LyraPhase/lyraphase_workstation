@@ -39,6 +39,6 @@ end
 
 execute "load the com.runlevel1.lo0.alias plist into launchd" do
   command "launchctl load -w /Library/LaunchDaemons/com.runlevel1.lo0.alias.plist"
-  user node['lyraphase_workstation']['user']
-  not_if 'launchctl list com.runlevel1.lo0.alias'
+  user "root"
+  not_if 'sudo launchctl list com.runlevel1.lo0.alias'
 end
