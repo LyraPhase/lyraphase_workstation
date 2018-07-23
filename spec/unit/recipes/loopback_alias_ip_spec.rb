@@ -34,6 +34,7 @@ describe 'lyraphase_workstation::loopback_alias_ip' do
       stub_command("which git").and_return('/usr/local/bin/git')
 
       stub_command('launchctl list com.runlevel1.lo0.alias').and_return(true)
+      stub_command("sudo launchctl list com.runlevel1.lo0.alias").and_return(true)
     end.converge(described_recipe)
   }
 
