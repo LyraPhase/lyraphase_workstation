@@ -20,6 +20,7 @@ require 'spec_helper'
 describe 'lyraphase_workstation::loopback_alias_ip' do
 
   let(:launchd_plist) { "/Library/LaunchDaemons/com.runlevel1.lo0.alias.plist" }
+  let(:loopback_alias_log) { "/var/log/loopback-alias.log" }
   let(:loopback_alias_ip) { '172.16.222.111' }
 
   let(:chef_run) {
@@ -33,8 +34,17 @@ describe 'lyraphase_workstation::loopback_alias_ip' do
       stub_command("which git").and_return('/usr/local/bin/git')
 
       stub_command('launchctl list com.runlevel1.lo0.alias').and_return(true)
+      stub_command("sudo launchctl list com.runlevel1.lo0.alias").and_return(true)
     end.converge(described_recipe)
   }
+
+  it 'creates log file for loopback-alias service' do
+    expect(chef_run).to create_file(loopback_alias_log).with(
+      user:   'root',
+      group:  'wheel',
+      mode:   '0664'
+    )
+  end
 
   it 'installs launchd plist for adding IP alias to loopback network interface lo0' do
     expect(chef_run).to create_template(launchd_plist).with(
