@@ -10,9 +10,11 @@ chef_version     ">= 12.0" if respond_to?(:chef_version)
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
 issues_url 'https://github.com/trinitronx/lyraphase_workstation/issues' if respond_to?(:issues_url)
 
+require 'chef/version_constraint'
+
 supports         'mac_os_x'
 depends          'homebrew'
-depends          'dmg'
+depends          'dmg' unless respond_to?(:chef_version) and Chef::VersionConstraint.new(">= 10.14.0").include?(chef_version)
 depends          'osx' # For osx_defaults LWRP
 depends          'sprout-base'  # For `libraries/directory#recursive_directories()` function
 depends          'plist', '~> 0.9' # For `plist_file` LWRP (used in lyraphase_workstation::airfoil recipe)

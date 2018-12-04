@@ -15,7 +15,7 @@ Dir['libraries/*.rb'].each { |f| require File.expand_path(f) }
 
 RSpec.configure do |config|
   config.platform = 'mac_os_x'
-  config.version = '10.9.2'
+  config.version = '10.14'
   config.before { stub_const('ENV', ENV.to_hash.merge('SUDO_USER' => 'brubble')) }
 end
 
