@@ -13,7 +13,7 @@ group :lint do
 end
 
 group :update_fauxhai do
-  gem 'fauxhai', '~> 4.0'
+  gem 'fauxhai', '>= 6.8.0'
 end
 
 group :unit do

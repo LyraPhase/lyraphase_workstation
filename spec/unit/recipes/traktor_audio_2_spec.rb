@@ -89,23 +89,23 @@ describe 'lyraphase_workstation::traktor_audio_2' do
   ]
   fauxhai_ver = Gem.loaded_specs["fauxhai"].version
   case
-    when fauxhai_ver < Gem::Version.new('7.0.0') && fauxhai_ver >= Gem::Version.new('6.8.0')
+    when fauxhai_ver <= Gem::Version.new('7.0.0') && fauxhai_ver >= Gem::Version.new('6.8.0')
       platforms_to_test = []
       # 10.10 DEPRECATED in Fauxhai 6.8.0 ... no more similarity with previous mac_os_x platform sets
       [
-        { platform: 'mac_os_x', version: '10.11',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
-        { platform: 'mac_os_x', version: '10.12',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true },
-        { platform: 'mac_os_x', version: '10.13',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'High Sierra',   disable_app_nap: true },
-        { platform: 'mac_os_x', version: '10.14',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mojave',        disable_app_nap: true }
+        { platform: 'mac_os_x', version: '10.11', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.13', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'High Sierra',   disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.14', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Mojave',        disable_app_nap: true }
       ].each do |old_platform|
         platforms_to_test.unshift( old_platform )
       end
     when fauxhai_ver < Gem::Version.new('6.8.0') && fauxhai_ver >= Gem::Version.new('6.0.0')
       [
         # 10.10 already in union set above
-        { platform: 'mac_os_x', version: '10.11',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
-        { platform: 'mac_os_x', version: '10.12',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true },
-        { platform: 'mac_os_x', version: '10.13',   dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'High Sierra',   disable_app_nap: true }
+        { platform: 'mac_os_x', version: '10.11', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'El Capitan',    disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.12', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'Sierra',        disable_app_nap: true },
+        { platform: 'mac_os_x', version: '10.13', dmg_app: 'Traktor Audio 2 2.8.0 Installer Mac', dmg_volumes_dir: 'Traktor Pro 2.6', code_name: 'High Sierra',   disable_app_nap: true }
       ].each do |old_platform|
         platforms_to_test.unshift( old_platform )
       end
