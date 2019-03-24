@@ -7,7 +7,8 @@ group :task_runners do
 end
 
 group :lint do
-  gem 'foodcritic', '~> 13.1'
+  gem 'foodcritic', '~> 15.1'
+  gem 'cucumber-core', '~> 3.2.1' # Pin cucumber-core to 3.2.1 to fix cucumber/cucumber#483
 #  gem 'rubocop', '~> 0.34' # Too strict & not pragmatic... Bleh!
 end
 
@@ -17,8 +18,8 @@ end
 
 group :unit do
   gem 'berkshelf',  '~> 7.0'
-  gem 'chefspec',   '~> 7.1'
-  gem 'chef', '~> 13.8'
+  gem 'chefspec',   '~> 7.3'
+  gem 'chef', '~> 14.11'
 end
 
 group :kitchen_common do
