@@ -21,6 +21,13 @@ if ! node['lyraphase_workstation']['loopback_alias_ip'].nil? && ! node['lyraphas
   loopback_alias_ip = node['lyraphase_workstation']['loopback_alias_ip']['alias_ip']
 end
 
+file "/var/log/loopback-alias.log" do
+  action :create
+  owner "root"
+  group "wheel"
+  mode "0664"
+end
+
 template "/Library/LaunchDaemons/com.runlevel1.lo0.alias.plist" do
   source "com.runlevel1.lo0.alias.plist.erb"
   user "root"
@@ -32,6 +39,6 @@ end
 
 execute "load the com.runlevel1.lo0.alias plist into launchd" do
   command "launchctl load -w /Library/LaunchDaemons/com.runlevel1.lo0.alias.plist"
-  user node['lyraphase_workstation']['user']
-  not_if 'launchctl list com.runlevel1.lo0.alias'
+  user "root"
+  not_if 'sudo launchctl list com.runlevel1.lo0.alias'
 end

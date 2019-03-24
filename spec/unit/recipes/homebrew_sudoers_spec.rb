@@ -58,7 +58,8 @@ describe 'lyraphase_workstation::homebrew_sudoers' do
       '/usr/bin/touch',
       '/usr/sbin/softwareupdate',
       '/bin/rm',
-      '/usr/sbin/installer'
+      '/usr/sbin/installer',
+      '/usr/bin/env'
     ]
   }
 
