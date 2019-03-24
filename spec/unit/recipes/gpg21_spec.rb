@@ -33,6 +33,11 @@ describe 'lyraphase_workstation::gpg21' do
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
+      stub_command("/usr/local/bin/brew analytics state").and_return('Analytics is disabled')
+      stubs_for_resource("execute[set analytics]") do |resource|
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state", {:user=>"brubble"})
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state")
+      end
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = []
       stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
@@ -114,6 +119,11 @@ describe 'lyraphase_workstation::gpg21' do
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
+      stub_command("/usr/local/bin/brew analytics state").and_return('Analytics is disabled')
+      stubs_for_resource("execute[set analytics]") do |resource|
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state", {:user=>"brubble"})
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state")
+      end
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
       stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
@@ -165,6 +175,11 @@ describe 'lyraphase_workstation::gpg21' do
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
+      stub_command("/usr/local/bin/brew analytics state").and_return('Analytics is disabled')
+      stubs_for_resource("execute[set analytics]") do |resource|
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state", {:user=>"brubble"})
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state")
+      end
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
       stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
