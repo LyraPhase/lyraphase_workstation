@@ -22,7 +22,7 @@ describe 'lyraphase_workstation::homebrew_sudoers' do
   # before(:all) do
   #   # To use GitHub for latest platform (customink/fauxhai#201)
   #   # edge: true
-  #   Fauxhai.mock(platform:'mac_os_x', version:'10.11.1') do |node|
+  #   Fauxhai.mock(platform:'mac_os_x', version:'10.11') do |node|
   #     node['hostname'] = 'bedrock'
   #     Chef::Log.warn("INSIDE ChefSpec: node['hostname'] = #{node['hostname']}")
   #     # node['lyraphase_workstation']['user'] = 'brubble'

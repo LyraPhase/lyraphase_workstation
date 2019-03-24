@@ -11,6 +11,6 @@ cookbook 'osx', '~> 0.1.0', :github => 'pivotal-sprout/osx'
 cookbook 'plist', '~> 0.9.4', :github => 'trinitronx/chef-plist', rel: 'vendor/cookbooks/plist', :branch => 'develop'
 #OLD = :branch => 'add-chefspec-matchers'
 
-cookbook 'homebrew', '>= 1.13.0'
+cookbook 'homebrew', '>= 4.0.0'
 
 metadata
