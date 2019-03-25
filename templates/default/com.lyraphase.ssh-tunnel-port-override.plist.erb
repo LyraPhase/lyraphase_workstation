@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lyraphase.ssh-tunnel-port-override</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string><%= @ssh_tunnel_port_override_script %></string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>UserName</key>
+    <string>root</string>
+    <key>GroupName</key>
+    <string>wheel</string>
+    <key>InitGroups</key>
+    <true/>
+    <key>SoftResourceLimits</key>
+    <dict>
+    <key>CPU</key>
+	<integer>1</integer>
+    </dict>
+</dict>
+</plist>

@@ -1,0 +1,23 @@
+#!/bin/bash
+LOGFILE=/var/log/ssh-tunnel-override.log
+
+throttle() {
+  echo "$(date +%Y-%m-%d-%H.%M.%S) : INFO: Hit CPU soft limit... Throttling ssh-tunnel-override via sleep for 1 second"  | tee -a "$LOGFILE"
+  sleep 1
+}
+
+trap throttle SIGXCPU
+
+counter=0
+MAX_TRIES=2000
+echo "$(date +%Y-%m-%d-%H.%M.%S) : ---- BEGIN ssh-tunnel-override ----" | tee -a "$LOGFILE"
+while ! lsof +c0 -Pnl  +M -i4 | grep -iE ':<%= @ssh_tunnel_port_override_portnumber %>.*LISTEN' | grep -qiE 'SSH.*Tunnel' || [ $counter -ge ${MAX_TRIES} ] ; do
+  let counter++
+  [ "$(( $counter % 100))" -eq 0 ] && echo "$(date +%Y-%m-%d-%H.%M.%S) : SSH Tunnel not running on port <%= @ssh_tunnel_port_override_portnumber %> (try counter = ${counter})" | tee -a "$LOGFILE"
+  kill -9 $(ps auxww | grep -i  macmnsvc  | grep -v grep | awk '{ print $2 }') 1>&2 2>/dev/null;
+done
+echo "$(date +%Y-%m-%d-%H.%M.%S) : Success! SSH Tunnel should now be running on port <%= @ssh_tunnel_port_override_portnumber %>" | tee -a "$LOGFILE"
+echo "$(date +%Y-%m-%d-%H.%M.%S) : lsof Output:" | tee -a "$LOGFILE"
+lsof +c0 -Pnl  +M -i4 | grep -iE ':<%= @ssh_tunnel_port_override_portnumber %>.*LISTEN' | grep -iE 'SSH.*tunnel' | tee -a "$LOGFILE"
+echo "$(date +%Y-%m-%d-%H.%M.%S) : ---- END ssh-tunnel-override ----" | tee -a "$LOGFILE"
+
