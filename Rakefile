@@ -17,10 +17,18 @@ task :berks do
 end
 
 # http://wiki.opscode.com/display/chef/Managing+Cookbooks+With+Knife#ManagingCookbooksWithKnife-test
-desc "Test cookbooks via knife"
+desc "Test cookbooks via knife -- NOTE: knife cookbook test was deprecated as of Chef 15.0.29"
 task :knife do
   cookbook_path = ENV['TRAVIS_BUILD_DIR'] ? ENV['TRAVIS_BUILD_DIR'] + '/../' : '.././'
   sh "knife cookbook test -c test/.chef/knife.rb -o #{cookbook_path} -a"
+end
+
+# Newer CookStyle target
+# Don't use this unless you're a style Gestapo
+require 'cookstyle'
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new do |rubocop|
+    rubocop.options << '--display-cop-names'
 end
 
 # https://github.com/acrmp/chefspec

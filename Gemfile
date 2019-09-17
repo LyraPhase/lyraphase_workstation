@@ -9,7 +9,8 @@ end
 group :lint do
   gem 'foodcritic', '~> 15.1'
   gem 'cucumber-core', '~> 3.2.1' # Pin cucumber-core to 3.2.1 to fix cucumber/cucumber#483
-#  gem 'rubocop', '~> 0.34' # Too strict & not pragmatic... Bleh!
+  # gem 'rubocop', '~> 0.34' # Too strict & not pragmatic... Bleh!
+  gem 'cookstyle', '~> 5.6' # Based on rubocop... Bleh!
 end
 
 group :update_fauxhai do
@@ -39,10 +40,10 @@ group :development do
 #  gem 'ruby_gntp'
   gem 'growl'
   gem 'rb-fsevent'
-  gem 'guard', '~> 2.13'
+  gem 'guard', '~> 2.15'
   gem 'guard-kitchen'
   gem 'guard-foodcritic', '~> 3.0'
   gem 'guard-rspec'
-  gem 'guard-rubocop'
+#  gem 'guard-rubocop'
   gem 'mixlib-versioning'
 end

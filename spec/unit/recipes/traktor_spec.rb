@@ -31,7 +31,7 @@ describe 'lyraphase_workstation::traktor' do
     end
   end
 
-## Fauxhai 6.8.0 in ChefDK <??unreleased??>
+## Fauxhai 6.8.0 in ChefDK 3.4
 # Adds support for: 10.14
 # Removed support for: 10.10
 # Support List:
@@ -87,7 +87,7 @@ describe 'lyraphase_workstation::traktor' do
   ]
   fauxhai_ver = Gem.loaded_specs["fauxhai"].version
   case
-    when fauxhai_ver <= Gem::Version.new('7.0.0') && fauxhai_ver >= Gem::Version.new('6.8.0')
+    when fauxhai_ver <= Gem::Version.new('8.0.0') && fauxhai_ver >= Gem::Version.new('6.8.0')
       platforms_to_test = []
       # 10.10 DEPRECATED in Fauxhai 6.8.0 ... no more similarity with previous mac_os_x platform sets
       [
