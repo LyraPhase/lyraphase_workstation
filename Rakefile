@@ -7,7 +7,7 @@ task :default => [:knife, :foodcritic, :chefspec]
 task :test => [:default]
 
 FoodCritic::Rake::LintTask.new do |t|
-  t.options = { :fail_tags => ['correctness'], :tags => ['~FC023'], :context => true }
+  t.options = { :fail_tags => ['correctness'], :tags => ['~FC023','~FC121'], :context => true }
 end
 
 # http://berkshelf.com/

@@ -59,7 +59,8 @@ describe 'lyraphase_workstation::homebrew_sudoers' do
       '/usr/sbin/softwareupdate',
       '/bin/rm',
       '/usr/sbin/installer',
-      '/usr/bin/env'
+      '/usr/bin/env',
+      '/usr/local/bin/VBoxManage extpack install \*'
     ]
   }
 
