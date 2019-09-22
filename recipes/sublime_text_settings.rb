@@ -19,11 +19,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-[ "Installed Packages", "Packages", "Local/License.sublime_license" ].each do |shared_sublime_file|
-  symlink_target = "#{node['lyraphase_workstation']['home']}/Dropbox/AppData/mac/sublime-text-3/#{shared_sublime_file}"
+node['lyraphase_workstation']['sublime_text_settings']['shared_files'].each do |shared_sublime_file|
+  symlink_target = "#{node['lyraphase_workstation']['sublime_text_settings']['shared_files_path']}/#{shared_sublime_file}"
   Chef::Log::warn("Sublime Text Settings file not found: #{symlink_target}") if File.exist?("#{symlink_target}")
 
-  symlink_path = "#{node['lyraphase_workstation']['home']}/Library/Application Support/Sublime Text 3/#{shared_sublime_file}"
+  symlink_path = "#{node['lyraphase_workstation']['sublime_text_settings']['app_support_path']}/#{shared_sublime_file}"
   directory symlink_path do
     action :delete
     only_if { ::Dir.exist?("#{symlink_path}") || (::File.exist?("#{symlink_path}") && !::File.symlink?("#{symlink_path}")) }
