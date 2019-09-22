@@ -3,7 +3,7 @@
 # Recipe:: sublime_text_license
 # Site:: http://www.sublimetext.com/
 #
-# Copyright (C) 2015 James Cuzella
+# Copyright (C) 2015-2019 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,11 +21,19 @@
 
 [ "Installed Packages", "Packages", "Local/License.sublime_license" ].each do |shared_sublime_file|
   symlink_target = "#{node['lyraphase_workstation']['home']}/Dropbox/AppData/mac/sublime-text-3/#{shared_sublime_file}"
-  Chef::Log::warn("Sublime Text Settings file not found: #{symlink_target}") if File.exist?("symlink_target")
+  Chef::Log::warn("Sublime Text Settings file not found: #{symlink_target}") if File.exist?("#{symlink_target}")
 
-  link "#{node['lyraphase_workstation']['home']}/Library/Application Support/Sublime Text 3/#{shared_sublime_file}" do
+  symlink_path = "#{node['lyraphase_workstation']['home']}/Library/Application Support/Sublime Text 3/#{shared_sublime_file}"
+  directory symlink_path do
+    action :delete
+    only_if { ::Dir.exist?("#{symlink_path}") || (::File.exist?("#{symlink_path}") && !::File.symlink?("#{symlink_path}")) }
+  end
+
+
+  link symlink_path do
     to symlink_target
     owner node['lyraphase_workstation']['user']
+    mode '0755'
     not_if { File.symlink?( symlink_target ) }
   end
 end
