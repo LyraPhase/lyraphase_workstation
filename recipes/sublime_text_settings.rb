@@ -21,12 +21,14 @@
 
 node['lyraphase_workstation']['sublime_text_settings']['shared_files'].each do |shared_sublime_file|
   symlink_target = "#{node['lyraphase_workstation']['sublime_text_settings']['shared_files_path']}/#{shared_sublime_file}"
-  Chef::Log::warn("Sublime Text Settings file not found: #{symlink_target}") if File.exist?("#{symlink_target}")
+  Chef::Log::warn("Sublime Text Settings file not found: #{symlink_target}") if !::File.exist?("#{symlink_target}")
 
   symlink_path = "#{node['lyraphase_workstation']['sublime_text_settings']['app_support_path']}/#{shared_sublime_file}"
   directory symlink_path do
     action :delete
     only_if { ::Dir.exist?("#{symlink_path}") || (::File.exist?("#{symlink_path}") && !::File.symlink?("#{symlink_path}")) }
+    # Avoid deleting the dir if our symlink target shared file does not exist.
+    not_if { !::File.exist?("#{symlink_target}") }
   end
 
 
