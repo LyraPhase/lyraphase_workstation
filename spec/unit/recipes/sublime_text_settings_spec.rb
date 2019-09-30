@@ -165,4 +165,42 @@ describe 'lyraphase_workstation::sublime_text_settings' do
       end
     end
   end
+
+  context 'when Sublime Text symlinks already exist, and shared_files symlink targets exist' do
+
+    let(:chef_run) {
+      klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
+      klass.new(platform: 'mac_os_x', version: '10.11') do |node|
+        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+        node.normal['lyraphase_workstation']['user'] = 'brubble'
+        node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
+
+        node.normal['lyraphase_workstation']['sublime_text_settings']['app_support_path'] = sublime_app_support_path
+        node.normal['lyraphase_workstation']['sublime_text_settings']['shared_files'] = shared_sublime_files
+        node.normal['lyraphase_workstation']['sublime_text_settings']['shared_files_path'] = shared_sublime_files_path
+      end.converge(described_recipe)
+    }
+
+    before(:each) do
+        allow(Dir).to receive(:exist?).and_call_original
+        allow(File).to receive(:symlink?).and_call_original
+        allow(File).to receive(:exist?).and_call_original
+        shared_sublime_files.each do |symlink_path|
+          allow(Dir).to receive(:exist?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(true)
+          allow(File).to receive(:exist?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(true)
+          allow(File).to receive(:symlink?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(true)
+
+          allow(Dir).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(true)
+          allow(File).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(true)
+          allow(File).to receive(:symlink?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(false)
+        end
+    end
+
+    it 'should NOT delete already existing symlinks' do
+      shared_sublime_files.each do |symlink_path|
+        expect(chef_run).to_not delete_directory("#{sublime_app_support_path}/#{symlink_path}")
+      end
+    end
+  end
 end
