@@ -26,7 +26,7 @@ node['lyraphase_workstation']['sublime_text_settings']['shared_files'].each do |
   symlink_path = "#{node['lyraphase_workstation']['sublime_text_settings']['app_support_path']}/#{shared_sublime_file}"
   directory symlink_path do
     action :delete
-    only_if { ::Dir.exist?( symlink_path ) || (::File.exist?( symlink_path ) && !::File.symlink?( symlink_path )) }
+    only_if { !::File.symlink?( symlink_path ) && (::File.exist?( symlink_path ) || ::Dir.exist?( symlink_path )) }
     # Avoid deleting the dir if our symlink target shared file does not exist.
     not_if { !::File.exist?( symlink_target ) }
   end
