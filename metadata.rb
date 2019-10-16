@@ -4,7 +4,7 @@ maintainer_email "james.cuzella@lyraphase.com"
 license          "GPL-3.0+"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "2.2.0"
+version          "2.3.0"
 chef_version     ">= 12.0" if respond_to?(:chef_version)
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
@@ -28,6 +28,8 @@ recipe 'lyraphase_workstation::daisydisk', 'Install [DaisyDisk](http://www.daisy
 recipe 'lyraphase_workstation::default', 'No-Op recipe for just loading libraries this cookbook provides'
 recipe 'lyraphase_workstation::dmgaudio_dualism', 'Install [DMGAudio Dualism](http://www.dmgaudio.com/products_dualism.php)'
 recipe 'lyraphase_workstation::drobo_dashboard', 'Install [Drobo Dashboard](http://www.drobo.com/start/)'
+recipe 'lyraphase_workstation::hammerspoon', 'Install [Hammerspoon](http://www.hammerspoon.org) ([GitHub](https://github.com/Hammerspoon/hammerspoon))'
+recipe 'lyraphase_workstation::hammerspoon_shiftit', 'Install ShiftIt replacement: [MiroWindowManager.spoon](http://www.hammerspoon.org/Spoons/MiroWindowsManager.html) ([GitHub](https://github.com/miromannino/miro-windows-manager) [ShiftIt Deprecated](https://github.com/fikovnik/ShiftIt/issues/299#issuecomment-469419329))'
 recipe 'lyraphase_workstation::korg_kontrol_editor', 'Install [Korg Kontrol Editor](http://www.korg.com/us/support/download/software/1/253/1355/) ([Manual](http://www.korg.com/us/support/download/manual/1/253/1843/) [Archived DL](https://web.archive.org/web/20150919212752/http://www.korg.com/filedl/61a78cbcf754384af8104114d7cde1c7/840/download.php))'
 recipe 'lyraphase_workstation::max_for_live', 'Install [Max for Live](https://www.ableton.com/en/live/max-for-live/)'
 recipe 'lyraphase_workstation::mixed_in_key', 'Install [Mixed In Key](http://www.mixedinkey.com)'
