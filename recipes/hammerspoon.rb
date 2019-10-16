@@ -27,7 +27,7 @@ unless has_formula_named?(node['homebrew']['formulas'], 'hammerspoon')
   node.default['homebrew']['formulas'].push('hammerspoon')
 end
 
-package 'hammerspoon'
+homebrew_cask 'hammerspoon'
 
 hammerspoon_init_lua = "#{node['lyraphase_workstation']['home']}/.hammerspoon/init.lua"
 hammerspoon_git_checkout_dir = "#{node['lyraphase_workstation']['home']}/.hammerspoon/git-checkout-Spoons"

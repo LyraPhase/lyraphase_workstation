@@ -35,7 +35,7 @@ describe 'lyraphase_workstation::hammerspoon' do
   }
 
   it 'installs Hammerspoon Homebrew Formula' do
-    expect(chef_run).to install_package('hammerspoon')
+    expect(chef_run).to install_homebrew_cask('hammerspoon')
   end
 
   it 'creates .hammerspoon directories' do
