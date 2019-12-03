@@ -61,6 +61,21 @@ hs.hotkey.bind(hyper, 'v', function()
 	win:setFrame(x)
 end)
 
+-- maximize vertically and horizontally
+hs.hotkey.bind(hyper, 'm', function()
+	local win = hs.window.focusedWindow()
+	local f = win:frame()
+	local max = win:screen():frame()
+
+	local x = f
+
+	x.y = max.y
+	x.h = max.h
+	x.x = max.x
+	x.w = max.w
+	win:setFrame(x)
+end)
+
 -- maximize vertically
 hs.hotkey.bind(hyper, '[', function()
 	local win = hs.window.focusedWindow()
