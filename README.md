@@ -95,9 +95,9 @@ You may also decide to create a development tool Chef Role such as:
       ]
     }
 
-To use the `sublime_text_settings` recipe, place your Sublime Text 3 Application Data folders under `"#{node['lyraphase_workstation']['home']}/Dropbox/AppData/mac/sublime-text-3/`.  The recipe will create [Symbolic Links][symlink] to these files in the usual location: `"#{node['lyraphase_workstation']['home']}/Library/Application Support/Sublime Text 3/`.
+To use the `sublime_text_settings` recipe, place your Sublime Text 3 Application Data folders under `"#{node['lyraphase_workstation']['home']}/pCloud Drive/AppData/mac/sublime-text-3/`.  The recipe will create [Symbolic Links][symlink] to these files in the usual location: `"#{node['lyraphase_workstation']['home']}/Library/Application Support/Sublime Text 3/`.
 
-The result is that your Sublime Text 3 folders get synced to Dropbox, and Sublime Text can look for them in the default location, follow the symlink to the Dropbox destination files.
+The result is that your Sublime Text 3 folders get synced to pCloud, and Sublime Text can look for them in the default location, follow the symlink to the pCloud destination files.
 
 The `nfs_mounts` recipe will just mount things in the list of `nfs_mounts` for you.  The `/../` part in front of `/../Volumes/` happens to be important!  The reason is because the OSX `/etc/auto_nfs` file does not usually want to mount things under `/Volumes`.  Putting the `/../` in front allows you to use automount to mount NFS volumes there.
 
@@ -161,7 +161,7 @@ Some general rules of thumb:
  - `lyraphase_workstation::oxium`: Install [Xils-Lab Oxium](http://www.xils-lab.com/pages/Oxium.html) Synthesizer
  - `lyraphase_workstation::polyverse_infected_mushroom_i_wish`: Install [Polyverse - Infected Mushroom - I Wish VST](http://polyversemusic.com/)
  - `lyraphase_workstation::prolific_pl2303_driver`: Install [Prolific PL2303 Driver](http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41)
- - `lyraphase_workstation::sublime_text_settings`: Installs Settings symlinks for storing [Sublime Text](http://www.sublimetext.com/) configs in Dropbox
+ - `lyraphase_workstation::sublime_text_settings`: Installs Settings symlinks for storing [Sublime Text](http://www.sublimetext.com/) configs in pCloud Drive
  - `lyraphase_workstation::traktor`: Installs [Traktor](http://www.native-instruments.com/en/products/traktor/) DJ software
  - `lyraphase_workstation::traktor_audio_2`: Installs [Traktor Audio 2 DJ](http://www.native-instruments.com/en/products/traktor/dj-audio-interfaces/traktor-audio-2/) Driver
  - `lyraphase_workstation::vimrc`: Installs vimrc via git repo
