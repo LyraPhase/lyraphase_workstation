@@ -41,7 +41,7 @@ describe 'lyraphase_workstation::iterm2' do
       user:   'brubble',
       mode: '0600'
     )
-    expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/Dropbox\/AppData\/mac\/iTerm2<\/string>$/)
+    expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/pCloud Drive\/AppData\/mac\/iTerm2<\/string>$/)
     expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/bin\/iterm_open_with \\5 \\1 \\2<\/string>$/)
   end
 

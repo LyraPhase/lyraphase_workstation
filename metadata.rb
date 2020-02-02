@@ -40,7 +40,7 @@ recipe 'lyraphase_workstation::omnifocus', 'Install [OmniFocus](https://www.omni
 recipe 'lyraphase_workstation::oxium', 'Install [Xils-Lab Oxium](http://www.xils-lab.com/pages/Oxium.html) Synthesizer'
 recipe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish', 'Install [Polyverse - Infected Mushroom - I Wish VST](http://polyversemusic.com/)'
 recipe 'lyraphase_workstation::prolific_pl2303_driver', 'Install [Prolific PL2303 Driver](http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41)'
-recipe 'lyraphase_workstation::sublime_text_settings', 'Installs Settings symlinks for storing [Sublime Text](http://www.sublimetext.com/) configs in Dropbox'
+recipe 'lyraphase_workstation::sublime_text_settings', 'Installs Settings symlinks for storing [Sublime Text](http://www.sublimetext.com/) configs in pCloud Drive'
 recipe 'lyraphase_workstation::traktor', 'Installs [Traktor](http://www.native-instruments.com/en/products/traktor/) DJ software'
 recipe 'lyraphase_workstation::traktor_audio_2', 'Installs [Traktor Audio 2 DJ](http://www.native-instruments.com/en/products/traktor/dj-audio-interfaces/traktor-audio-2/) Driver'
 recipe 'lyraphase_workstation::vimrc', 'Installs vimrc via git repo'
