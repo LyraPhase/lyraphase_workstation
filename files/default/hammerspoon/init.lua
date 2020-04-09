@@ -61,6 +61,21 @@ hs.hotkey.bind(hyper, 'v', function()
 	win:setFrame(x)
 end)
 
+-- maximize vertically and horizontally
+hs.hotkey.bind(hyper, 'm', function()
+	local win = hs.window.focusedWindow()
+	local f = win:frame()
+	local max = win:screen():frame()
+
+	local x = f
+
+	x.y = max.y
+	x.h = max.h
+	x.x = max.x
+	x.w = max.w
+	win:setFrame(x)
+end)
+
 -- maximize vertically
 hs.hotkey.bind(hyper, '[', function()
 	local win = hs.window.focusedWindow()
@@ -92,3 +107,6 @@ hs.hotkey.bind(shift_hyper, 'right', function() hs.window.focusedWindow():moveOn
 hs.hotkey.bind(shift_hyper, 'left', function() hs.window.focusedWindow():moveOneScreenWest(true, true) end)
 
 hs.hotkey.bind(shift_hyper, 'i', function() hs.alert.show(hs.window.focusedWindow()) end)
+
+-- Kill Misbehaving McAfee
+hs.hotkey.bind(hyper, 'k', function() hs.execute("/Users/jcuzella/bin/kill_misbehaving_mcafee &", true) end)
