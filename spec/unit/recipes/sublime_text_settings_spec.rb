@@ -20,7 +20,7 @@ require 'spec_helper'
 describe 'lyraphase_workstation::sublime_text_settings' do
 
   let(:sublime_app_support_path) { '/Users/brubble/Library/Application Support/Sublime Text 3' }
-  let(:shared_sublime_files_path) { '/Users/brubble/Dropbox/AppData/mac/sublime-text-3' }
+  let(:shared_sublime_files_path) { '/Users/brubble/pCloud Drive/AppData/mac/sublime-text-3' }
   let(:shared_sublime_files) {
       [
         'Installed Packages',
