@@ -167,7 +167,7 @@ Some general rules of thumb:
    - Without this, you may be asked for `sudo` password far too many times than is feasible to type!
    - The included `sudoers.d` file drop-in allows the [`homebrew` cookbook][homebrew-cookbook] to run the [commands it needs][homebrew-sudo-bug] via passwordless `sudo`.
  - `lyraphase_workstation::korg_kontrol_editor`: Install [Korg Kontrol Editor](http://www.korg.com/us/support/download/software/1/253/1355/) ([Manual](http://www.korg.com/us/support/download/manual/1/253/1843/) [Archived DL](https://web.archive.org/web/20150919212752/http://www.korg.com/filedl/61a78cbcf754384af8104114d7cde1c7/840/download.php))
- - `lyraphase_workstation::loopback_alias_ip`: Install [loopback alias IP LaunchDaemon](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/com.runlevel1.lo0.alias.plist.erb)
+ - `lyraphase_workstation::loopback_alias_ip`: Install [loopback alias IP LaunchDaemon](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/com.runlevel1.lo0.alias.plist.erb) for[SSH Tunneled Proxy Access to VPC / Private Network from a Docker Container][ssh-tunnel-docs]
    - Adds support for local [SSH tunnel port forwarding across Docker bridge networks](https://gist.github.com/trinitronx/6427d6454fb3b121fc2ab5ca7ac766bc).
    - Use case for `terraform` [explained here](https://github.com/hashicorp/terraform/issues/17754#issuecomment-383227407).  **Note:** GoLang `net` library must still add SOCKS5**h** support for hostname DNS lookup through the tunnel!
    - Any tool supporting `socks5h://` protocol via `HTTP_PROXY`, `HTTPS_PROXY` environment variables should work fine! (e.g.: `curl`, `wget`, etc...)
@@ -186,7 +186,7 @@ Some general rules of thumb:
          - Alternatively, use a hostname inside the container's `/etc/hosts`: `--add-host proxy.local:$IP`
            - `export ALL_PROXY=socks5h://proxy.local:2903; export HTTPS_PROXY=$ALL_PROXY; export HTTP_PROXY=$ALL_PROXY;`
            - `curl -v http://your-service.vpc.local`
-         - More complete docs & example [can be found here](https://github.com/trinitronx/lyraphase_workstation/blob/master/docs/SSH%20Tunneled%20Proxy%20Access%20to%20VPC%20from%20Docker%20Container.md)
+         - More complete docs & example [can be found here][ssh-tunnel-docs]
  - `lyraphase_workstation::max_for_live`: Install [Max for Live](https://www.ableton.com/en/live/max-for-live/)
  - `lyraphase_workstation::mixed_in_key`: Install [Mixed In Key](http://www.mixedinkey.com)
  - `lyraphase_workstation::multibit`: Install [Multibit](https://multibit.org/)
@@ -243,3 +243,4 @@ Author:: James Cuzella ([@trinitronx][keybase-id])
 [iterm2-shell]: https://www.iterm2.com/documentation-shell-integration.html
 [bash-it]: https://github.com/Bash-it/bash-it
 [sprout-base]: https://github.com/pivotal-sprout/sprout-base
+[ssh-tunnel-docs]: https://github.com/trinitronx/lyraphase_workstation/blob/master/docs/SSH%20Tunneled%20Proxy%20Access%20to%20VPC%20from%20Docker%20Container.md
