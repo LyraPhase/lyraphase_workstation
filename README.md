@@ -146,24 +146,84 @@ Some general rules of thumb:
  - `lyraphase_workstation::ableton_live_options`: Manage [Options.txt](https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live) settings for [Ableton Live](https://www.ableton.com/) DAW
  - `lyraphase_workstation::airfoil`: Install [Airfoil](https://www.rogueamoeba.com/airfoil/)
  - `lyraphase_workstation::bash4`: Install [bash v4](https://github.com/Homebrew/homebrew-core/blob/master/Formula/bash.rb) from Homebrew
+ - `lyraphase_workstation::bash_it_custom_plugins`: Install some custom plugins for [bash-it](https://github.com/Bash-it/bash-it):
+   - `git-custom_subdir_gitconfig.aliases`: Alias for `git` to support [custom `.gitemail` author & email config files](https://gist.github.com/trinitronx/5979265).
+     - For example: Commit public repos as personal email & ID
+     - Commit to work repos as corporate email & ID.)
+   - `less-manpage-colors.bash`: Set `LESS_TERMCAP_*` environment variables for Manpage colors in `less` Pager.
+     - Config color scheme was lifted from [Amazon Linux](https://forums.aws.amazon.com/thread.jspa?threadID=245139)
  - `lyraphase_workstation::cycling_74_max`: Install [CYCLING '74 MAX](https://cycling74.com/)
  - `lyraphase_workstation::daisydisk`: Install [DaisyDisk](http://www.daisydiskapp.com/)
  - `lyraphase_workstation::default`: No-Op recipe for just loading libraries this cookbook provides
  - `lyraphase_workstation::dmgaudio_dualism`: Install [DMGAudio Dualism](http://www.dmgaudio.com/products_dualism.php)
  - `lyraphase_workstation::drobo_dashboard`: Install [Drobo Dashboard](http://www.drobo.com/start/)
+ - `lyraphase_workstation::gpg21`: Install GnuPG 2.1 via `homebrew/versions` Homebrew Tap
+   - Note that many old Homebrew Taps have been deprecated, [including `homebrew/versions`](https://web.archive.org/web/20190128084759/https://github.com/Homebrew/homebrew-versions)
+   - Homebrew [`gpg-suite`](https://gpgtools.org/) recipe `version 2019.2` now installs `gpg (GnuPG/MacGPG2) 2.2.17`!
+   - Therefore this recipe is only for legacy support purposes and it's recommended to migrate off this version. This recipe will eventually be deprecated.
+ - `lyraphase_workstation::hammerspoon`: 'Install [Hammerspoon](http://www.hammerspoon.org) ([GitHub](https://github.com/Hammerspoon/hammerspoon))
+ - `lyraphase_workstation::hammerspoon_shiftit`: Install ShiftIt replacement: [MiroWindowManager.spoon](http://www.hammerspoon.org/Spoons/MiroWindowsManager.html) ([GitHub](https://github.com/miromannino/miro-windows-manager) [ShiftIt Deprecated](https://github.com/fikovnik/ShiftIt/issues/299#issuecomment-469419329))
+ - `lyraphase_workstation::homebrew_sudoers`: Install `/etc/sudoers.d/homebrew_chef` config settings to fix `sudo` permissions when running `chef-client` or `soloist` to provision your OSX machine.
+   - Without this, you may be asked for `sudo` password far too many times than is feasible to type!
+   - The included `sudoers.d` file drop-in allows the [`homebrew` cookbook][homebrew-cookbook] to run the [commands it needs][homebrew-sudo-bug] via passwordless `sudo`.
  - `lyraphase_workstation::korg_kontrol_editor`: Install [Korg Kontrol Editor](http://www.korg.com/us/support/download/software/1/253/1355/) ([Manual](http://www.korg.com/us/support/download/manual/1/253/1843/) [Archived DL](https://web.archive.org/web/20150919212752/http://www.korg.com/filedl/61a78cbcf754384af8104114d7cde1c7/840/download.php))
+ - `lyraphase_workstation::loopback_alias_ip`: Install [loopback alias IP LaunchDaemon](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/com.runlevel1.lo0.alias.plist.erb)
+   - Adds support for local [SSH tunnel port forwarding across Docker bridge networks](https://gist.github.com/trinitronx/6427d6454fb3b121fc2ab5ca7ac766bc).
+   - Use case for `terraform` [explained here](https://github.com/hashicorp/terraform/issues/17754#issuecomment-383227407).  **Note:** GoLang `net` library must still add SOCKS5**h** support for hostname DNS lookup through the tunnel!
+   - Any tool supporting `socks5h://` protocol via `HTTP_PROXY`, `HTTPS_PROXY` environment variables should work fine! (e.g.: `curl`, `wget`, etc...)
+   - How to use:
+     - Install the `LaunchDaemon` with this recipe.
+     - Set up SSH `DynamicForward` tunnel using the Alias IP set in `node['lyraphase_workstation']['loopback_alias_ip']['alias_ip']` attribute. (Default: `172.16.222.111`)
+       - **Note:** The `alias_ip` should be in a network range designated as [Private Address Space by IANA](https://www.arin.net/reference/research/statistics/address_filters/)
+       - Default `alias_ip` (`172.16.222.111`) is configured to be in the `172.16.0.0/12` _not_ publicly routable private IPv4 range.
+     - Run a Docker container, passing the configured Alias IP via standard `*_PROXY` environment variables
+       - For example: 
+         - `export PROTO='socks5h://'; export IP=172.16.222.111; export PORT=2903;`
+         - `ssh -f -N -v -D ${IP}:${PORT} ssh-bastion-host.example.com
+         - `export ALL_PROXY="${PROTO}${IP}:${PORT}";  HTTP_PROXY="$ALL_PROXY" HTTPS_PROXY="$ALL_PROXY"`
+         - Set up Docker Networking: `docker network create -d bridge --subnet 10.1.123.0/22 --gateway 10.1.123.1 bridgenet`
+         - Then pass the proxy to `docker run ... `: `--net=bridgenet -e HTTP_PROXY=HTTP_PROXY -e HTTPS_PROXY=HTTPS_PROXY -e ALL_PROXY=ALL_PROXY`
+         - Alternatively, use a hostname inside the container's `/etc/hosts`: `--add-host proxy.local:$IP`
+           - `export ALL_PROXY=socks5h://proxy.local:2903; export HTTPS_PROXY=$ALL_PROXY; export HTTP_PROXY=$ALL_PROXY;`
+           - `curl -v http://your-service.vpc.local`
+         - More complete docs & example [can be found here](https://github.com/trinitronx/lyraphase_workstation/blob/master/docs/SSH Tunneled Proxy Access to VPC from Docker Container.md)
  - `lyraphase_workstation::max_for_live`: Install [Max for Live](https://www.ableton.com/en/live/max-for-live/)
  - `lyraphase_workstation::mixed_in_key`: Install [Mixed In Key](http://www.mixedinkey.com)
  - `lyraphase_workstation::multibit`: Install [Multibit](https://multibit.org/)
  - `lyraphase_workstation::musicbrainz_picard`: Install [MusicBrainz Picard](https://picard.musicbrainz.org/)
  - `lyraphase_workstation::nfs_mounts`: Manage /etc/auto_nfs entries for [NFS Client mounts on OS X](https://coderwall.com/p/fuoa-g/automounting-nfs-share-in-os-x-into-volumes)
  - `lyraphase_workstation::omnifocus`: Install [OmniFocus](https://www.omnigroup.com/omnifocus)
+ - `lyraphase_workstation::osx_autohide_dock`: Enable AutoHide OSX Dock, with default `autohide-delay`.
+   - [AutoHide Delay](https://www.defaults-write.com/remove-the-dock-auto-hide-show-delay/) is configurable via node attribute: `node['lyraphase_workstation']['settings']['autohide_delay']`.
+   - AutoHide Enable / Disable can be controlled via: `node['lyraphase_workstation']['settings']['autohide_dock']`
+ - `lyraphase_workstation::osx_natural_scrolling`: Enable Natural Mouse Scrolling OSX setting `com.apple.swipescrolldirection` for a more natural & intuitive TouchPad scrolling direction.
+   - Enable / Disable via: `node['lyraphase_workstation']['settings']['natural_scrolling']`
+   - Natural Scrolling on: Scrolling up/down behaves as if you are swiping a piece of paper in the physical world
+     - fingers up = page down
+     - fingers down = page up
+   - Natural Scrolling off: Scrolling up/down is exactly the same as the direction you are moving your fingers
+     - fingers up = page up
+     - fingers down = page down
  - `lyraphase_workstation::oxium`: Install [Xils-Lab Oxium](http://www.xils-lab.com/pages/Oxium.html) Synthesizer
- - `lyraphase_workstation::polyverse_infected_mushroom_i_wish`: Install [Polyverse - Infected Mushroom - I Wish VST](http://polyversemusic.com/)
+ - `lyraphase_workstation::polyverse_infected_mushroom_i_wish`: Install [Polyverse - Infected Mushroom - I Wish VST](https://polyversemusic.com/products/i-wish/)
+ - `lyraphase_workstation::polyverse_infected_mushroom_manipulator`: Install [Polyverse - Infected Mushroom - Manipulator VST](https://polyversemusic.com/products/manipulator/)
  - `lyraphase_workstation::prolific_pl2303_driver`: Install [Prolific PL2303 Driver](http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41)
+ - `lyraphase_workstation::ssh_tunnel_port_override`: Install [`ssh-tunnel-port-override.sh` script](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/ssh-tunnel-port-override.sh.erb) & `LaunchDaemon` to allow killing some process (_cough_ McAfee -Anti-virus _cough_ 🦠😷) that claims your favorite SSH tunnel port (Default: `8081`) on login.
+   - Will kill the process so long as `SSH Tunnel` App has not claimed the port yet.
+   - Supports CPU soft limit throttling via `SIGXCPU`, as supported by `launchd`!
+   - Logs to file: `/var/log/ssh-tunnel-override.log`
  - `lyraphase_workstation::sublime_text_settings`: Installs Settings symlinks for storing [Sublime Text](http://www.sublimetext.com/) configs in pCloud Drive
+ - `lyraphase_workstation::trackspacer`: Installs [WavesFactory TrackSpacer VST](https://www.wavesfactory.com/trackspacer/) plugin.
  - `lyraphase_workstation::traktor`: Installs [Traktor](http://www.native-instruments.com/en/products/traktor/) DJ software
  - `lyraphase_workstation::traktor_audio_2`: Installs [Traktor Audio 2 DJ](http://www.native-instruments.com/en/products/traktor/dj-audio-interfaces/traktor-audio-2/) Driver
+  - **Note:** Apple deprecated `kext`/ Kernel Extension drivers in macOS Catalina 10.15.
+  - Native Instruments has also officially deprecated this driver for Audio 2 _version 1_, which is now considered a Legacy device.
+  - The Audio 2 _version 2_ should still operate without a `kext` driver as a USB class-compliant device.
+  - As such, the driver installed by this recipe may not work properly in later versions of `macOS >= 10.15.x`
+  - The Traktor Audio 2 version 1 is **still supported** on Linux by the [`snd-usb-caiaq`](https://www.alsa-project.org/wiki/Matrix:Module-usb-caiaq) Kernel Module!
+  - Therefore, this device is a **good choice** for Linux & embedded systems projects, and is known to work with Open Source drivers on Intel Edison, Raspberry Pi, etc...
+  - [Mixxx has some notes about Native Instruments devices & controllers here](https://www.mixxx.org/wiki/doku.php/hardware_compatibility).
+  - This device luckily does not send NHL nor MIDI, it is just a simple 2 channel sound card!
  - `lyraphase_workstation::vimrc`: Installs vimrc via git repo
  - `lyraphase_workstation::xcode`: Install XCode via .dmg and accepts XCode build license
 
