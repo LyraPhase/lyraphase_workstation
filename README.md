@@ -186,7 +186,7 @@ Some general rules of thumb:
          - Alternatively, use a hostname inside the container's `/etc/hosts`: `--add-host proxy.local:$IP`
            - `export ALL_PROXY=socks5h://proxy.local:2903; export HTTPS_PROXY=$ALL_PROXY; export HTTP_PROXY=$ALL_PROXY;`
            - `curl -v http://your-service.vpc.local`
-         - More complete docs & example [can be found here](https://github.com/trinitronx/lyraphase_workstation/blob/master/docs/SSH Tunneled Proxy Access to VPC from Docker Container.md)
+         - More complete docs & example [can be found here](https://github.com/trinitronx/lyraphase_workstation/blob/master/docs/SSH%20Tunneled%20Proxy%20Access%20to%20VPC%20from%20Docker%20Container.md)
  - `lyraphase_workstation::max_for_live`: Install [Max for Live](https://www.ableton.com/en/live/max-for-live/)
  - `lyraphase_workstation::mixed_in_key`: Install [Mixed In Key](http://www.mixedinkey.com)
  - `lyraphase_workstation::multibit`: Install [Multibit](https://multibit.org/)
