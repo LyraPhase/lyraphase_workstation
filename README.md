@@ -216,14 +216,14 @@ Some general rules of thumb:
  - `lyraphase_workstation::trackspacer`: Installs [WavesFactory TrackSpacer VST](https://www.wavesfactory.com/trackspacer/) plugin.
  - `lyraphase_workstation::traktor`: Installs [Traktor](http://www.native-instruments.com/en/products/traktor/) DJ software
  - `lyraphase_workstation::traktor_audio_2`: Installs [Traktor Audio 2 DJ](http://www.native-instruments.com/en/products/traktor/dj-audio-interfaces/traktor-audio-2/) Driver
-  - **Note:** Apple deprecated `kext`/ Kernel Extension drivers in macOS Catalina 10.15.
-  - Native Instruments has also officially deprecated this driver for Audio 2 _version 1_, which is now considered a Legacy device.
-  - The Audio 2 _version 2_ should still operate without a `kext` driver as a USB class-compliant device.
-  - As such, the driver installed by this recipe may not work properly in later versions of `macOS >= 10.15.x`
-  - The Traktor Audio 2 version 1 is **still supported** on Linux by the [`snd-usb-caiaq`](https://www.alsa-project.org/wiki/Matrix:Module-usb-caiaq) Kernel Module!
-  - Therefore, this device is a **good choice** for Linux & embedded systems projects, and is known to work with Open Source drivers on Intel Edison, Raspberry Pi, etc...
-  - [Mixxx has some notes about Native Instruments devices & controllers here](https://www.mixxx.org/wiki/doku.php/hardware_compatibility).
-  - This device luckily does not send NHL nor MIDI, it is just a simple 2 channel sound card!
+   - **Note:** Apple deprecated `kext`/ Kernel Extension drivers in macOS Catalina 10.15.
+   - Native Instruments has also officially deprecated this driver for Audio 2 _version 1_, which is now considered a Legacy device.
+   - The Audio 2 _version 2_ should still operate without a `kext` driver as a USB class-compliant device.
+   - As such, the driver installed by this recipe may not work properly in later versions of `macOS >= 10.15.x`
+   - The Traktor Audio 2 version 1 is **still supported** on Linux by the [`snd-usb-caiaq`](https://www.alsa-project.org/wiki/Matrix:Module-usb-caiaq) Kernel Module!
+   - Therefore, this device is a **good choice** for Linux & embedded systems projects, and is known to work with Open Source drivers on Intel Edison, Raspberry Pi, etc...
+   - [Mixxx has some notes about Native Instruments devices & controllers here](https://www.mixxx.org/wiki/doku.php/hardware_compatibility).
+   - This device luckily does not send NHL nor MIDI, it is just a simple 2 channel sound card!
  - `lyraphase_workstation::vimrc`: Installs vimrc via git repo
  - `lyraphase_workstation::xcode`: Install XCode via .dmg and accepts XCode build license
 
