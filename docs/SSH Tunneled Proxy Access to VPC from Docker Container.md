@@ -83,6 +83,8 @@ In this example, `curl` should be able to connect via `*_PROXY` settings, doing 
 ## Known Issues
 
 - Adding an alias IP to `lo0` interface (e.g.: `sudo ifconfig lo0 alias 172.16.222.111`) does **not persist across a reboot**!
+  - The [`lyraphase_workstation::loopback_alias_ip` recipe][1] was built to solve this issue!
+  - It creates a `LaunchDaemon` to recreate this alias IP after rebooting macOS
 - Most tools built with Golang (e.g. [Terraform](https://github.com/hashicorp/terraform/issues/17754)) do not yet support `socks5h://` proxy URLs.
   - This is due to the known issue in Golang's `x/net/proxy` or "`Dialer`" libraries.
   - So, there is no support yet for these standard `*_PROXY` variables using `socks5h://`.
@@ -98,3 +100,5 @@ In this example, `curl` should be able to connect via `*_PROXY` settings, doing 
 There is light at the end of the tunnel! (Pun intended)
 
 There is an [upstream bug in Golang to ask for `socks5h://` support in `x/net/proxy` (golang/go#13454)](https://github.com/golang/go/issues/13454).  If this is ever fixed, perhaps Golang code that uses standard `x/net/proxy` library will _just work_!
+
+[1]: https://github.com/trinitronx/lyraphase_workstation/blob/master/recipes/loopback_alias_ip.rb
