@@ -14,7 +14,7 @@ This includes Ableton Live [DAW][1], VSTs, and other various tools and utilities
 
 Include the recipes you want in your Chef `run_list`, or in your [`soloistrc` file][sprout-wrap].
 
-**NOTE:** The default URLs for non-free applications **will not work for you**.  You must host your own `.dmg` and app install files.  Please see the recipe's cooresponding `attributes` file for examples.  All checksums are SHA256, and can be found via `shasum -a 256 path/to/file/here.dmg`.
+**NOTE:** The default URLs for non-free applications **_may_ not work for you**.  You may want to host your own `.dmg` and app install files.  Please see the recipe's cooresponding `attributes` file for examples.  All checksums are SHA256, and can be found via `shasum -a 256 path/to/file/here.dmg`.
 
 You may decide to create a DAW Chef Role such as:
 
