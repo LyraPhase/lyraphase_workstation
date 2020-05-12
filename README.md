@@ -179,7 +179,7 @@ Some general rules of thumb:
      - Run a Docker container, passing the configured Alias IP via standard `*_PROXY` environment variables
        - For example: 
          - `export PROTO='socks5h://'; export IP=172.16.222.111; export PORT=2903;`
-         - `ssh -f -N -v -D ${IP}:${PORT} ssh-bastion-host.example.com
+         - `ssh -f -N -v -D ${IP}:${PORT} ssh-bastion-host.example.com`
          - `export ALL_PROXY="${PROTO}${IP}:${PORT}";  HTTP_PROXY="$ALL_PROXY" HTTPS_PROXY="$ALL_PROXY"`
          - Set up Docker Networking: `docker network create -d bridge --subnet 10.1.123.0/22 --gateway 10.1.123.1 bridgenet`
          - Then pass the proxy to `docker run ... `: `--net=bridgenet -e HTTP_PROXY=HTTP_PROXY -e HTTPS_PROXY=HTTPS_PROXY -e ALL_PROXY=ALL_PROXY`
