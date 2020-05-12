@@ -26,8 +26,9 @@ The scope of security vulnerabilities should address this repo's code, as anythi
 
 Good Day Sir! [🟣🎩😬🍫][1]
 
-... So shines a good deed in a weary world ... [😌🙂😄😁][2] <!-- You did it! 🙌 You won! 😁🎏🎊🎉🛗🎶 You passed the test! -->
+... So shines a good deed in a weary world ... [😌🙂😄😁][2] <!-- You did it! 🙌 You won! 😁🎏🎊🎉🛗🎶 [You passed the test!][you-passed-the-test] -->
 
 
 [1]: https://web.archive.org/web/20200512084230/https://www.youtube.com/watch?v=fpK36FZmTFY
 [2]: https://raw.githubusercontent.com/trinitronx/lyraphase_workstation/master/SECURITY.md
+[you-passed-the-test]: https://web.archive.org/web/20200512094026/https://www.youtube.com/watch?v=dOu2NpXXgiI&lc=UgxfSAyhy6gW4koFlpB4AaABAg
