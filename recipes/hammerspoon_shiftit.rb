@@ -4,7 +4,7 @@
 # Site:: https://github.com/miromannino/miro-windows-manager
 # Reference:: https://github.com/fikovnik/ShiftIt/issues/299
 #
-# Copyright (C) 2013-2019 James Cuzella
+# Copyright (C) © 🄯  2013-2020 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -7,7 +7,7 @@
 # Manual:: Look Inside Zip File: mkdir /tmp/PL2303 && unzip -d /tmp/PL2303 /var/chef/cache/PL2303_MacOSX_1_6_1_20160309.zip
 # Reference:: http://pbxbook.com/other/mac-tty.html
 #
-# Copyright (C) 2016 James Cuzella
+# Copyright (C) © 🄯  2016-2020 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
