@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+site 'https://supermarket.getchef.com/api/v1'
+
+cookbook "lyraphase_workstation", :path => "."
+
+cookbook 'sprout-base',
+  :github => 'pivotal-sprout/sprout-base'
