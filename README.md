@@ -115,6 +115,18 @@ The `bash_it_custom_plugins` recipe uses `sprout-base::bash_it` to install a lis
 The `gpg21` recipe installs GnuPG version 2.1 via `homebrew/versions` Homebrew Tap. It ensures that old symlinks to gpg binaries are deleted (configurable via `node['lyraphase_workstation']['gpg21']['binary_paths']`).  Only symlinks are unlinked, no old binaries should be harmed.  The recipe also installs a helper script to `/usr/local/bin/fixGpgHome`, and a `LaunchAgents` to `/Library/LaunchAgents/com.lyraphase.gpg21.fix.plist`.  Finally, it sets `RunAtLoad: false` for the original `/Library/LaunchAgents/org.gpgtools.macgpg2.fix.plist` file.  The reason for this set of patches is because the original LaunchAgent has hardcoded references to the old GnuPG binaries, and you may end up getting confused as to which version of GPG you are really using from `gpg-agent`, `gpg`, and `gpg2`.  This recipe sets them all to the new `gpg21` binaries from Homebrew.  Finally, it adds `StreamLocalBindUnlink yes` to your `/etc/ssh/sshd_config` so you may use `gpg-agent` forwarding over SSH.
 
 
+## Sponsor
+
+If you find this project useful and appreciate my work,
+would you be willing to click one of the buttons below to Sponsor this project and help me continue?
+
+- <noscript><a href="https://github.com/sponsors/trinitronx">:heart: Sponsor</a></noscript>
+- <noscript><a href="https://liberapay.com/trinitronx/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
+- <noscript><a href="https://paypal.me/JamesCuzella"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" alt="Donate with PayPal" /></a></noscript>
+
+Every little bit is appreciated! Thank you! 🙏
+
+
 # Attributes
 
 Too many to list!  Please see the appropriate recipe's `attributes/<recipe_here>.rb` file for details.
