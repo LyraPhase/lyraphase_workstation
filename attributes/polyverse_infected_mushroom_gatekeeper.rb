@@ -1,0 +1,11 @@
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper'] = {}
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg']['source']      = 'http://www.lyraphase.com/doc/installers/mac/InfectedMushroom-GatekeeperV1.2.dmg'
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg']['checksum']    = "a13445159e4faea33daedc28cdc310b8f7e00e7b53848bc8ab333b50631197f3"
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg']['volumes_dir'] = "Gatekeeper Setup"
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg']['dmg_name']    = 'InfectedMushroom-GatekeeperV1.2'
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg']['app']         = 'Gatekeeper Setup'
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg']['package_id']  = 'com.polyversemusic.pkg.gatekeeperVST64'
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg']['type']        = 'pkg'
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['license'] = {}
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['license']['email']   = nil
+default['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['license']['key']     = nil
