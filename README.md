@@ -157,6 +157,7 @@ Some general rules of thumb:
  - `lyraphase_workstation::ableton_live`: Install [Ableton Live](https://www.ableton.com/) DAW
  - `lyraphase_workstation::ableton_live_options`: Manage [Options.txt](https://help.ableton.com/hc/en-us/articles/209772865-Options-txt-file-for-Live) settings for [Ableton Live](https://www.ableton.com/) DAW
  - `lyraphase_workstation::airfoil`: Install [Airfoil](https://www.rogueamoeba.com/airfoil/)
+ - `lyraphase_workstation::audinate_dante_controller`: Install [Audinate Dante Controller](https://www.audinate.com/products/software/dante-controller)
  - `lyraphase_workstation::bash4`: Install [bash v4](https://github.com/Homebrew/homebrew-core/blob/master/Formula/bash.rb) from Homebrew
  - `lyraphase_workstation::bash_it_custom_plugins`: Install some custom plugins for [bash-it](https://github.com/Bash-it/bash-it):
    - `git-custom_subdir_gitconfig.aliases`: Alias for `git` to support [custom `.gitemail` author & email config files](https://gist.github.com/trinitronx/5979265).
@@ -199,6 +200,7 @@ Some general rules of thumb:
            - `export ALL_PROXY=socks5h://proxy.local:2903; export HTTPS_PROXY=$ALL_PROXY; export HTTP_PROXY=$ALL_PROXY;`
            - `curl -v http://your-service.vpc.local`
          - More complete docs & example [can be found here][ssh-tunnel-docs]
+ - `lyraphase_workstation::machine_name`: Set MacOS machine name based on `node[machine_domain]` [Local cookbook replacement for sprout-osx-settings::machine_name](https://github.com/pivotal-sprout/sprout-osx-settings/blob/master/recipes/machine_name.rb)
  - `lyraphase_workstation::max_for_live`: Install [Max for Live](https://www.ableton.com/en/live/max-for-live/)
  - `lyraphase_workstation::mixed_in_key`: Install [Mixed In Key](http://www.mixedinkey.com)
  - `lyraphase_workstation::multibit`: Install [Multibit](https://multibit.org/)
@@ -217,6 +219,7 @@ Some general rules of thumb:
      - fingers up = page up
      - fingers down = page down
  - `lyraphase_workstation::oxium`: Install [Xils-Lab Oxium](http://www.xils-lab.com/pages/Oxium.html) Synthesizer
+ - `lyraphase_workstation::polyverse_infected_mushroom_gatekeeper`: Install [Polyverse - Infected Mushroom - Gatekeeper VST](https://polyversemusic.com/products/gatekeeper/)
  - `lyraphase_workstation::polyverse_infected_mushroom_i_wish`: Install [Polyverse - Infected Mushroom - I Wish VST](https://polyversemusic.com/products/i-wish/)
  - `lyraphase_workstation::polyverse_infected_mushroom_manipulator`: Install [Polyverse - Infected Mushroom - Manipulator VST](https://polyversemusic.com/products/manipulator/)
  - `lyraphase_workstation::prolific_pl2303_driver`: Install [Prolific PL2303 Driver](http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41)
