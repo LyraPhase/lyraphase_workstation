@@ -1,7 +1,7 @@
 lyraphase_workstation cookbook
 ==============================
 <noscript><a href="https://liberapay.com/trinitronx/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
-[![Build Status](http://img.shields.io/travis/trinitronx/lyraphase_workstation.svg)](https://travis-ci.org/trinitronx/lyraphase_workstation)
+[![Build Status](https://img.shields.io/travis/com/trinitronx/lyraphase_workstation)](https://travis-ci.com/github/trinitronx/lyraphase_workstation)
 
 A cookbook including various recipes for installing tools used by myself.
 This includes Ableton Live [DAW][1], VSTs, and other various tools and utilities.
