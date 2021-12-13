@@ -1,0 +1,16 @@
+# Bootstrap Known Hosts bypass for github.com
+Host github.com
+  User git
+  Hostname github.com
+  PreferredAuthentications publickey
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  # NOTE: Manually copy this over to new machine
+  IdentityFile <%= @home -%>/.ssh/<%= @identity_file -%>
+
+## Catch-all settings
+Host *
+  ServerAliveInterval 120
+#  Compression yes
+#  IdentityFile <%= @home -%>/.ssh/<%= @identity_file -%>
+
