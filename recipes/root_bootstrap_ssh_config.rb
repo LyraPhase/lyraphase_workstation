@@ -30,7 +30,7 @@ file "/var/root/.ssh/known_hosts" do
 end
 
 execute 'add github to known_hosts' do
-  user node['sprout']['user']
+  user 'root'
   cwd "/var/root/.ssh"
   # rubocop:disable LineLength
   command <<-SH

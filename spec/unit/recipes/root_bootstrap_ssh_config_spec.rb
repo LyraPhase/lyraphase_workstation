@@ -38,6 +38,10 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
     )
   end
 
+  it 'adds github rsa keys to known_hosts' do
+    expect(chef_run).to run_execute('add github to known_hosts').with(user: 'root')
+  end
+
   it 'creates a template for /var/root/.ssh/config' do
     expect(chef_run).to create_template(root_ssh_config).with(
       user: 'root',
