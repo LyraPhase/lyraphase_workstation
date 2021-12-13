@@ -17,6 +17,7 @@ RSpec.configure do |config|
   config.platform = 'mac_os_x'
   config.version = '10.14'
   config.before { stub_const('ENV', ENV.to_hash.merge('SUDO_USER' => 'brubble')) }
+  config.filter_run_when_matching :focus
 end
 
 at_exit { ChefSpec::Coverage.report! }
