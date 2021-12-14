@@ -4,7 +4,7 @@ maintainer_email "james.cuzella@lyraphase.com"
 license          "GPL-3.0+"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "3.1.1"
+version          "3.2.0"
 chef_version     ">= 12.0" if respond_to?(:chef_version)
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
@@ -44,8 +44,10 @@ recipe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish', 'Install [Po
 recipe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish', 'Install [Polyverse - Infected Mushroom - I Wish VST](https://polyversemusic.com/products/i-wish/)'
 recipe 'lyraphase_workstation::polyverse_infected_mushroom_i_wish', 'Install [Polyverse - Infected Mushroom - Manipulator VST](https://polyversemusic.com/products/manipulator/)'
 recipe 'lyraphase_workstation::prolific_pl2303_driver', 'Install [Prolific PL2303 Driver](http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41)'
+recipe 'lyraphase_workstation::root_bootstrap_ssh_config', 'Installs a minimal `.ssh/config` + `known_hosts` file for GitHub & Homebrew bootstrap'
 recipe 'lyraphase_workstation::sublime_text_settings', 'Installs Settings symlinks for storing [Sublime Text](http://www.sublimetext.com/) configs in pCloud Drive'
 recipe 'lyraphase_workstation::traktor', 'Installs [Traktor](http://www.native-instruments.com/en/products/traktor/) DJ software'
 recipe 'lyraphase_workstation::traktor_audio_2', 'Installs [Traktor Audio 2 DJ](http://www.native-instruments.com/en/products/traktor/dj-audio-interfaces/traktor-audio-2/) Driver'
+recipe 'lyraphase_workstation::user_default_shell', 'Sets a default shell for your user'
 recipe 'lyraphase_workstation::vimrc', 'Installs vimrc via git repo'
 recipe 'lyraphase_workstation::xcode', 'Install XCode via .dmg and accepts XCode build license'
