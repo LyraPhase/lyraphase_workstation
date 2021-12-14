@@ -5,6 +5,7 @@
 # Cookbook:: lyraphase_workstation
 # Spec:: root_bootstrap_ssh_config
 #
+# License:: GPL-3.0+
 # Copyright:: (C) © 🄯  2013-2021 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
