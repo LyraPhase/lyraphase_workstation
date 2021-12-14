@@ -52,6 +52,6 @@ if Chef::VersionConstraint.new('>= 10.9').include?(node['platform_version'])
 end
 
 # Check for problem drivers that may conflict
-if AVIDBugCheck.is_avid_coreaudio_installed?
+if AVIDBugCheck.avid_coreaudio_installed?
   Chef::Log.warn('You may want to uninstall AVID CoreAudio to ensure Traktor Audio 2 works')
 end
