@@ -70,7 +70,7 @@ describe 'lyraphase_workstation::user_default_shell' do
     end
 
     it 'changes login shell to bash' do
-      expect(chef_run).to run_execute('change login shell').with(command: "chsh -s -u brubble #{default_shell}")
+      expect(chef_run).to run_execute('change login shell').with(command: "chsh -u brubble -s #{default_shell}")
     end
   end
 
