@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# License:: GPL-3.0+
+# Cookbook:: lyraphase_workstation
 # Recipe:: kontakt
 #
-# Copyright (C) © 🄯  2013-2020 James Cuzella
-# 
+# Copyright:: (C) © 🄯  2013-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
