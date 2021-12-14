@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: traktor
 # Site:: http://www.native-instruments.com/en/products/traktor/
 #
-# Copyright (C) © 🄯  2013-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2013-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +24,7 @@
 #
 dmg_properties = node['lyraphase_workstation']['traktor']['dmg']
 
-dmg_package "Traktor Pro 2.6" do
+dmg_package 'Traktor Pro 2.6' do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']
@@ -38,7 +42,7 @@ end
 #  https://cobbservations.wordpress.com/2013/11/05/disabling-app-nap-in-os-x-mavericks/
 require 'chef/version_constraint'
 
-if Chef::VersionConstraint.new(">= 10.9").include?(node['platform_version'])
+if Chef::VersionConstraint.new('>= 10.9').include?(node['platform_version'])
 
   osx_defaults "Disable App Nap for #{dmg_properties['cf_bundle_id']}" do
     domain dmg_properties['cf_bundle_id']
