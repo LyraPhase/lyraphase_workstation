@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Copyright (C) © 🄯  2018-2020 James Cuzella
-# 
+# Cookbook:: lyraphase_workstation
+# Recipe:: loopback_alias_ip
+# Site:: https://web.archive.org/web/20211214022432/https://forums.docker.com/t/accessing-host-machine-from-within-docker-container/14248/14
+# Documentation:: https://web.archive.org/web/20211214023113/https://github.com/hashicorp/terraform/issues/17754#issuecomment-383227407
+#
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2018-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -15,30 +23,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 loopback_alias_ip = nil
-if ! node['lyraphase_workstation']['loopback_alias_ip'].nil? && ! node['lyraphase_workstation']['loopback_alias_ip']['alias_ip'].nil?
+if !node['lyraphase_workstation']['loopback_alias_ip'].nil? &&
+   !node['lyraphase_workstation']['loopback_alias_ip']['alias_ip'].nil?
   loopback_alias_ip = node['lyraphase_workstation']['loopback_alias_ip']['alias_ip']
 end
 
-file "/var/log/loopback-alias.log" do
+file '/var/log/loopback-alias.log' do
   action :create
-  owner "root"
-  group "wheel"
-  mode "0664"
+  owner 'root'
+  group 'wheel'
+  mode '0664'
 end
 
-template "/Library/LaunchDaemons/com.runlevel1.lo0.alias.plist" do
-  source "com.runlevel1.lo0.alias.plist.erb"
-  user "root"
-  group "wheel"
-  mode "0644"
-  variables({ loopback_alias_ip: loopback_alias_ip })
+template '/Library/LaunchDaemons/com.runlevel1.lo0.alias.plist' do
+  source 'com.runlevel1.lo0.alias.plist.erb'
+  user 'root'
+  group 'wheel'
+  mode '0644'
+  variables(
+    loopback_alias_ip: loopback_alias_ip
+  )
   notifies :run, 'execute[load the com.runlevel1.lo0.alias plist into launchd]'
 end
 
-execute "load the com.runlevel1.lo0.alias plist into launchd" do
-  command "launchctl load -w /Library/LaunchDaemons/com.runlevel1.lo0.alias.plist"
-  user "root"
+execute 'load the com.runlevel1.lo0.alias plist into launchd' do
+  command 'launchctl load -w /Library/LaunchDaemons/com.runlevel1.lo0.alias.plist'
+  user 'root'
   not_if 'sudo launchctl list com.runlevel1.lo0.alias'
 end
