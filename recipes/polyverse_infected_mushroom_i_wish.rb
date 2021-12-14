@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: polyverse_infected_mushroom_i_wish
 # Site:: http://polyversemusic.com/
 #
-# Copyright (C) © 🄯  2013-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2013-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -21,7 +25,7 @@
 
 dmg_properties = node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']
 
-dmg_package "Polyverse - Infected Mushroom - I Wish VST" do
+dmg_package 'Polyverse - Infected Mushroom - I Wish VST' do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']
@@ -36,19 +40,23 @@ end
 
 user_library_dir = "#{node['lyraphase_workstation']['home']}/Library"
 
-recursive_directories([user_library_dir, "Polyverse"]) do
+recursive_directories([user_library_dir, 'Polyverse']) do
   owner node['lyraphase_workstation']['user']
 end
 
+# rubocop:disable Style/RescueModifier
 license_data = data_bag_item('lyraphase_workstation', 'polyverse_infected_mushroom_i_wish')['license'] rescue nil
+# rubocop:enable Style/RescueModifier
 
-if license_data.nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'].nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['email'].nil? && ! node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['key'].nil?
+if license_data.nil? && !node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'].nil? && !node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['email'].nil? && !node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['key'].nil?
   license_data = node['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']
 end
 
 template File.join(user_library_dir, 'Polyverse', 'iwish', 'key.pvs') do
-  source "License.Polyverse.iwish.erb"
+  source 'License.Polyverse.iwish.erb'
   owner node['lyraphase_workstation']['user']
-  variables :license => license_data
+  variables(
+    license: license_data
+  )
   not_if { license_data.nil? }
 end
