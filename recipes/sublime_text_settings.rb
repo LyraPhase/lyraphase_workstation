@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: sublime_text_license
 # Site:: http://www.sublimetext.com/
 #
-# Copyright (C) © 🄯  2015-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2015-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,23 +24,22 @@
 #
 
 node['lyraphase_workstation']['sublime_text_settings']['shared_files'].each do |shared_sublime_file|
-  symlink_target = "#{node['lyraphase_workstation']['sublime_text_settings']['shared_files_path']}/#{shared_sublime_file}"
-  Chef::Log::warn("Sublime Text Settings file not found: #{symlink_target}") if !::File.exist?( symlink_target )
+  symlink_target =
+    "#{node['lyraphase_workstation']['sublime_text_settings']['shared_files_path']}/#{shared_sublime_file}"
+  Chef::Log.warn("Sublime Text Settings file not found: #{symlink_target}") unless ::File.exist?(symlink_target)
 
   symlink_path = "#{node['lyraphase_workstation']['sublime_text_settings']['app_support_path']}/#{shared_sublime_file}"
   directory symlink_path do
     action :delete
-    only_if { !::File.symlink?( symlink_path ) && (::File.exist?( symlink_path ) || ::Dir.exist?( symlink_path )) }
+    only_if { !::File.symlink?(symlink_path) && (::File.exist?(symlink_path) || ::Dir.exist?(symlink_path)) }
     # Avoid deleting the dir if our symlink target shared file does not exist.
-    not_if { !::File.exist?( symlink_target ) }
+    not_if { !::File.exist?(symlink_target) }
   end
-
 
   link symlink_path do
     to symlink_target
     owner node['lyraphase_workstation']['user']
     mode '0755'
-    not_if { File.symlink?( symlink_target ) }
+    not_if { File.symlink?(symlink_target) }
   end
 end
-
