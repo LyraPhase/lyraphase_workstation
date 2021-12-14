@@ -19,7 +19,7 @@ user_default_shell = node['lyraphase_workstation']['user_default_shell']
 if ! user_default_shell.nil? && ! user_default_shell['set_login_shell'].nil? && user_default_shell['set_login_shell'] && ! user_default_shell['shell'].nil?
   shell_regexp = Regexp.escape(user_default_shell['shell']).gsub('/', '\/')
   execute 'change login shell' do
-    command "chsh -u #{node['lyraphase_workstation']['user']} -s #{node['lyraphase_workstation']['user_default_shell']['shell']}"
+    command "chsh -s #{node['lyraphase_workstation']['user_default_shell']['shell']} #{node['lyraphase_workstation']['user']}"
     user 'root'
     not_if "dscl /Search -read '/Users/#{node['lyraphase_workstation']['user']}' UserShell | grep -Eq '#{shell_regexp}'"
   end
