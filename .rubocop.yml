@@ -55,6 +55,8 @@ Style/WordArray:
 Style/RegexpLiteral:
   Enabled: false
 
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: no_comma
 
 # Commonly used screens these days easily fit more than 80 characters.
 Layout/LineLength:

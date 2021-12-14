@@ -30,7 +30,9 @@ node.default['homebrew']['formulas'].push('gnupg21') unless has_formula_named?(n
 
 # Unlink all MacGPG binaries from /usr/local/bin
 # gnupg21 Homebrew formula will link these to our gpg2 version
+# rubocop:disable Style/RedundantParentheses, Layout/SpaceInsideParens, Style/RescueModifier
 if ( (!node['lyraphase_workstation']['gpg21']['binary_paths'].nil?) rescue false)
+  # rubocop:enable Style/RedundantParentheses, Layout/SpaceInsideParens, Style/RescueModifier
   node['lyraphase_workstation']['gpg21']['binary_paths'].each do |binary_symlink|
     link binary_symlink do
       action :delete
