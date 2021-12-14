@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/LineLength
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish'] = {}
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['source']      = 'http://www.lyraphase.com/doc/installers/mac/Infected Mushroom - I Wish v1.01.dmg'
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['checksum']    = '73bf423d6c2ed6b5afe1a5bbb34187c99cef49f2e7e2cdfda253b9a37e4962c0'
@@ -12,3 +13,4 @@ default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['dmg']['t
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license'] = {}
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['email']   = nil
 default['lyraphase_workstation']['polyverse_infected_mushroom_i_wish']['license']['key']     = nil
+# rubocop:enable Metrics/LineLength
