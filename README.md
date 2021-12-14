@@ -223,6 +223,7 @@ Some general rules of thumb:
  - `lyraphase_workstation::polyverse_infected_mushroom_i_wish`: Install [Polyverse - Infected Mushroom - I Wish VST](https://polyversemusic.com/products/i-wish/)
  - `lyraphase_workstation::polyverse_infected_mushroom_manipulator`: Install [Polyverse - Infected Mushroom - Manipulator VST](https://polyversemusic.com/products/manipulator/)
  - `lyraphase_workstation::prolific_pl2303_driver`: Install [Prolific PL2303 Driver](http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41)
+ - `lyraphase_workstation::root_bootstrap_ssh_config`: Installs a minimal `.ssh/config` + `known_hosts` file for GitHub & Homebrew bootstrap
  - `lyraphase_workstation::ssh_tunnel_port_override`: Install [`ssh-tunnel-port-override.sh` script](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/ssh-tunnel-port-override.sh.erb) & `LaunchDaemon` to allow killing some process (_cough_ McAfee -Anti-virus _cough_ 🦠😷) that claims your favorite SSH tunnel port (Default: `8081`) on login.
    - Will kill the process so long as `SSH Tunnel` App has not claimed the port yet.
    - Supports CPU soft limit throttling via `SIGXCPU`, as supported by `launchd`!
@@ -239,6 +240,7 @@ Some general rules of thumb:
    - Therefore, this device is a **good choice** for Linux & embedded systems projects, and is known to work with Open Source drivers on Intel Edison, Raspberry Pi, etc...
    - [Mixxx has some notes about Native Instruments devices & controllers here](https://www.mixxx.org/wiki/doku.php/hardware_compatibility).
    - This device luckily does not send NHL nor MIDI, it is just a simple 2 channel sound card!
+ - `lyraphase_workstation::user_default_shell`: Sets a default shell for your user
  - `lyraphase_workstation::vimrc`: Installs vimrc via git repo
  - `lyraphase_workstation::xcode`: Install XCode via .dmg and accepts XCode build license
 
