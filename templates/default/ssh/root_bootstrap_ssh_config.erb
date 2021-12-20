@@ -5,6 +5,8 @@ Host github.com
   PreferredAuthentications publickey
   StrictHostKeyChecking no
   UserKnownHostsFile /dev/null
+  UseKeychain yes
+  AddKeysToAgent yes
   # NOTE: Manually copy this over to new machine
   IdentityFile <%= @home -%>/.ssh/<%= @identity_file -%>
 
