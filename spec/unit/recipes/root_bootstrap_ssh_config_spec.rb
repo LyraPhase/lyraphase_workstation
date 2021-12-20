@@ -87,6 +87,8 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+PreferredAuthentications\s+publickey$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+StrictHostKeyChecking\s+no$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+UserKnownHostsFile\s+\/dev\/null$/)
+      expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+UseKeychain\s+yes$/)
+      expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+AddKeysToAgent\s+yes$/)
     end
   end
 
