@@ -28,6 +28,7 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
     let(:root_ssh) { '/var/root/.ssh' }
     let(:root_ssh_config) { '/var/root/.ssh/config' }
     let(:root_ssh_known_hosts) { '/var/root/.ssh/known_hosts' }
+    let(:root_sh_profile) { '/var/root/.profile' }
     let(:chef_run) {
       klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
       klass.new do |node|
@@ -36,6 +37,7 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
         node.normal['lyraphase_workstation']['user'] = 'brubble'
 
         node.normal['lyraphase_workstation']['root_bootstrap_ssh_config']['identity_file'] = 'identity.brubble'
+        node.normal['lyraphase_workstation']['root_bootstrap_ssh_config']['ssh_auth_sock'] = '/Users/brubble/.gnupg/S.gpg-agent.ssh'
         stub_command('grep -q github.com known_hosts').and_return(false)
       end.converge(described_recipe)
     }
@@ -49,6 +51,7 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
       expect(File).not_to be_exists('/var/root/.ssh')
       expect(File).not_to be_exists('/var/root/.ssh/config')
       expect(File).not_to be_exists('/var/root/.ssh/known_hosts')
+      expect(File).not_to be_exists('/var/root/.profile')
     end
 
     it 'creates directory /var/root/.ssh' do
@@ -89,6 +92,15 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+UserKnownHostsFile\s+\/dev\/null$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+UseKeychain\s+yes$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+AddKeysToAgent\s+yes$/)
+    end
+
+    it 'creates a template for /var/root/.profile' do
+      expect(chef_run).to create_template(root_sh_profile).with(
+        user: 'root',
+        group: 'wheel',
+        mode: '0644'
+      )
+      expect(chef_run).to render_file(root_sh_profile).with_content(/^export SSH_AUTH_SOCK=\/Users\/brubble\/.gnupg\/S.gpg-agent.ssh$/)
     end
   end
 

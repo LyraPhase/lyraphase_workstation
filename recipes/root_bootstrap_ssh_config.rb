@@ -53,3 +53,13 @@ template '/var/root/.ssh/config' do
     identity_file: node['lyraphase_workstation']['root_bootstrap_ssh_config']['identity_file']
   )
 end
+
+template '/var/root/.profile' do
+  source 'ssh/root_sh_profile.erb'
+  user 'root'
+  group 'wheel'
+  mode '0644'
+  variables(
+    ssh_auth_sock: node['lyraphase_workstation']['root_bootstrap_ssh_config']['ssh_auth_sock']
+  )
+end
