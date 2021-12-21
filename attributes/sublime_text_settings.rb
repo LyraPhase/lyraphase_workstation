@@ -7,3 +7,7 @@ default['lyraphase_workstation']['sublime_text_settings']['shared_files'] =
                                               'Packages',
                                               'Local/License.sublime_license'
                                             ]
+unless File.exists?(default['lyraphase_workstation']['sublime_text_settings']['shared_files_path'])
+  Chef::Log.warn('pCloud Drive installation cannot be automated... please Enable Drive and allow kernel extensions from Recovery mode.')
+  Chef::Log.warn('  https://web.archive.org/web/20211221010410/https://blog.pcloud.com/how-to-install-pcloud-drive-on-apple-devices-with-the-m1-chip/')
+end
