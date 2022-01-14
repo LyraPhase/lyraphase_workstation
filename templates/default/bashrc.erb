@@ -1,0 +1,295 @@
+#######################
+## BEGIN TIME PROFILING
+#######################
+# PS4='+ $(date "+%s.%N")\011 '
+# export PS4='+ $(date "+%s.%N") (${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+## Reference: http://www.rosipov.com/blog/profiling-slow-bashrc/
+# PS4='+ $(date "+%s.%N") ${BASH_SOURCE}: '
+# PS4='+ $(<%= @user_home -%>/bin/date-hires) ${BASH_SOURCE}: '
+# exec 3>&2 2>/tmp/bashstart.$$.log
+# set -x
+
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+# export PS4='(${BASH_SOURCE}:${LINENO}): - [${SHLVL},${BASH_SUBSHELL},$?] $ '
+# set -x
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=100000
+HISTFILESIZE=200000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ${HOME}/.dircolors && eval "$(dircolors -b ${HOME}/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+	export GREP_COLOR='1;32'
+	export ACK_COLOR_FILENAME="bright_magenta"
+	export ACK_COLOR_LINENO="green"
+	export ACK_COLOR_MATCH="bold green"
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ${HOME}/.bash_aliases ]; then
+    . ${HOME}/.bash_aliases
+fi
+
+# Function definitions
+if [ -f ${HOME}/.bash_functions ]; then
+    . ${HOME}/.bash_functions
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# Set name and email for use by debchange/dch and other debian tools
+# Also set key for signing
+# See Debian Maintainer's Guide:
+# http://www.debian.org/doc/maint-guide/ch-build.en.html
+export DEBFULLNAME='<%= @user_fullname -%>'
+export DEBEMAIL='<%= @user_email -%>'
+export DEBSIGN_KEYID='<%= @user_gpg_keyid -%>'
+# For special options to pass to dpkg-buildpackage
+#DEBUILD_DPKG_BUILDPACKAGE_OPTS="-i -ICVS -I.svn"
+export DEBUILD_DPKG_BUILDPACKAGE_OPTS="-sa -k${DEBSIGN_KEYID}"
+export DEBUILD_LINTIAN_OPTS="-i -I --show-overrides"
+export EDITOR="vim"
+# Setup dquilt alias
+# See Debian Maintainer's Guide:
+# http://www.debian.org/doc/manuals/maint-guide/modify.en.html#quiltrc
+alias dquilt="quilt --quiltrc=${HOME}/.quiltrc-dpkg"
+# Basic quilt opts.  (more in .quiltrc-dpkg)
+export QUILT_PATCHES=debian/patches
+export QUILT_REFRESH_ARGS="-p ab --no-timestamps --no-index"
+
+## Only set PATH in ~/.profile
+#PATH=$HOME/sbin:$HOME/bin:$PATH
+# Bazaar settings: Stored in ~/.bazaar/bazaar.conf
+
+# Set window title for compiz window rules
+#detect-dualscreen
+
+# Tell Python to use .pythonrc
+#export PYTHONSTARTUP=${HOME}/.pythonrc
+
+# SC local dev settings
+#export ANT_HOME=/usr/share/ant/
+#export JAVA_HOME=/usr/lib/jvm/java-7-oracle/
+
+# Node.js global module path
+export NODE_PATH=/usr/local/lib/node_modules/
+
+#. $HOME/bin/git-prompt.sh
+
+## Trying to fix bad line wrapping in bash with bash_it:
+## Issue: https://github.com/Bash-it/bash-it/issues/270
+export LC_ALL=en_US.UTF-8
+
+if [[ $OSTYPE = *darwin* ]]
+then
+  # OSX specific JAVA_HOME
+  # http://stackoverflow.com/a/6588410/645491
+  # export JAVA_HOME=`/usr/libexec/java_home -v 1.6`
+  # export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+  export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+  export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
+
+  
+  # Use General Colorizer
+  source "`brew --prefix`/etc/grc.bashrc"
+
+  # Set homebrew OAuth token
+  export HOMEBREW_GITHUB_API_TOKEN='<%= @homebrew_github_api_token -%>' # lyra.37om.com
+  # Alias defunkt/hub as git
+  eval "$(hub alias -s)"
+
+  # IFF we are using bash v4 + bash-completion@2, source the latest bash_completion
+  # Else, use standard old Homebrew bash-completion
+  if bash --version | grep -q '4\.' ;
+  then
+    if [ -f /usr/local/share/bash-completion/bash_completion ]; then
+      . /usr/local/share/bash-completion/bash_completion
+    fi
+  else
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+      export BASH_COMPLETION_COMPAT_DIR='wtf?' # Hack brew's bash_completion script to work
+      . $(brew --prefix)/etc/bash_completion
+    fi
+  fi
+
+  # Break aliases for PS1 prompt function __git_ps1
+  #tmpdir=$(mktemp -d git_ps1.XXXXXXXX)
+  #echo $(type __git_ps1 | perl -p -e 's/\bgit\b/\\git/' | grep -v '__git_ps1 is a function') > $tmpdir/git_ps1.sh
+  #. $tmpdir/git_ps1.sh
+  #rm -rf $tmpdir
+
+  # Use system ruby for vim & all vim aliases
+  #define_vim_wrappers
+  
+  # Use OSX system python with homebrew
+  ## Unset b/c some brew utils use python3 now!
+  #export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+  
+  ## Enable python REPL tab completion
+  export PYTHONSTARTUP='~/.pythonrc'
+  ## awscli Command Completion
+  complete -C aws_completer aws
+  
+
+  ## Enable PyEnv if available
+#  if which pyenv > /dev/null; then
+#    eval "$(pyenv init -)"
+#    eval "$(pyenv virtualenv-init -)"
+#  fi
+
+  ## Set up GPG Agent for SSH keys & git commit signing
+#  GPG_TTY=$(tty)
+#  export GPG_TTY
+#  export GPG_TTY=$(tty)
+#  gpg-connect-agent updatestartuptty /bye
+  #export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+#  if [ -f "${HOME}/.gnupg/gpg-agent-info" -a -z "$SSH_AUTH_SOCK" ]; then
+#    . "${HOME}/.gnupg/gpg-agent-info"
+#    export GPG_AGENT_INFO
+#    export SSH_AUTH_SOCK
+#    export SSH_AGENT_PID
+#  fi
+### NEW gpg-agent SSH_AUTH_SOCK setup from 'man gpg-agent' via gpg-suite 2018
+set -x
+export GPG_TTY=$(tty)
+
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+set +x
+
+  #export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+
+  # Set DOCKER_HOST environment variable set by dvm
+  # eval "$(dvm env)"
+
+  # Set default Docker Machine name for Bash-It plugin to setup our DOCKER_HOST & env vars
+  #BASH_IT_DOCKER_MACHINE=$(docker-machine active 2>/dev/null)
+  #[ -z $BASH_IT_DOCKER_MACHINE ] && BASH_IT_DOCKER_MACHINE=$(docker-machine ls --filter 'driver=virtualbox' --format '{{.Name}}')
+  BASH_IT_DOCKER_MACHINE=dm
+  
+  # If ChefDK is installed, set path
+  if [ -f /opt/chefdk/bin/chef ]; then
+    ## Avoid blindly executing this b/c rvm complains if it is not first in PATH
+    # eval $(/opt/chefdk/bin/chef shell-init $(basename $SHELL) | grep 'export PATH')
+    chef_path=$(/opt/chefdk/bin/chef shell-init $(basename $SHELL) | grep 'export PATH' )
+    chef_ruby_path=$(echo ${chef_path##export PATH=} | perl -p -e "s/:/\n/g ; s/\"//g" | sort  | uniq | grep chef | grep ruby)
+    chefdk_paths=$(echo ${chef_path##export PATH=} | perl -p -e "s/:/\n/g ; s/\"//g" | sort  | uniq | grep chef | grep -v ruby)
+    export PATH="${PATH}:$(echo ${chefdk_paths} | perl -p -e 's/\s+/:/g' )$(echo ${chef_ruby_path} | head -n1)"
+  fi
+
+  # Alias for sha256
+  alias sha256sum='shasum -a 256'
+
+  # added by travis gem
+  [ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
+ 
+else
+  # set a fancy prompt (non-color, unless we know we "want" color)
+  case "$TERM" in
+      xterm-color) color_prompt=yes;;
+  esac
+  
+  # uncomment for a colored prompt, if the terminal has the capability; turned
+  # off by default to not distract the user: the focus in a terminal window
+  # should be on the output of commands, not on the prompt
+  force_color_prompt=yes
+  
+  if [ -n "$force_color_prompt" ]; then
+      if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  	# We have color support; assume it's compliant with Ecma-48
+  	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+  	# a case would tend to support setf rather than setaf.)
+  	color_prompt=yes
+      else
+  	color_prompt=
+      fi
+  fi
+  
+  # Show the state of your git repo with * and + chars
+  #export GIT_PS1_SHOWDIRTYSTATE=true
+  if [ "$color_prompt" = yes ]; then
+  #	PS1='\h:\W$(__git_ps1 "(%s)") \u\$ '
+      PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W$(__git_ps1 "(%s)")\[\033[00m\]\$ '
+  else
+      PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W$(__git_ps1 "(%s)")\$ '
+  fi
+  unset color_prompt force_color_prompt
+   
+fi
+
+export GOPATH=$HOME/src/pub/go
+#PATH=$PATH:/usr/local/opt/go/libexec/bin
+
+# Path to the bash it configuration
+export BASH_IT="$HOME/.bash_it"
+
+# Lock and Load a custom theme file
+export BASH_IT_THEME="bobby"
+
+# Load Bash It
+source $BASH_IT/bash_it.sh
+
+# added by travis gem
+[ -f <%= @user_home -%>/.travis/travis.sh ] && source <%= @user_home -%>/.travis/travis.sh
+#######################
+## END TIME PROFILING
+#######################
+# set +x
+# exec 2>&3 3>&-
