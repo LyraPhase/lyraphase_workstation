@@ -211,7 +211,7 @@ then
 #    export SSH_AGENT_PID
 #  fi
 ### NEW gpg-agent SSH_AUTH_SOCK setup from 'man gpg-agent' via gpg-suite 2018
-set -x
+# set -x
 export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye
 
@@ -219,7 +219,7 @@ unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
-set +x
+# set +x
 
   #export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
 
