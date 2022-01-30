@@ -144,6 +144,12 @@ then
   export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
   export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
 
+  arm64=$(sysctl -n hw.optional.arm64)
+  if [[ "$arm64" == '1' ]]; then
+    export PATH="/opt/homebrew/sbin:/opt/homebrew/bin:$PATH"
+  fi
+
+
   
   # Use General Colorizer
   source "`brew --prefix`/etc/grc.sh"
