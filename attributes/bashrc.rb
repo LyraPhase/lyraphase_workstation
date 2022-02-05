@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 default['lyraphase_workstation']['bashrc'] = {}
 default['lyraphase_workstation']['bashrc']['user_fullname'] = 'James Cuzella'
 default['lyraphase_workstation']['bashrc']['user_email'] = 'james.cuzella@lyraphase.com'
