@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: drobo_dashboard
 # Site:: http://www.drobo.com/start/
 #
-# Copyright (C) © 🄯  2015-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2015-2022 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +23,7 @@
 #
 dmg_properties = node['lyraphase_workstation']['drobo_dashboard']['dmg']
 
-dmg_package "Drobo Dashboard" do
+dmg_package 'Drobo Dashboard' do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']
