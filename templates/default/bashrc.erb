@@ -154,7 +154,17 @@ then
   # http://stackoverflow.com/a/6588410/645491
   # export JAVA_HOME=`/usr/libexec/java_home -v 1.6`
   # export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
-  export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+  #export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+  # Coretto Java JAVA_HOME, NVM & SBT setup
+  if [[ -d "${HOME}/.sbt" && -d "${HOME}/.nvm" && -d '/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home' ]]; then
+    export JAVA_HOME='/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home'
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh" # This loads nvm
+    [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+    export SBT_CREDENTIALS=~/.ivy2/.credentials
+  fi
+
+  # Add /usr/local sbin, bin to PATH. Still used on both x86_64 & arm64
   export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
 
   # Arm64 / Apple Silicon detection
@@ -163,8 +173,6 @@ then
     export PATH="/opt/homebrew/sbin:/opt/homebrew/bin:$PATH"
   fi
 
-
-  
   # Use General Colorizer
   source "`brew --prefix`/etc/grc.sh"
 
