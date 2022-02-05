@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) © 🄯  2016-2020 James Cuzella
+# Copyright (C) © 🄯  2016-2021 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ describe 'lyraphase_workstation::sublime_text_settings' do
     end
   end
 
-  context 'when Sublime Text directories DO NOT exist' do
+  context 'when Sublime Text directories DO NOT exist and symlink targets exist' do
 
     let(:chef_run) {
       klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
@@ -117,6 +117,12 @@ describe 'lyraphase_workstation::sublime_text_settings' do
           allow(File).to receive(:exist?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(false)
           allow(File).to receive(:symlink?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(false)
         end
+        # Symlink targets
+        allow(Dir).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(true)
+        shared_sublime_files.each do |symlink_path|
+          allow(Dir).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(true)
+          allow(File).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(true)
+        end
       end
     end
 
@@ -125,8 +131,78 @@ describe 'lyraphase_workstation::sublime_text_settings' do
         expect(chef_run).to_not delete_directory("#{sublime_app_support_path}/#{symlink_path}")
       end
     end
+
+    it 'should create parent directories recursively' do
+      shared_sublime_files.each do |shared_sublime_file|
+        symlink_path_parent_dir = File.dirname(shared_sublime_file)
+        if !['.', '..', '/'].include?(symlink_path_parent_dir)
+          symlink_target = File.join(sublime_app_support_path, shared_sublime_file)
+          expect(chef_run).to create_directory(File.join(sublime_app_support_path, symlink_path_parent_dir)).with(
+            owner: 'brubble',
+            group: 'staff',
+            mode: '0700',
+            recursive: true
+          )
+        else
+          expect(chef_run).to_not create_directory(File.join(sublime_app_support_path, symlink_path_parent_dir))
+        end
+      end
+    end
   end
 
+  context 'when Sublime Text directories DO NOT exist AND shared_files symlink targets DO NOT exist' do
+
+    let(:chef_run) {
+      klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
+      klass.new(platform: 'mac_os_x', version: '10.11') do |node|
+        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+        node.normal['lyraphase_workstation']['user'] = 'brubble'
+        node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
+
+        node.normal['lyraphase_workstation']['sublime_text_settings']['app_support_path'] = sublime_app_support_path
+        node.normal['lyraphase_workstation']['sublime_text_settings']['shared_files'] = shared_sublime_files
+        node.normal['lyraphase_workstation']['sublime_text_settings']['shared_files_path'] = shared_sublime_files_path
+      end.converge(described_recipe)
+    }
+
+    before(:each) do
+      shared_sublime_files.each do |symlink_path|
+        allow(Dir).to receive(:exist?).and_call_original
+        allow(File).to receive(:symlink?).and_call_original
+        allow(File).to receive(:exist?).and_call_original
+        shared_sublime_files.each do |symlink_path|
+          allow(Dir).to receive(:exist?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(false)
+          allow(File).to receive(:exist?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(false)
+          allow(File).to receive(:symlink?).with("#{sublime_app_support_path}/#{symlink_path}").and_return(false)
+        end
+        # Symlink targets
+        allow(Dir).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(false)
+        shared_sublime_files.each do |symlink_path|
+          allow(Dir).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(false)
+          allow(File).to receive(:exist?).with("#{shared_sublime_files_path}/#{symlink_path}").and_return(false)
+        end
+      end
+    end
+
+    it 'should NOT unlink them first' do
+      shared_sublime_files.each do |symlink_path|
+        expect(chef_run).to_not delete_directory("#{sublime_app_support_path}/#{symlink_path}")
+      end
+    end
+
+    it 'should NOT create parent directories recursively' do
+      shared_sublime_files.each do |shared_sublime_file|
+        symlink_path_parent_dir = File.dirname(shared_sublime_file)
+        if !['.', '..', '/'].include?(symlink_path_parent_dir)
+          symlink_target = File.join(sublime_app_support_path, shared_sublime_file)
+          expect(chef_run).to_not create_directory(File.join(sublime_app_support_path, symlink_path_parent_dir))
+        else
+          expect(chef_run).to_not create_directory(File.join(sublime_app_support_path, symlink_path_parent_dir))
+        end
+      end
+    end
+  end
 
   context 'when Sublime Text directories exist, BUT shared_files symlink targets DO NOT exist' do
 

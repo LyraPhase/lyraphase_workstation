@@ -46,7 +46,7 @@ describe 'lyraphase_workstation::bash4' do
     end.converge(described_recipe)
   }
 
-  it 'installs gnugpg21 via homebrew' do
+  it 'installs bash & bash-completion@2 via homebrew' do
     [
       'bash',
       'bash-completion@2'
