@@ -44,7 +44,7 @@ bash "unpack #{zip_file['file_name']}" do
   code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']} '#{zip_file['pkg_file']}'"
   # rubocop:enable Metrics/LineLength
   not_if {
-    File.exist?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
+    ::File.exist?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
   }
 end
 
