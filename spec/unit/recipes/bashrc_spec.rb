@@ -42,6 +42,7 @@ describe_recipe 'lyraphase_workstation::bashrc' do
   }
 
   let(:bashrc_path) { '/Users/brubble/.bashrc' }
+  let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
 
   it 'installs custom .bashrc into user homedir' do
     expect(chef_run).to create_template(bashrc_path).with(
@@ -58,5 +59,11 @@ describe_recipe 'lyraphase_workstation::bashrc' do
     end
   end
 
+  it 'installs custom .bash_logout into user homedir' do
+    expect(chef_run).to create_template(bash_logout_path).with(
+      user:   'brubble',
+      mode: '0644'
+    )
+  end
 end
 
