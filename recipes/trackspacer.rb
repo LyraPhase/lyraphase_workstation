@@ -3,7 +3,7 @@
 # Recipe:: trackspacer
 # Site:: https://www.wavesfactory.com/product/trackspacer/
 #
-# Copyright (C) 2017 James Cuzella
+# Copyright (C) © 🄯  2017-2020 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

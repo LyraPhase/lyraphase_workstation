@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Copyright (C) 2016-2018 James Cuzella
+# Cookbook Name:: lyraphase_workstation
+# Recipe:: bashrc
+# Site:: https://www.gnu.org/software/bash/
+#
+# Copyright (C) © 🄯 2016-2022 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,26 +22,27 @@
 
 require 'spec_helper'
 
-describe 'lyraphase_workstation::bashrc' do
+describe_recipe 'lyraphase_workstation::bashrc' do
+  # Override ChefSpec attributes from spec_shared_contexts
+  let(:chefspec_options) {
+    require 'securerandom'
+    {
+      default_attributes: {},
+      normal_attributes: { 'lyraphase_workstation': {
+                             'bashrc': {
+                              'homebrew_github_api_token': "gh_#{SecureRandom.hex(20)}",
+                              'user_fullname': 'Barney Rubble',
+                              'user_email': 'barney.rubble@lyraphase.com',
+                              'user_gpg_keyid': "0x#{SecureRandom.hex(8)}"
+                            }
+                          }
+                        },
+      automatic_attributes: {}
+    }
+  }
 
   let(:bashrc_path) { '/Users/brubble/.bashrc' }
-
-  let(:chef_run) {
-    klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
-      create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
-      node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-      node.normal['lyraphase_workstation']['user'] = 'brubble'
-      node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
-
-      require 'securerandom'
-      node.normal['lyraphase_workstation']['bashrc']['homebrew_github_api_token'] = SecureRandom.hex(20)
-      node.normal['lyraphase_workstation']['bashrc']['user_fullname'] = 'Barney Rubble'
-      node.normal['lyraphase_workstation']['bashrc']['user_email'] = 'barney.rubble@lyraphase.com'
-      node.normal['lyraphase_workstation']['bashrc']['user_gpg_keyid'] = "0x#{SecureRandom.hex(8)}"
-
-    end.converge(described_recipe)
-  }
+  let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
 
   it 'installs custom .bashrc into user homedir' do
     expect(chef_run).to create_template(bashrc_path).with(
@@ -53,5 +59,11 @@ describe 'lyraphase_workstation::bashrc' do
     end
   end
 
+  it 'installs custom .bash_logout into user homedir' do
+    expect(chef_run).to create_template(bash_logout_path).with(
+      user:   'brubble',
+      mode: '0644'
+    )
+  end
 end
 

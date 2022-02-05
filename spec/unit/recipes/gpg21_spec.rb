@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2016 James Cuzella
+# Copyright (C) © 🄯  2016-2020 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ describe 'lyraphase_workstation::gpg21' do
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
+    klass.new(platform: 'mac_os_x', version: '10.11') do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'
@@ -33,6 +33,11 @@ describe 'lyraphase_workstation::gpg21' do
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
+      stub_command("/usr/local/bin/brew analytics state").and_return('Analytics is disabled')
+      stubs_for_resource("execute[set analytics]") do |resource|
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state", {:user=>"brubble"})
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state")
+      end
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = []
       stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
@@ -106,7 +111,7 @@ describe 'lyraphase_workstation::gpg21' do
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
+    klass.new(platform: 'mac_os_x', version: '10.11') do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'
@@ -114,6 +119,11 @@ describe 'lyraphase_workstation::gpg21' do
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
+      stub_command("/usr/local/bin/brew analytics state").and_return('Analytics is disabled')
+      stubs_for_resource("execute[set analytics]") do |resource|
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state", {:user=>"brubble"})
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state")
+      end
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
       stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)
@@ -157,7 +167,7 @@ describe 'lyraphase_workstation::gpg21' do
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
+    klass.new(platform: 'mac_os_x', version: '10.11') do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'
@@ -165,6 +175,11 @@ describe 'lyraphase_workstation::gpg21' do
 
       node.normal['lyraphase_workstation']['gpg21']['gpgtools_plist_file'] = gpgtools_plist_file_test
       stub_command("which git").and_return('/usr/local/bin/git')
+      stub_command("/usr/local/bin/brew analytics state").and_return('Analytics is disabled')
+      stubs_for_resource("execute[set analytics]") do |resource|
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state", {:user=>"brubble"})
+        allow(resource).to receive_shell_out("/usr/local/bin/brew analytics state")
+      end
 
       node.normal['lyraphase_workstation']['gpg21']['binary_paths'] = gpg_binary_paths
       stub_command('launchctl list com.lyraphase.gpg21.fix').and_return(true)

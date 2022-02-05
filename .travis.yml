@@ -9,7 +9,7 @@ env:
 addons:
   apt:
     sources:
-    - chef-stable-precise
+    - chef-stable-trusty
     packages:
     - chefdk
 
@@ -18,7 +18,6 @@ before_script:
 
 script:
   - rake berks
-  - rake knife
   - rake foodcritic
   - rake chefspec
   - find /opt/chefdk/embedded/lib/ruby/gems/  -type f -iwholename '*/fauxhai-*/lib/fauxhai/platforms/mac_os_x/*'

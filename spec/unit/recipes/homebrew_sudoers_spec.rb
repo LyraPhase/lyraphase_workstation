@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015-2017 James Cuzella
+# Copyright (C) © 🄯  2015-2020 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ describe 'lyraphase_workstation::homebrew_sudoers' do
   # before(:all) do
   #   # To use GitHub for latest platform (customink/fauxhai#201)
   #   # edge: true
-  #   Fauxhai.mock(platform:'mac_os_x', version:'10.11.1') do |node|
+  #   Fauxhai.mock(platform:'mac_os_x', version:'10.11') do |node|
   #     node['hostname'] = 'bedrock'
   #     Chef::Log.warn("INSIDE ChefSpec: node['hostname'] = #{node['hostname']}")
   #     # node['lyraphase_workstation']['user'] = 'brubble'
@@ -58,7 +58,9 @@ describe 'lyraphase_workstation::homebrew_sudoers' do
       '/usr/bin/touch',
       '/usr/sbin/softwareupdate',
       '/bin/rm',
-      '/usr/sbin/installer'
+      '/usr/sbin/installer',
+      '/usr/bin/env',
+      '/usr/local/bin/VBoxManage extpack install \*'
     ]
   }
 

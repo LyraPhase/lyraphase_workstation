@@ -1,0 +1,18 @@
+#!/bin/bash
+# Detect SSH Session
+# Source: https://unix.stackexchange.com/a/9607/7688
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  SESSION_TYPE=remote/ssh
+# many other tests omitted
+else
+  case $(ps -o comm= -p "$PPID") in
+    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
+  esac
+fi
+
+
+# Ensure we put back GUI pinentry by reloading agent
+if [[ "$SESSION_TYPE" == 'remote/ssh' ]]; then
+  gpg-connect-agent RELOADAGENT /bye 2>/dev/null 1>&2
+fi
+

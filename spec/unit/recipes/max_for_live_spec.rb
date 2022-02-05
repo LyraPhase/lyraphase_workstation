@@ -5,10 +5,10 @@ describe 'lyraphase_workstation::max_for_live' do
   context 'when given DMG attributes' do
     let(:dmg_properties) {
       {
-        'source' => 'http://www.lyraphase.com/doc/installers/mac/Max733_170301.dmg',
-        'checksum' => '87095679f673b2d29c24a0229358f5c9153370d1a80b163497b749c932c6210b',
-        'volumes_dir' => 'Max7_170301_5d15e6b',
-        'dmg_name' => 'Max733_170301',
+        'source' => 'http://www.lyraphase.com/doc/installers/mac/Max8110_210222.dmg',
+        'checksum' => 'b44f218fa00d279b3e55accfa583835e7d30e7228618e07bdec51110fc3f3b8a',
+        'volumes_dir' => 'Max8110',
+        'dmg_name' => 'Max8110_210222',
         'app' => 'Max',
         'type' => 'app'
       }

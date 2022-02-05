@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2018 James Cuzella
+# Copyright (C) © 🄯  2018-2020 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ describe 'lyraphase_workstation::loopback_alias_ip' do
 
   let(:chef_run) {
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-    klass.new(platform: 'mac_os_x', version: '10.11.1') do |node|
+    klass.new(platform: 'mac_os_x', version: '10.11') do |node|
       create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'

@@ -8,4 +8,10 @@ Defaults:<%= @user -%>         env_keep += "ARCHFLAGS PKG_CONFIG_PATH GOPATH PYT
 <%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /usr/bin/touch
 <%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /usr/sbin/softwareupdate
 <%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /bin/rm
+<%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /bin/mv
 <%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /usr/sbin/installer
+<%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /usr/bin/env
+<%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /usr/local/bin/VBoxManage extpack install *
+<%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /Applications/VMware\ Fusion.app/Contents/Library/Initialize\ VMware\ Fusion.tool *
+<%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /Applications/VMware\ Fusion\ Tech\ Preview.app/Contents/Library/Initialize\ VMware\ Fusion.tool *
+<%= @user -%> <%= @hostname -%>=(root) NOPASSWD:SETENV: /bin/mv /usr/local/Caskroom/*

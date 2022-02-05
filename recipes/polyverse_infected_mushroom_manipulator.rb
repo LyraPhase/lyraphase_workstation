@@ -3,7 +3,7 @@
 # Recipe:: polyverse_infected_mushroom_manipulator
 # Site:: http://polyversemusic.com/
 #
-# Copyright (C) 2013,2014,2015 James Cuzella
+# Copyright (C) © 🄯  2013-2020 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

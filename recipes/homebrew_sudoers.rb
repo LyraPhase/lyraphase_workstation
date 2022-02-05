@@ -3,7 +3,7 @@
 # Recipe:: homebrew_sudoers
 # Site:: https://github.com/chef-cookbooks/homebrew/issues/105
 #
-# Copyright (C) 2015-2017 James Cuzella
+# Copyright (C) © 🄯  2015-2020 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

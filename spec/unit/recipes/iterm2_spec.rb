@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2016 James Cuzella
+# Copyright (C) © 🄯  2016-2020 James Cuzella
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ describe 'lyraphase_workstation::iterm2' do
       user:   'brubble',
       mode: '0600'
     )
-    expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/Dropbox\/AppData\/mac\/iTerm2<\/string>$/)
+    expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/pCloud Drive\/AppData\/mac\/iTerm2<\/string>$/)
     expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/bin\/iterm_open_with \\5 \\1 \\2<\/string>$/)
   end
 
