@@ -38,6 +38,8 @@ end
 
 group :development do
 #  gem 'ruby_gntp'
+  gem 'pry'
+  gem 'pry-byebug'
   gem 'growl'
   gem 'rb-fsevent'
   gem 'guard', '~> 2.15'
