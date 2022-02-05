@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 group :task_runners do
   gem 'thor-foodcritic', '~> 2.0'
   gem 'rake'
@@ -37,13 +36,13 @@ group :kitchen_cloud do
 end
 
 group :development do
-#  gem 'ruby_gntp'
+  # gem 'ruby_gntp'
   gem 'growl'
   gem 'rb-fsevent'
   gem 'guard', '~> 2.15'
   gem 'guard-kitchen'
   gem 'guard-foodcritic', '~> 3.0'
   gem 'guard-rspec'
-#  gem 'guard-rubocop'
+  # gem 'guard-rubocop'
   gem 'mixlib-versioning'
 end
