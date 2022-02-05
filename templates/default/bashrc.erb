@@ -135,6 +135,19 @@ export NODE_PATH=/usr/local/lib/node_modules/
 ## Issue: https://github.com/Bash-it/bash-it/issues/270
 export LC_ALL=en_US.UTF-8
 
+# Detect SSH Session
+# Source: https://unix.stackexchange.com/a/9607/7688
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  SESSION_TYPE=remote/ssh
+# many other tests omitted
+else
+  case $(ps -o comm= -p "$PPID") in
+    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
+  esac
+fi
+
+
+# macOS
 if [[ $OSTYPE = *darwin* ]]
 then
   # OSX specific JAVA_HOME
@@ -144,6 +157,7 @@ then
   export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
   export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
 
+  # Arm64 / Apple Silicon detection
   arm64=$(sysctl -n hw.optional.arm64)
   if [[ "$arm64" == '1' ]]; then
     export PATH="/opt/homebrew/sbin:/opt/homebrew/bin:$PATH"
@@ -210,10 +224,25 @@ then
 #    export SSH_AUTH_SOCK
 #    export SSH_AGENT_PID
 #  fi
-### NEW gpg-agent SSH_AUTH_SOCK setup from 'man gpg-agent' via gpg-suite 2018
 # set -x
-export GPG_TTY=$(tty)
-gpg-connect-agent updatestartuptty /bye 2>/dev/null 1>&2
+# Only grab current TTY if pinentry-mac is NOT being used OR SSH session detected
+if [[ "$SESSION_TYPE" == 'remote/ssh' ]] || ! grep -Eiq 'pinentry-program.*pinentry-mac' ${HOME}/.gnupg/gpg-agent.conf ; then
+  # Swap out pinentry-mac for ncurses version, quickly reload, and swap back
+  # Note: We assume that the user isn't going to hit race condition starting both remote SSH and local tty shells
+  if [[ "$SESSION_TYPE" == 'remote/ssh' ]] && grep -Eiq 'pinentry-program.*pinentry-mac' ${HOME}/.gnupg/gpg-agent.conf ; then
+    sed -i'' -e 's/^\(pinentry-program.*\)-mac/\1-curses/' ${HOME}/.gnupg/gpg-agent.conf
+    sync ${HOME}/.gnupg/gpg-agent.conf
+    for component in  gpg-agent scdaemon; do
+      gpgconf --kill $component
+    done
+    gpg-connect-agent RELOADAGENT /bye 2>/dev/null 1>&2
+    sed -i'' -e 's/^\(pinentry-program.*\)-curses/\1-mac/' ${HOME}/.gnupg/gpg-agent.conf
+    sync ${HOME}/.gnupg/gpg-agent.conf
+  fi
+  ### gpg-agent SSH_AUTH_SOCK setup from 'man gpg-agent' gpg-suite >= 2018
+  export GPG_TTY=$(tty)
+  gpg-connect-agent updatestartuptty /bye 2>/dev/null 1>&2
+fi
 
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
