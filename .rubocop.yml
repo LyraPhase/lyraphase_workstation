@@ -55,6 +55,8 @@ Style/WordArray:
 Style/RegexpLiteral:
   Enabled: false
 
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: no_comma
 
 # Commonly used screens these days easily fit more than 80 characters.
 Layout/LineLength:
@@ -122,6 +124,9 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
+Style/NumericPredicate:
+  Enabled: true
+  EnforcedStyle: comparison
 # Use `fetch(key, value)` instead of `fetch(key) { value }`
 # when value has Numeric, Rational, Complex, Symbol or String type, `false`, `true`, `nil` or is a constant.
 Style/RedundantFetchBlock:

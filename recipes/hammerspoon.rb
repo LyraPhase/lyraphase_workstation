@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: hammerspoon
 # Site:: http://www.hammerspoon.org
 #
-# Copyright (C) © 🄯  2013-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2013-2022 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -19,7 +22,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-if ! node.attribute?(node['homebrew']['formulas'])
+unless node.attribute?(node['homebrew']['formulas'])
   node.default['homebrew']['formulas'] = []
 end
 
@@ -44,8 +47,8 @@ hammerspoon_spoons_dir = "#{node['lyraphase_workstation']['home']}/.hammerspoon/
 end
 
 cookbook_file hammerspoon_init_lua do
-  source "hammerspoon/init.lua"
+  source 'hammerspoon/init.lua'
   user node['lyraphase_workstation']['user']
   group 'staff'
-  mode "0644"
+  mode '0644'
 end

@@ -1,13 +1,18 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: prolific_pl2303_driver
 # Site:: http://www.prolific.com.tw/US/ShowProduct.aspx?p_id=229&pcid=41
 # Downloads:: http://www.prolific.com.tw/US/supportDownload.aspx?FileType=56&FileID=133&pcid=85&Page=0
 # Note:: Login with Username=GUEST Password=GUEST  for downloads
-# Manual:: Look Inside Zip File: mkdir /tmp/PL2303 && unzip -d /tmp/PL2303 /var/chef/cache/PL2303_MacOSX_1_6_1_20160309.zip
+# Manual:: Look Inside Zip File:
+#   mkdir /tmp/PL2303 && unzip -d /tmp/PL2303 /var/chef/cache/PL2303_MacOSX_1_6_1_20160309.zip
 # Reference:: http://pbxbook.com/other/mac-tty.html
 #
-# Copyright (C) © 🄯  2016-2020 James Cuzella
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2016-2020 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,27 +40,33 @@ remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}" do
 end
 
 bash "unpack #{zip_file['file_name']}" do
-   code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']} '#{zip_file['pkg_file']}'"
-   not_if {
-     File.exists?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
-   }
-end
-
-bash "Install Prolific PL2303 Driver" do
-  code "installer -allowUntrusted -package  #{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']} -target /"
+  # rubocop:disable Metrics/LineLength
+  code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']} '#{zip_file['pkg_file']}'"
+  # rubocop:enable Metrics/LineLength
   not_if {
-    Chef::Recipe::PkgPackage::pkg_installed?(zip_file['package_id'])
+    ::File.exist?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
   }
 end
 
-ruby_block "test that Prolific PL2303 Driver install worked" do
+bash 'Install Prolific PL2303 Driver' do
+  code "installer -allowUntrusted -package  #{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']} -target /"
+  not_if {
+    Chef::Recipe::PkgPackage.pkg_installed?(zip_file['package_id'])
+  }
+end
+
+ruby_block 'test that Prolific PL2303 Driver install worked' do
   block do
-    raise "Prolific PL2303 Driver install failed!" if ! zip_file['app_paths'].all? { |app_path| File.exists?(app_path) }
+    unless zip_file['app_paths'].all? { |app_path| File.exist?(app_path) }
+      raise 'Prolific PL2303 Driver install failed!'
+    end
   end
 end
 
-bash "Load Prolific PL2303 Driver" do
+bash 'Load Prolific PL2303 Driver' do
   code "kextload -bundle-id #{zip_file['package_id']}"
   user 'root'
+  # rubocop:disable Metrics/LineLength
   not_if "kextfind -loaded -bundle-id #{zip_file['package_id']} | grep -q '#{zip_file['app_paths'].grep(/\.kext$/).first}'"
+  # rubocop:enable Metrics/LineLength
 end

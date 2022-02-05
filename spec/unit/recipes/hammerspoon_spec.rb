@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Copyright (C) © 🄯  2015-2020 James Cuzella
-# 
+# Cookbook:: lyraphase_workstation
+# Spec:: hammerspoon
+#
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2015-2022 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -18,21 +23,20 @@
 require 'spec_helper'
 
 describe 'lyraphase_workstation::hammerspoon' do
-
   let(:hammerspoon_init_lua) { '/Users/brubble/.hammerspoon/init.lua' }
   let(:hammerspoon_git_checkout_dir) { '/Users/brubble/.hammerspoon/git-checkout-Spoons' }
   let(:hammerspoon_spoons_dir) { '/Users/brubble/.hammerspoon/Spoons' }
 
-  let(:chef_run) {
+  let(:chef_run) do
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
     klass.new do |node|
-      create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+      create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.default['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.default['lyraphase_workstation']['user'] = 'brubble'
       node.default['lyraphase_workstation']['home'] = '/Users/brubble'
       node.automatic['hostname'] = 'bedrock'
     end.converge(described_recipe)
-  }
+  end
 
   it 'installs Hammerspoon Homebrew Formula' do
     expect(chef_run).to install_homebrew_cask('hammerspoon')
@@ -41,9 +45,9 @@ describe 'lyraphase_workstation::hammerspoon' do
   it 'creates .hammerspoon directories' do
     [hammerspoon_git_checkout_dir, hammerspoon_spoons_dir].each do |hammerspoon_dir|
       expect(chef_run).to create_directory(hammerspoon_dir).with(
-        user:  'brubble',
+        user: 'brubble',
         group: 'staff',
-        mode:  '0755'
+        mode: '0755'
       )
     end
   end
@@ -52,7 +56,7 @@ describe 'lyraphase_workstation::hammerspoon' do
     expect(chef_run).to create_cookbook_file(hammerspoon_init_lua).with(
       owner: 'brubble',
       group: 'staff',
-      mode:  '0644'
+      mode: '0644'
     )
   end
 end

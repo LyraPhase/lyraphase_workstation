@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Copyright (C) © 🄯  2016-2020 James Cuzella
-# 
+# Cookbook:: lyraphase_workstation
+# Spec:: iterm2
+#
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2016-2022 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -17,20 +22,18 @@
 
 require 'spec_helper'
 
-
 describe 'lyraphase_workstation::iterm2' do
+  let(:plist_filename) { '/Users/brubble/Library/Preferences/com.googlecode.iterm2.plist' }
 
-  let(:plist_filename) { "/Users/brubble/Library/Preferences/com.googlecode.iterm2.plist" }
-
-  let(:chef_run) {
+  let(:chef_run) do
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
     klass.new do |node|
-      create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+      create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'
       node.normal['lyraphase_workstation']['home'] = '/Users/brubble'
     end.converge(described_recipe)
-  }
+  end
 
   it 'installs iTerm2' do
     expect(chef_run).to install_homebrew_cask('iterm2')
@@ -38,12 +41,12 @@ describe 'lyraphase_workstation::iterm2' do
 
   it 'installs iTerm2 plist' do
     expect(chef_run).to create_template(plist_filename).with(
-      user:   'brubble',
+      user: 'brubble',
       mode: '0600'
     )
+    # rubocop:disable Style/RegexpLiteral
     expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/pCloud Drive\/AppData\/mac\/iTerm2<\/string>$/)
     expect(chef_run).to render_file(plist_filename).with_content(/^\s+<string>\/Users\/brubble\/bin\/iterm_open_with \\5 \\1 \\2<\/string>$/)
+    # rubocop:enable Style/RegexpLiteral
   end
-
 end
-

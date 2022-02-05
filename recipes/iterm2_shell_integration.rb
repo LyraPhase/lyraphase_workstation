@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Copyright (C) © 🄯  2016-2020 James Cuzella
-# 
+# Cookbook:: lyraphase_workstation
+# Recipe:: iterm2_shell_integration
+# Site:: https://iterm2.com/misc/install_shell_integration.sh
+#
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2016-2022 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -14,7 +20,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 
 include_recipe 'lyraphase_workstation::iterm2'
 

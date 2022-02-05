@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 # frozen_string_literal: true
-
 #
 # Cookbook:: lyraphase_workstation
 # Recipe:: sublime_text_license
 # Site:: http://www.sublimetext.com/
 #
 # License:: GPL-3.0+
-# Copyright:: (C) © 🄯  2015-2020 James Cuzella
+# Copyright:: (C) © 🄯  2015-2022 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
 # Cookbook:: lyraphase_workstation
 # Recipe:: audinate_dante_controller
 # Site:: https://www.audinate.com/products/software/dante-controller
 #
-# Copyright:: (C) © 🄯  2013-2021 James Cuzella
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2013-2022 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +23,7 @@
 #
 dmg_properties = node['lyraphase_workstation']['audinate_dante_controller']['dmg']
 
-dmg_package "Dante Controller" do
+dmg_package 'Dante Controller' do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']
@@ -30,4 +33,3 @@ dmg_package "Dante Controller" do
   owner       node['lyraphase_workstation']['user']
   action :install
 end
-

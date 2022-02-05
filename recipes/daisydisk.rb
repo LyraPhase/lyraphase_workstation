@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: daisydisk
 # Site:: http://www.daisydiskapp.com/
 #
-# Copyright (C) © 🄯  2015-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2015-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -21,18 +25,18 @@
 dmg_properties = node['lyraphase_workstation']['daisydisk']['dmg']
 zip_properties = node['lyraphase_workstation']['daisydisk']['zip']
 
-if ! dmg_properties.nil? && zip_properties.nil?
-  dmg_package "DaisyDisk" do
+if !dmg_properties.nil? && zip_properties.nil?
+  dmg_package 'DaisyDisk' do
     source      dmg_properties['source']
     checksum    dmg_properties['checksum']
     volumes_dir dmg_properties['volumes_dir']
     owner       node['lyraphase_workstation']['user']
   end
 
-elsif ! zip_properties.nil? && dmg_properties.nil?
-  app_path='/Applications/DaisyDisk.app'
+elsif !zip_properties.nil? && dmg_properties.nil?
+  app_path = '/Applications/DaisyDisk.app'
 
-  unless File.exists?(app_path)
+  unless File.exist?(app_path)
     remote_file "#{Chef::Config[:file_cache_path]}/DaisyDisk.zip" do
       source   zip_properties['source']
       checksum zip_properties['checksum']
@@ -46,24 +50,31 @@ elsif ! zip_properties.nil? && dmg_properties.nil?
     end
   end
 else
-  Chef::Log::warn("node['lyraphase_workstation']['daisydisk']['dmg'] and node['lyraphase_workstation']['daisydisk']['zip'] were both specified!  Not sure which you intended to use.  Please pick one!")
+  # rubocop:disable Metrics/LineLength
+  Chef::Log.warn("node['lyraphase_workstation']['daisydisk']['dmg'] and node['lyraphase_workstation']['daisydisk']['zip'] were both specified!  Not sure which you intended to use.  Please pick one!")
+  # rubocop:enable Metrics/LineLength
 end
 
 app_supportdir = "#{node['lyraphase_workstation']['home']}/Library/Application Support"
 
-recursive_directories([app_supportdir, "DaisyDisk"]) do
+recursive_directories([app_supportdir, 'DaisyDisk']) do
   owner node['lyraphase_workstation']['user']
 end
 
+# rubocop:disable Style/RescueModifier
 license_data = data_bag_item('lyraphase_workstation', 'daisydisk')['license'] rescue nil
+# rubocop:enable Style/RescueModifier
 
-if license_data.nil? && ! node['lyraphase_workstation']['daisydisk']['license'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['customer_name'].nil? && ! node['lyraphase_workstation']['daisydisk']['license']['registration_key'].nil?
-  license_data = node['lyraphase_workstation']['daisydisk']['license']
-end
+license_data_complete =
+  license_data.nil? &&
+  !node['lyraphase_workstation']['daisydisk']['license'].nil? &&
+  !node['lyraphase_workstation']['daisydisk']['license']['customer_name'].nil? &&
+  !node['lyraphase_workstation']['daisydisk']['license']['registration_key'].nil?
+license_data = node['lyraphase_workstation']['daisydisk']['license'] if license_data_complete
 
 template File.join(app_supportdir, 'DaisyDisk', 'License.DaisyDisk') do
-  source "License.DaisyDisk.erb"
+  source 'License.DaisyDisk.erb'
   owner node['lyraphase_workstation']['user']
-  variables :license => license_data
+  variables license: license_data
   not_if { license_data.nil? }
 end

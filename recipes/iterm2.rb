@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Copyright (C) © 🄯  2016-2020 James Cuzella
-# 
+# Cookbook:: lyraphase_workstation
+# Recipe:: iterm2
+# Site:: https://www.iterm2.com
+#
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2016-2022 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -18,11 +24,11 @@
 homebrew_cask 'iterm2'
 
 template "/Users/#{node['lyraphase_workstation']['user']}/Library/Preferences/com.googlecode.iterm2.plist" do
-  source "com.googlecode.iterm2.plist.erb"
+  source 'com.googlecode.iterm2.plist.erb'
   user node['lyraphase_workstation']['user']
-  mode "0600"
+  mode '0600'
   variables(
     # :user => node['lyraphase_workstation']['user'],
-    :home => node['lyraphase_workstation']['home']
+    home: node['lyraphase_workstation']['home']
   )
 end

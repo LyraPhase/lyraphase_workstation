@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Copyright (C) © 🄯  2016-2021 James Cuzella
+# Cookbook:: lyraphase_workstation
+# Recipe:: user_default_shell
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2016-2021 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 user_default_shell = node['lyraphase_workstation']['user_default_shell']
-if ! user_default_shell.nil? && ! user_default_shell['set_login_shell'].nil? && user_default_shell['set_login_shell'] && ! user_default_shell['shell'].nil?
+if !user_default_shell.nil? && !user_default_shell['set_login_shell'].nil? && user_default_shell['set_login_shell'] && !user_default_shell['shell'].nil?
   shell_regexp = Regexp.escape(user_default_shell['shell']).gsub('/', '\/')
   execute 'change login shell' do
     command "chsh -s #{node['lyraphase_workstation']['user_default_shell']['shell']} #{node['lyraphase_workstation']['user']}"

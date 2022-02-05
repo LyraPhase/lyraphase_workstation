@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Copyright (C) © 🄯  2016-2021 James Cuzella
+# Cookbook:: lyraphase_workstation
+# Spec:: user_default_shell
+#
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯 2013-2022 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,9 +23,8 @@
 require 'spec_helper'
 
 describe 'lyraphase_workstation::user_default_shell' do
-
-  let(:default_shell) { "/bin/bash" }
-  let(:etc_shells) {
+  let(:default_shell) { '/bin/bash' }
+  let(:etc_shells) do
     [
       '/usr/local/bin/bash',
       '/bin/bash',
@@ -28,14 +32,14 @@ describe 'lyraphase_workstation::user_default_shell' do
       '/bin/ksh',
       '/bin/sh',
       '/bin/tcsh',
-      '/bin/zsh'
+      '/bin/zsh',
     ]
-  }
+  end
 
-  let(:chef_run) {
+  let(:chef_run) do
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
     klass.new(platform: 'mac_os_x', version: '10.11') do |node|
-      create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+      create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
       # MacOS Catalina and later set default shell to: /bin/zsh
       node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/zsh', 0, '', 0)
       node.normal['lyraphase_workstation']['user'] = 'brubble'
@@ -44,13 +48,13 @@ describe 'lyraphase_workstation::user_default_shell' do
       node.normal['lyraphase_workstation']['user_default_shell']['shell'] = default_shell
       stub_command("dscl /Search -read '/Users/brubble' UserShell | grep -Eq '\\/bin\\/bash'").and_return(false)
     end.converge(described_recipe)
-  }
+  end
 
   context 'when set_login_shell is true' do
-    let(:chef_run) {
+    let(:chef_run) do
       klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
       klass.new(platform: 'mac_os_x', version: '10.11') do |node|
-        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
         # MacOS Catalina and later set default shell to: /bin/zsh
         node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/zsh', 0, '', 0)
         node.normal['lyraphase_workstation']['user'] = 'brubble'
@@ -60,7 +64,7 @@ describe 'lyraphase_workstation::user_default_shell' do
         stub_command("dscl /Search -read '/Users/brubble' UserShell | grep -Eq '\\/bin\\/bash'").and_return(false)
         node.normal['lyraphase_workstation']['user_default_shell']['set_login_shell'] = true
       end.converge(described_recipe)
-    }
+    end
     before(:each) do
       stub_command("dscl /Search -read '/Users/brubble' UserShell | grep -Eq '\\/bin\\/bash'").and_return(false)
     end
@@ -75,10 +79,10 @@ describe 'lyraphase_workstation::user_default_shell' do
   end
 
   context 'when set_login_shell is false' do
-    let(:chef_run) {
+    let(:chef_run) do
       klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
       klass.new(platform: 'mac_os_x', version: '10.11') do |node|
-        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
         # MacOS Catalina and later set default shell to: /bin/zsh
         node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/zsh', 0, '', 0)
         node.normal['lyraphase_workstation']['user'] = 'brubble'
@@ -89,7 +93,7 @@ describe 'lyraphase_workstation::user_default_shell' do
         stub_command("dscl /Search -read '/Users/brubble' UserShell | grep -Eq '\\/bin\\/bash'").and_return(false)
         node.normal['lyraphase_workstation']['user_default_shell']['set_login_shell'] = false
       end.converge(described_recipe)
-    }
+    end
     before(:each) do
       stub_command("dscl /Search -read '/Users/brubble' UserShell | grep -Eq '\\/bin\\/bash'").and_return(false)
     end
@@ -99,4 +103,3 @@ describe 'lyraphase_workstation::user_default_shell' do
     end
   end
 end
-
