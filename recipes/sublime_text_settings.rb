@@ -22,7 +22,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-unless File.exists?(node['lyraphase_workstation']['sublime_text_settings']['shared_files_path'])
+unless File.exist?(node['lyraphase_workstation']['sublime_text_settings']['shared_files_path'])
   Chef::Log.warn('pCloud Drive installation cannot be automated... please Enable Drive and allow kernel extensions from Recovery mode.')
   Chef::Log.warn('  https://web.archive.org/web/20211221010410/https://blog.pcloud.com/how-to-install-pcloud-drive-on-apple-devices-with-the-m1-chip/')
   Chef::Log.warn('Sublime Text shared_files_path may not exist until pCloud Drive is enabled!')
@@ -38,7 +38,7 @@ node['lyraphase_workstation']['sublime_text_settings']['shared_files'].each do |
   # Create recursive directories specified in shared_files
   # under app_support_path, except special cases: '.' '..' '/'
   shared_sublime_file_parent_dir = File.dirname(shared_sublime_file)
-  if !['.', '..', '/'].include?(shared_sublime_file_parent_dir)
+  unless ['.', '..', '/'].include?(shared_sublime_file_parent_dir)
     symlink_path_parent_dir = File.dirname(Pathname.new(symlink_path))
     directory symlink_path_parent_dir do
       action :create
@@ -47,7 +47,7 @@ node['lyraphase_workstation']['sublime_text_settings']['shared_files'].each do |
       group 'staff'
       mode '0700'
       # Avoid creating the dir if our symlink target shared file does not exist.
-      not_if { !::File.exist?( symlink_target ) }
+      not_if { !::File.exist?(symlink_target) }
     end
   end
 
