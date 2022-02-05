@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 # frozen_string_literal: true
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
+# Spec:: spec_shared_contexts
 # Site:: https://github.com/LyraPhase/lyraphase_workstation/
 #
-# Copyright (C) © 🄯 2016-2022 James Cuzella
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯 2016-2022 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,8 +23,8 @@
 
 ## Helper Methods
 ## Gets rid of const redefinition warnings
-def create_singleton_struct name, fields
-  if Struct::const_defined? name
+def create_singleton_struct(name, fields)
+  if Struct.const_defined? name
     Struct.const_get name
   else
     Struct.new name, *fields
@@ -53,27 +55,26 @@ end
 #   - https://docs.chef.io/ohai/#optional-plugins
 #   - https://stackoverflow.com/a/57953198/645491
 RSpec.shared_context 'recipe tests', type: :recipe do
-
   # Individual spec Example Groups can override this to inject node attributes
-  let(:chefspec_options) {
+  let(:chefspec_options) do
     {
       default_attributes: {},
       normal_attributes: {},
-      automatic_attributes: {}
+      automatic_attributes: {},
     }
-  }
+  end
 
-  let(:chef_run) {
-    klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
+  let(:chef_run) do
+    klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::ServerRunner
     klass.new(chefspec_options) do |node|
       node.normal.merge!(node_attributes)
     end.converge(described_recipe)
-  }
+  end
 
   let(:node) { chef_run.node }
 
   def lyraphase_workstation_user
-    create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+    create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
     Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
   end
 
@@ -84,17 +85,17 @@ RSpec.shared_context 'recipe tests', type: :recipe do
       'version': '10.15',
       'etc': {
         'passwd': {
-          'brubble': lyraphase_workstation_user
-        }
+          'brubble': lyraphase_workstation_user,
+        },
       },
       'sprout': {
         'home': '/Users/brubble',
-        'user': 'brubble'
+        'user': 'brubble',
       },
       'lyraphase_workstation': {
         'user': 'brubble',
-        'home': '/Users/brubble'
-      }
+        'home': '/Users/brubble',
+      },
     }
     stringify_keys(attributes)
   end
@@ -180,25 +181,25 @@ Please specify the name of the test recipe that executes your recipe:
 end
 
 shared_context 'Chef 14.x no EtcPasswd' do
-  let(:chef_run) {
+  let(:chef_run) do
     ## Note: We run chef_run.converge here to raise exceptions for RSpec to check
     ChefSpec::SoloRunner.new(node_attributes).converge(described_recipe)
-  }
+  end
   let(:node) { chef_run.node }
 
-  let(:chef_log_warnings) {
+  let(:chef_log_warnings) do
     ["Chef >= 14.x removed node['etc']['passwd'] Ohai attributes that sprout cookbooks depend on!",
-     "Please manually enable Ohai Passwd plugin, or populate cookbook attributes!",
-     "References: ",
-     "            https://docs.chef.io/ohai/#optional-plugins",
-     "            https://github.com/chef/chef/issues/8888",
-     "            https://stackoverflow.com/a/57953198/645491"
+     'Please manually enable Ohai Passwd plugin, or populate cookbook attributes!',
+     'References: ',
+     '            https://docs.chef.io/ohai/#optional-plugins',
+     '            https://github.com/chef/chef/issues/8888',
+     '            https://stackoverflow.com/a/57953198/645491',
     ]
-  }
+  end
 
-  let(:chef_log_fatal_msgs) {
+  let(:chef_log_fatal_msgs) do
     ['node[\'etc\'][\'passwd\'] Ohai attributes are nil!']
-  }
+  end
 
   def node_attributes
     {}
