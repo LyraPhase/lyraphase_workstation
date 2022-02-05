@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: omnifocus
 # Site:: https://www.omnigroup.com/omnifocus
 #
-# Copyright (C) © 🄯  2013-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2013-2022 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,13 +23,13 @@
 #
 dmg_properties = node['lyraphase_workstation']['omnifocus']['dmg']
 
-dmg_package "OmniFocus" do
+dmg_package 'OmniFocus' do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   owner       node['lyraphase_workstation']['user']
   type 'app'
   accept_eula true
-  #package_id  'com.native-instruments.Traktor2.*'
+  # package_id  'com.native-instruments.Traktor2.*'
 end
 
 # TODO: Install license, remove sprout attribute dependency
