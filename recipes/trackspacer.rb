@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: trackspacer
 # Site:: https://www.wavesfactory.com/product/trackspacer/
 #
-# Copyright (C) © 🄯  2017-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2017-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +23,7 @@
 #
 dmg_properties = node['lyraphase_workstation']['trackspacer']['dmg']
 
-dmg_package "Trackspacer" do
+dmg_package 'Trackspacer' do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']
@@ -32,9 +35,12 @@ dmg_package "Trackspacer" do
   action :install
 end
 
-license_key_data = data_bag_item('lyraphase_workstation', 'trackspacer')['license'] rescue nil
+license_key_data = begin
+                     data_bag_item('lyraphase_workstation', 'trackspacer')['license']
+                   rescue
+                     nil
+                   end
 
-if license_key_data.nil? && ! node['lyraphase_workstation']['trackspacer']['license'].nil? && ! node['lyraphase_workstation']['trackspacer']['license']['serial']
+if license_key_data.nil? && !node['lyraphase_workstation']['trackspacer']['license'].nil? && !node['lyraphase_workstation']['trackspacer']['license']['serial']
   license_key_data = node['lyraphase_workstation']['trackspacer']['license']
 end
-
