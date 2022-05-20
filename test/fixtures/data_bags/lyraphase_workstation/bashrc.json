@@ -1,0 +1,10 @@
+{
+  "id": "bashrc",
+  "homebrew_github_api_token": {
+    "encrypted_data": "G7B4aiL6U+BK5pGe27kA8M/Ndsw5QiS2cSzxypHYTMzvYsxgXw==\n",
+    "iv": "VocLxRLb9PrqK/nE\n",
+    "auth_tag": "1A8JfCMmcOwsAiUK34jaUw==\n",
+    "version": 3,
+    "cipher": "aes-256-gcm"
+  }
+}

@@ -1,0 +1,90 @@
+<%
+# Hack to fix a bug in TK. TK supports using an SSH gateway in its SSH transport, but appears not to support configuring
+# separate keys for the gateway and the destination.
+require 'kitchen/transport/ssh'
+
+GATEWAY_KEYS = ["#{ENV['HOME']}/.ssh/identity.lyra"]
+
+class Kitchen::Transport::Ssh::Connection
+  # Replace this method in TK core with a version that uses the logged in user's key to access the SSH gateway.
+  def establish_connection_via_gateway(opts)
+    retry_connection(opts) do
+      Net::SSH::Gateway.new(ssh_gateway, ssh_gateway_username, options.merge(keys: GATEWAY_KEYS))
+        .ssh(hostname, username, options)
+    end
+  end
+end
+%>
+---
+driver:
+  name: vagrant
+  provider: libvirt
+  vagrantfiles:
+    - 'test/fixtures/Vagrantfile.libvirt-ssh'
+  synced_folders:
+  - [".", "/tmp/kitchen/soloist", "disabled: false, type: 'rsync'"]
+  # TODO: Find & fix bugs in Vagrant where it checks for vagrant-host path... needs to support remote NFS & 9p libvirt mounts
+  # TODO: Fix mount: false setting for 9p
+  # TODO: Fix auto-mount capability for Darwin / macOS... needs mount_9p support (see man mount_9p)
+  #       Need to implement mount_9p_shared_folder capability for macOS / Darwin
+  #       https://github.com/vagrant-libvirt/vagrant-libvirt/search?q=mount_9p_shared_folder
+  # NOTE: For qemu+ssh remote libvirt VM, create a fake directory matching hostpath on the host running vagrant
+  #       In this use case, both hostpath & guestpath live on the same remote libvirt + qemu hypervisor host & VM (guest)
+  # - ["/opt/export/terabyte", "/System/Volumes/Data/terabyte", "hostpath: '/export/terabyte', guestpath: '/System/Volumes/Data/terabyte', disabled: false, type: '9p', mount: false, accessmode: 'squash', owner:'1000'"]
+  # - ["/export/terabyte", "/System/Volumes/Data/terabyte", "disabled: false, type: 'nfs', nfs_export: false, bsd__nfs_options: '-fstype=nfs,nolockd,resvport,hard,bg,intr,rw,tcp,nfc'"]
+#    ssh_gateway_username: trinitronx
+
+#  customize:
+#    memory: 1024
+
+transport:
+  ssh_gateway: saturn.local
+  ssh_gateway_username: trinitronx
+#  username: vagrant
+
+provisioner:
+#  name: chef_zero
+  client_rb:
+    ohai.optional_plugins: [ ':Passwd' ]
+  transport:
+    ssh_gateway: saturn.local
+    ssh_gateway_username: trinitronx
+
+#  deprecations_as_errors: true
+  deprecations_as_errors: false
+#  multiple_converge: 2
+#  enforce_idempotency: true
+
+verifier:
+  name: inspec
+## Client error, can't connect to 'ssh' backend: Only one of proxy_command or bastion_host needs to be specified]
+## Apparently the transport ssh_gateway option is actually passed through to InSpec
+#  proxy_command: ssh saturn.local -q0 %h:%p
+
+platforms:
+#  - name: ubuntu-20.04
+#    driver:
+#      box: generic/ubuntu2004
+#    lifecycle:
+#      pre_converge:
+#      - remote: sudo addgroup --system admin
+#      - remote: sudo usermod -a -G admin kitchen
+  - name: macos-12.1
+    lifecycle:
+      pre_converge:
+      - remote: sudo mkdir -p /tmp/kitchen
+      - remote: sudo chown -R vagrant:vagrant /tmp/kitchen
+    driver:
+      box: lyraphase-runner/macos-monterey-base
+      box_url: http://saturn.local:8888/lyraphase-runner-macos-monterey-base.box
+      communicator: ssh
+      gui: true
+      customize:
+        memory: 4096
+#        cpus: 2
+
+#suites:
+#  - name: default
+#    run_list:
+#      - recipe[sprout-base::default]
+#    includes: [ubuntu-20.04, macos-latest]

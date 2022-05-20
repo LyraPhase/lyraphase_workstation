@@ -4,10 +4,20 @@ driver:
 
 provisioner:
   name: chef_zero
+  encrypted_data_bag_secret_key_path: 'test/fixtures/encrypted_data_bag_secret'
+  data_bags_path: 'test/fixtures/data_bags'
 
 platforms:
 - name: macosx-10.10
 
 suites:
 - name: default
-  run_list: recipe[lyraphase_workstation::ableton_live]
+  run_list:
+    - recipe[lyraphase_workstation::ableton_live]
+    - recipe[lyraphase_workstation::bashrc]
+  attributes:
+    lyraphase_workstation:
+      bashrc:
+        user_fullname: 'vagrant'
+        user_email: 'vagrant@vagrant.com'
+        user_gpg_keyid: '0xBADC0DE00FEED000'

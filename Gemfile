@@ -23,11 +23,15 @@ group :unit do
 end
 
 group :kitchen_common do
-  gem 'test-kitchen', '~> 1.4'
+  gem 'test-kitchen', '~> 3.2'
 end
 
 group :kitchen_vagrant do
-  gem 'kitchen-vagrant', '~> 0.19'
+  gem 'kitchen-vagrant', '~> 1.11'
+end
+
+group :kitchen_inspec do
+  gem 'kitchen-inspec', '~> 2.5'
 end
 
 group :kitchen_cloud do
