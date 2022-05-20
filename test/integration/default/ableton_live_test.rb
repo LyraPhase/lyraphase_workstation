@@ -27,7 +27,7 @@ app_bundle_id_regex = /^com\.ableton\.live/
 
 applications_path = '/Applications'
 app_path = File.join(applications_path, app)
-get_bundle_id_cmd = "osascript -e 'id of app \"#{app}\"'"
+get_bundle_id_cmd = "sudo su -m vagrant -c 'osascript -e '\\''id of app \"Ableton Live 10 Suite.app\"'\\'''"
 
 describe file(app_path) do
   it { should exist }
@@ -37,8 +37,8 @@ describe file(app_path) do
 end
 
 describe command(get_bundle_id_cmd) do
-  it { should exist }
   its('exit_status') { should eq 0 }
   its('stdout') { should match app_bundle_id_regex }
+  its('stderr') { should eq '' }
 end
 

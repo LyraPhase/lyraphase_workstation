@@ -32,10 +32,10 @@ describe file(bashrc_path) do
   its('mode') { should cmp '0644' }
   its('owner') { should eq 'vagrant' }
 
-  its('content') { should match Regexp.new("^export HOMEBREW_GITHUB_API_TOKEN='#{homebrew_github_api_token}'") }
-  its('content') { should match /^export DEBFULLNAME='vagrant'$/ }
-  its('content') { should match /^export DEBEMAIL='vagrant@vagrant.com'$/ }
-  its('content') { should match /^export DEBSIGN_KEYID='0xBADC0DE00FEED000'$/ }
+  its('content') { should match Regexp.new("^\s*export HOMEBREW_GITHUB_API_TOKEN='#{homebrew_github_api_token}'") }
+  its('content') { should match /^\s*export DEBFULLNAME='vagrant'$/ }
+  its('content') { should match /^\s*export DEBEMAIL='vagrant@vagrant.com'$/ }
+  its('content') { should match /^\s*export DEBSIGN_KEYID='0xBADC0DE00FEED000'$/ }
 
 end
 
