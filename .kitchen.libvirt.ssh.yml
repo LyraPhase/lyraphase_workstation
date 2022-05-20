@@ -44,6 +44,8 @@ transport:
 
 provisioner:
 #  name: chef_zero
+  client_rb:
+    ohai.optional_plugins: [ ':Passwd' ]
   transport:
     ssh_gateway: saturn.local
     ssh_gateway_username: trinitronx
@@ -68,6 +70,10 @@ platforms:
 #      - remote: sudo addgroup --system admin
 #      - remote: sudo usermod -a -G admin kitchen
   - name: macos-12.1
+    lifecycle:
+      pre_converge:
+      - remote: sudo mkdir -p /tmp/kitchen
+      - remote: sudo chown -R vagrant:vagrant /tmp/kitchen
     driver:
       box: lyraphase-runner/macos-monterey-base
       box_url: http://saturn.local:8888/lyraphase-runner-macos-monterey-base.box
