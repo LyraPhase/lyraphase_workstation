@@ -165,6 +165,7 @@ Some general rules of thumb:
      - Commit to work repos as corporate email & ID.)
    - `less-manpage-colors.bash`: Set `LESS_TERMCAP_*` environment variables for Manpage colors in `less` Pager.
      - Config color scheme was lifted from [Amazon Linux](https://forums.aws.amazon.com/thread.jspa?threadID=245139)
+ - `lyraphase_workstation::bitfocus_companion`: Install [Bitfocus Companion](https://bitfocus.io/companion/download/mac/)
  - `lyraphase_workstation::cycling_74_max`: Install [CYCLING '74 MAX](https://cycling74.com/)
  - `lyraphase_workstation::daisydisk`: Install [DaisyDisk](http://www.daisydiskapp.com/)
  - `lyraphase_workstation::default`: No-Op recipe for just loading libraries this cookbook provides
