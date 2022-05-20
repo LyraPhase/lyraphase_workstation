@@ -10,4 +10,6 @@ platforms:
 
 suites:
 - name: default
-  run_list: recipe[lyraphase_workstation::ableton_live]
+  run_list:
+    - recipe[lyraphase_workstation::ableton_live]
+    - recipe[lyraphase_workstation::bashrc]
