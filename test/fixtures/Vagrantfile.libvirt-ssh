@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+Vagrant.configure("2") do |config|
+
+  #config.ssh.host = 'saturn.local'
+  #config.ssh.port = 2222
+  config.ssh.proxy_command = 'ssh -t -T saturn.local exec nc -q0 %h %p'
+  config.vm.synced_folder ".", "/tmp/vagrant", disabled: true
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.uri = 'qemu+ssh://saturn.local/system?socket=/run/libvirt/libvirt-sock'
+    #libvirt.forward_ssh_port = true
+  end
+end
