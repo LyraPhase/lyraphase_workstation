@@ -49,6 +49,7 @@ jobs:
       - name: Test Kitchen
         uses: actionshub/test-kitchen@main
         env:
+          TERM: xterm-color
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: ${{ matrix.KITCHEN_LOCAL_YAML }}
         with:
@@ -58,7 +59,6 @@ jobs:
         if: failure()
         run: |
             set -x
-            sudo journalctl -l --since today
-            sudo docker version
-            sudo docker info
-            KITCHEN_LOCAL_YAML=${{ matrix.KITCHEN_LOCAL_YAML }} /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"
+            export TERM=xterm-color
+            log show --color always --last 15m
+            KITCHEN_LOCAL_YAML=${{ matrix.KITCHEN_LOCAL_YAML }} /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "syslog"
