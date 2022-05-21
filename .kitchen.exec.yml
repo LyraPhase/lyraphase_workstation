@@ -8,7 +8,7 @@ transport:
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
-  install_strategy: skip
+  install_strategy: once
   chef_omnibus_root: /opt/chef-workstation
 
 verifier:
