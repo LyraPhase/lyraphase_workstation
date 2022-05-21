@@ -45,4 +45,3 @@ describe file(bash_logout_path) do
   its('owner') { should eq 'vagrant' }
   its('mode') { should cmp '0644' }
 end
-

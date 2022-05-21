@@ -41,4 +41,3 @@ describe command(get_bundle_id_cmd) do
   its('stdout') { should match app_bundle_id_regex }
   its('stderr') { should eq '' }
 end
-
