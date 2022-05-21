@@ -61,7 +61,7 @@ verifier:
   #  - https://github.com/inspec/inspec/pull/4398
   #  - https://docs.chef.io/inspec/inputs/#what-happened-to-attributes
   attributes:
-    test_kitchen_user: <%= ENV['USER'] || 'vagrant' %>
+    test_kitchen_user: 'vagrant'
 ## Client error, can't connect to 'ssh' backend: Only one of proxy_command or bastion_host needs to be specified]
 ## Apparently the transport ssh_gateway option is actually passed through to InSpec
 #  proxy_command: ssh saturn.local -q0 %h:%p
