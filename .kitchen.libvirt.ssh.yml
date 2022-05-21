@@ -44,8 +44,6 @@ transport:
 
 provisioner:
 #  name: chef_zero
-  client_rb:
-    ohai.optional_plugins: [ ':Passwd' ]
   transport:
     ssh_gateway: saturn.local
     ssh_gateway_username: trinitronx
