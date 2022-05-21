@@ -10,4 +10,5 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
-  - name: macos-latest
+  - name: macos-11
+  - name: macos-12
