@@ -115,8 +115,6 @@ describe 'lyraphase_workstation::bitfocus_companion' do
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
-      Chef::Log.warn("Inside arm64 context: #{chef_run.node['kernel']['machine']}")
-      Chef::Log.warn("Inside arm64 context: #{chef_run.node['lyraphase_workstation']['bitfocus_companion']}")
     end
 
     it 'installs arm64 Bitfocus Companion DMG' do
