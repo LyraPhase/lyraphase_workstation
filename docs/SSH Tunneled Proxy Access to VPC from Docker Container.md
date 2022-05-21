@@ -51,8 +51,8 @@ and utilities, and is still useful!
 After Docker for Mac was released, slight differences in the hypervisor and
 default bridged networking mode from the Linux version of Docker started presenting
 challenges.  I came across
-[a way to connect from a docker container to a tunnel running on a Mac OS host](https://forums.docker.com/t/accessing-host-machine-from-within-docker-container/14248/5)
-. I discovered that, when combined with a [`SOCKS5h` SSH proxy](https://blog.mafr.de/2013/11/24/setting-up-a-socks-proxy-using-openssh/)
+[a way to connect from a docker container to a tunnel running on a Mac OS host](https://forums.docker.com/t/accessing-host-machine-from-within-docker-container/14248/5).
+I discovered that, when combined with a [`SOCKS5h` SSH proxy](https://blog.mafr.de/2013/11/24/setting-up-a-socks-proxy-using-openssh/)
 (**Note the `h`, it's important!**), this allows common utilities such as `curl`
 to access internal VPC services through this proxy + tunnel!
 
@@ -74,8 +74,8 @@ The way to set this up is to do the following:
 ### Terraform Container Executing Utilities With `socks5h://` Support
 
 For example, in order to run local scripts via terraform or GNU Make (**NOTE:**
-[Terraform itself does not yet support SOCSK5h](https://github.com/hashicorp/terraform/issues/17754))
-, you might want to set up a container with `socks5h://` network settings on
+[Terraform itself does not yet support SOCSK5h](https://github.com/hashicorp/terraform/issues/17754)),
+you might want to set up a container with `socks5h://` network settings on
 MacOS:
 
     # First, set up docker networking
