@@ -15,6 +15,7 @@ suites:
   run_list:
     - recipe[lyraphase_workstation::ableton_live]
     - recipe[lyraphase_workstation::bashrc]
+    - recipe[lyraphase_workstation::bitfocus_companion]
   attributes:
     lyraphase_workstation:
       bashrc:
