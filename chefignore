@@ -103,3 +103,10 @@ Vagrantfile
 # Bundler #
 ###########
 vendor/bundle/*
+
+# CI/CD #
+#########
+.markdownlint.yml
+.pre-commit-config.yaml
+.rubocop.yml
+.github/*
