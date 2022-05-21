@@ -25,15 +25,9 @@ jobs:
       - name: Run rake ci
         run: |
           bundle exec rake ci
-  pre-commit:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-    - uses: pre-commit/action@v2.0.3
 
   integration:
-    needs: [rake-ci, pre-commit]
+    needs: [rake-ci]
     runs-on: ubuntu-latest
     strategy:
       matrix:
