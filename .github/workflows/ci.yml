@@ -34,10 +34,10 @@ jobs:
         #exclude:
         include:
           - os: 'macos-11'
-            suite: 'default'
+            suite: '--log-level debug default'
             KITCHEN_LOCAL_YAML: '.kitchen.exec.yml'
           - os: 'macos-12'
-            suite: 'default'
+            suite: '--log-level debug default'
             KITCHEN_LOCAL_YAML: '.kitchen.exec.yml'
       fail-fast: false
 
