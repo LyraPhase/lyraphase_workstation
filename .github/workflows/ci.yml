@@ -23,7 +23,9 @@ jobs:
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Delete Chef gem files that knife test chokes on
-        run: rm -rf ./vendor/bundle/ruby/*/gems/chef-*/spec/data/client.d_02/foo.rb
+        run: |
+          rm -rf ${GITHUB_WORKSPACE}/vendor/bundle/ruby/*/gems/chef-*/spec/data/client.d_02/foo.rb
+          sync
       - name: Run rake ci
         run: |
           bundle exec rake ci
