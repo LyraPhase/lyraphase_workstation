@@ -94,3 +94,8 @@ Vagrantfile
 # Travis #
 ##########
 .travis.yml
+
+# RVM / RbEnv #
+###############
+.ruby-version
+.ruby-gemset
