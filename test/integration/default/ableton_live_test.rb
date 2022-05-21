@@ -25,15 +25,16 @@
 app = 'Ableton Live 10 Suite.app'
 app_bundle_id_regex = /^com\.ableton\.live/
 
+test_kitchen_user = input('test_kitchen_user', value: 'kitchen')
 applications_path = '/Applications'
 app_path = File.join(applications_path, app)
-get_bundle_id_cmd = "sudo su -m vagrant -c 'osascript -e '\\''id of app \"Ableton Live 10 Suite.app\"'\\'''"
+get_bundle_id_cmd = "sudo su -m #{test_kitchen_user} -c 'osascript -e '\\''id of app \"Ableton Live 10 Suite.app\"'\\'''"
 
 describe file(app_path) do
   it { should exist }
   it { should be_directory }
   its('mode') { should cmp '0755' }
-  its('owner') { should eq 'vagrant' }
+  its('owner') { should eq test_kitchen_user }
 end
 
 describe command(get_bundle_id_cmd) do

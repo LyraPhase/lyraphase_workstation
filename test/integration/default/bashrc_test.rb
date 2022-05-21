@@ -22,15 +22,16 @@
 
 # InSpec test for recipe lyraphase_workstation::bashrc
 
-bashrc_path = '/Users/vagrant/.bashrc'
-bash_logout_path = '/Users/vagrant/.bash_logout'
+test_kitchen_user = input('test_kitchen_user', value: 'kitchen')
+bashrc_path = "/Users/#{test_kitchen_user}/.bashrc"
+bash_logout_path = "/Users/#{test_kitchen_user}/.bash_logout"
 homebrew_github_api_token = 'gh_f00dcafevagrant'
 
 describe file(bashrc_path) do
   it { should exist }
   it { should be_file }
   its('mode') { should cmp '0644' }
-  its('owner') { should eq 'vagrant' }
+  its('owner') { should eq test_kitchen_user }
 
   its('content') { should match Regexp.new("^\s*export HOMEBREW_GITHUB_API_TOKEN='#{homebrew_github_api_token}'") }
   its('content') { should match /^\s*export DEBFULLNAME='vagrant'$/ }
@@ -42,6 +43,6 @@ end
 describe file(bash_logout_path) do
   it { should exist }
   it { should be_file }
-  its('owner') { should eq 'vagrant' }
+  its('owner') { should eq test_kitchen_user }
   its('mode') { should cmp '0644' }
 end
