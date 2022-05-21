@@ -22,7 +22,13 @@ end
 # http://wiki.opscode.com/display/chef/Managing+Cookbooks+With+Knife#ManagingCookbooksWithKnife-test
 desc 'Test cookbooks via knife -- NOTE: knife cookbook test was deprecated as of Chef 15.0.29'
 task :knife do
-  cookbook_path = ENV['TRAVIS_BUILD_DIR'] ? ENV['TRAVIS_BUILD_DIR'] + '/../' : '.././'
+  if ENV['TRAVIS_BUILD_DIR']
+    cookbook_path = ENV['TRAVIS_BUILD_DIR'] + '/../'
+  elsif ENV['GITHUB_WORKSPACE']
+    cookbook_path = ENV['GITHUB_WORKSPACE'] + '/../'
+  else
+    cookbook_path = '.././'
+  end
   sh "knife cookbook test -c test/.chef/knife.rb -o #{cookbook_path} -a"
 end
 
