@@ -29,6 +29,8 @@ app_bundle_id_regex = /^companion\.bitfocus\.no/
 applications_path = '/Applications'
 app_path = File.join(applications_path, app)
 get_bundle_id_cmd = "sudo su -m vagrant -c 'osascript -e '\\''id of app \"#{app}\"'\\'''"
+executable_path = File.join(app_path, 'Contents', 'MacOS', 'Companion')
+node_arch = command('uname -m').stdout.chomp
 
 describe file(app_path) do
   it { should exist }
@@ -43,3 +45,8 @@ describe command(get_bundle_id_cmd) do
   its('stderr') { should eq '' }
 end
 
+describe command("file '#{executable_path}'") do
+  its('exit_status') { should eq 0 }
+  its('stdout') { should match Regexp.new(".*#{node_arch}.*") }
+  its('stderr') { should eq '' }
+end
