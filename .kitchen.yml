@@ -9,6 +9,9 @@ provisioner:
   encrypted_data_bag_secret_key_path: 'test/fixtures/encrypted_data_bag_secret'
   data_bags_path: 'test/fixtures/data_bags'
 
+verifier:
+  name: inspec
+
 platforms:
 - name: macosx-10.10
 
