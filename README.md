@@ -327,9 +327,9 @@ Some general rules of thumb:
       `*_PROXY` environment variables
       - For example:
 
-        export PROTO='socks5h://'; export IP=172.16.222.111; export PORT=2903;
-        ssh -f -N -v -D ${IP}:${PORT} ssh-bastion-host.example.com
-        export ALL_PROXY="${PROTO}${IP}:${PORT}";  HTTP_PROXY="$ALL_PROXY" HTTPS_PROXY="$ALL_PROXY"
+            export PROTO='socks5h://'; export IP=172.16.222.111; export PORT=2903;
+            ssh -f -N -v -D ${IP}:${PORT} ssh-bastion-host.example.com
+            export ALL_PROXY="${PROTO}${IP}:${PORT}";  HTTP_PROXY="$ALL_PROXY" HTTPS_PROXY="$ALL_PROXY"
 
         - Set up Docker Networking:
 
