@@ -1,3 +1,24 @@
+<!-- markdownlint-configure-file
+{
+  "required-headings": {
+    "headings": [
+      "# Use Case Explanation",
+      "*",
+      "## Use Case Examples",
+      "*",
+      "### Terraform Container Executing Utilities With `socks5h://` Support",
+      "*",
+      "### Alpine Container Running `curl`",
+      "*",
+      "## Known Issues",
+      "*",
+      "### Potential Path Forward",
+      "*"
+    ]
+  }
+}
+-->
+
 # Use Case Explanation
 
 As a DevOps Engineer, I have found that running Ansible, Terraform, and various
@@ -64,7 +85,8 @@ MacOS:
     sudo ifconfig lo0 alias 172.16.222.111
 
     # Next, set up your SSH tunnel via DynamicForward or -D
-    # Note that your SSH tunnel tool needs to provide SOCKS5h proxy capability (OpenSSH should, SSH Tunnel.app on Mac also does)
+    # Note that your SSH tunnel tool needs to provide SOCKS5h proxy capability
+    # (OpenSSH should, SSH Tunnel.app on Mac also does)
     # For example, let's use port 4711 as in the SSH tunneling blog post example
     # Note we are using the alias IP for interface lo0 on Mac OSX
     ssh -f -N -v -D 172.16.222.111:4711 ssh-bastion-host.example.com
@@ -90,8 +112,6 @@ MacOS:
     curl -v http://your-service.vpc.local
     # Optional: Check your WAN Egress IP matches either Public IP of bastion host, or NAT Gateway IP (for private subnets)
     curl -v ifconfig.co
-
-
 
 ### Alpine Container Running `curl`
 
@@ -129,7 +149,8 @@ to `some-internal-only-service.local` to get a response!
 - Adding an alias IP to `lo0` interface
   (e.g.: `sudo ifconfig lo0 alias 172.16.222.111`)
   does **not persist across a reboot**!
-  - The [`lyraphase_workstation::loopback_alias_ip` recipe][1] was built to solve this issue!
+  - The [`lyraphase_workstation::loopback_alias_ip` recipe][1] was built to
+    solve this issue!
   - It creates a `LaunchDaemon` to recreate this alias IP after rebooting macOS
 - Most tools built with Golang
   (e.g. [Terraform](https://github.com/hashicorp/terraform/issues/17754))
@@ -139,7 +160,8 @@ to `some-internal-only-service.local` to get a response!
   - So, there is no support yet for these standard `*_PROXY` variables using
     `socks5h://`.
   - **For example:** without the **`h` form** of SOCKS5 protocol (`socks5h://`),
-    terraform cannot resolve internal AWS VPC DNS names _through the proxy_ such as internal VPC Route53 private zone records.
+    terraform cannot resolve internal AWS VPC DNS names _through the proxy_ such
+    as internal VPC Route53 private zone records.
   - The good news is that whenever this issue is solved upstream in Golang,
     those tools will also support `SOCKS5h` to tunnel correctly!
 - Terraform providers and plugins are implemented as separate Golang binaries
