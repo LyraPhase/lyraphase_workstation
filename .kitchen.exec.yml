@@ -8,6 +8,7 @@ transport:
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
+  require_chef_omnibus: false
 
 verifier:
   # This will eventually become 'inputs'
