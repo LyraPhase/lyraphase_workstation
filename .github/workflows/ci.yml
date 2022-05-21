@@ -51,6 +51,8 @@ jobs:
         env:
           TERM: xterm-color
           CHEF_LICENSE: accept-no-persist
+          CHEF_INSTALL_STRATEGY: skip
+          CHEF_OMNIBUS_ROOT: /opt/chef-workstation
           KITCHEN_LOCAL_YAML: ${{ matrix.KITCHEN_LOCAL_YAML }}
         with:
           suite: ${{ matrix.suite }}

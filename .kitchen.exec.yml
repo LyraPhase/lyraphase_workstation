@@ -8,8 +8,8 @@ transport:
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
-  install_strategy: once
-  chef_omnibus_root: /opt/chef-workstation
+  install_strategy: <%= ENV['CHEF_INSTALL_STRATEGY'] || 'once' %>
+  chef_omnibus_root: <%= ENV['CHEF_OMNIBUS_ROOT'] || '/opt/chef-workstation' %>
 
 verifier:
   # This will eventually become 'inputs'
