@@ -69,7 +69,7 @@ function findWorkingPinentry {
 			return 0
 		fi
 	done
-	
+
 	return 1
 }
 
@@ -96,8 +96,8 @@ function fixGpgHome {
 		chown "$ACTUAL_UID:staff" "$GNUPGHOME/gpg.conf"
 		myEcho "Replaced gpg.conf"
 	fi
-	
-	
+
+
 
 	# Add a keyserver if none exits
 	if ! grep -q '^[ 	]*keyserver ' "$GNUPGHOME/gpg.conf" ;then
@@ -109,7 +109,7 @@ function fixGpgHome {
 
 function fixGPGAgent {
 	myEcho "fixGPGAgent started"
-	
+
 	gpgAgentConf="$GNUPGHOME/gpg-agent.conf"
 	needHup=false
 	myEcho "Fixing '$gpgAgentConf'..."
@@ -147,9 +147,9 @@ function fixGPGAgent {
 		fi
 		rm -f "$tempFile"
     fi
-	
+
 	chown "$ACTUAL_UID:staff" "$gpgAgentConf"
-	
+
 	# Fix permissions of the central gpg-agent socket dir.
 	[[ -e /tmp/gpg-agent ]] && chmod a+rwx /tmp/gpg-agent
 

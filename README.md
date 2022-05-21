@@ -191,7 +191,7 @@ Some general rules of thumb:
        - **Note:** The `alias_ip` should be in a network range designated as [Private Address Space by IANA](https://www.arin.net/reference/research/statistics/address_filters/)
        - Default `alias_ip` (`172.16.222.111`) is configured to be in the `172.16.0.0/12` _not_ publicly routable private IPv4 range.
      - Run a Docker container, passing the configured Alias IP via standard `*_PROXY` environment variables
-       - For example: 
+       - For example:
          - `export PROTO='socks5h://'; export IP=172.16.222.111; export PORT=2903;`
          - `ssh -f -N -v -D ${IP}:${PORT} ssh-bastion-host.example.com`
          - `export ALL_PROXY="${PROTO}${IP}:${PORT}";  HTTP_PROXY="$ALL_PROXY" HTTPS_PROXY="$ALL_PROXY"`

@@ -2,7 +2,7 @@
 
 As a DevOps Engineer, I have found that running Ansible, Terraform, and various other utilities inside a docker container is best in order to ensure every other DevOps Engineer is using the right version of these tools for any given infrastructure as code ([IaC](https://en.wikipedia.org/wiki/Infrastructure_as_Code))) repository. This has the benefits of removing the hard dependency on versioned utilities by just relying on Docker, and insulating against IaC syntax deprecations and future API breakage (As of this writing: Terraform is still `0.x`, so this is likely to happen, and has happened already between Terraform `0.11.x` and `0.12.x`). However, running anything in a container on a private network presents some networking challenges when a process inside the container needs to connect to VPC resources.
 
-Typically, Developers & DevOps engineers access services running within an Amazon VPC through SSH tunnels to a Bastion Host.  As most of the team uses MacOS workstations with Docker for Mac, there is some complexity in setting up networking such that a process inside the container may connect through an SSH tunnel to a Bastion Host and finally to a service within an Amazon VPC.  Historically, Docker on Linux and Docker for Mac have different hypervisor and network namespacing models which adds complexity to support both of these platforms.  Luckily, standards such as `SOCKS5` & `SOCKS5h` and tools such as SSH exist to make this easier.  Yet as with most things in software, support for these standards is not implemented in every tool or programming language.  Note that [Golang support for `socks5h://` protocol does not yet exist](https://github.com/golang/go/issues/13454) in the standard libraries handling network & proxy connections.  However, support for these standards is widely adopted enough in the majority of tools and utilities, and is still useful! 
+Typically, Developers & DevOps engineers access services running within an Amazon VPC through SSH tunnels to a Bastion Host.  As most of the team uses MacOS workstations with Docker for Mac, there is some complexity in setting up networking such that a process inside the container may connect through an SSH tunnel to a Bastion Host and finally to a service within an Amazon VPC.  Historically, Docker on Linux and Docker for Mac have different hypervisor and network namespacing models which adds complexity to support both of these platforms.  Luckily, standards such as `SOCKS5` & `SOCKS5h` and tools such as SSH exist to make this easier.  Yet as with most things in software, support for these standards is not implemented in every tool or programming language.  Note that [Golang support for `socks5h://` protocol does not yet exist](https://github.com/golang/go/issues/13454) in the standard libraries handling network & proxy connections.  However, support for these standards is widely adopted enough in the majority of tools and utilities, and is still useful!
 
 After Docker for Mac was released, slight differences in the hypervisor and default bridged networking mode from the Linux version of Docker started presenting challenges.  I came across [a way to connect from a docker container to a tunnel running on a Mac OS host](https://forums.docker.com/t/accessing-host-machine-from-within-docker-container/14248/5).  I discovered that, when combined with a [`SOCKS5h` SSH proxy](https://blog.mafr.de/2013/11/24/setting-up-a-socks-proxy-using-openssh/) (**Note the `h`, it's important!**), this allows common utilities such as `curl` to access internal VPC services through this proxy + tunnel!
 
@@ -25,10 +25,10 @@ For example, in order to run local scripts via terraform or GNU Make (**NOTE:** 
 
     # First, set up docker networking
     docker network create -d bridge --subnet 10.1.123.0/22 --gateway 10.1.123.1 bridgenet
-        
+
     # On Mac OSX, this is required to actually access host services via alias IP
     sudo ifconfig lo0 alias 172.16.222.111
-    
+
     # Next, set up your SSH tunnel via DynamicForward or -D
     # Note that your SSH tunnel tool needs to provide SOCKS5h proxy capability (OpenSSH should, SSH Tunnel.app on Mac also does)
     # For example, let's use port 4711 as in the SSH tunneling blog post example
@@ -36,7 +36,7 @@ For example, in order to run local scripts via terraform or GNU Make (**NOTE:** 
     ssh -f -N -v -D 172.16.222.111:4711 ssh-bastion-host.example.com
     # You should see this line in output:
     #    debug1: Local forwarding listening on 172.16.222.111 port 4711
-    
+
     # Next, run a Terraform docker container on bridgenet
     docker run -it --rm -u $(id -u):$(id -g) \
         -v $HOME/.aws:$HOME/.aws:ro \
@@ -45,12 +45,12 @@ For example, in order to run local scripts via terraform or GNU Make (**NOTE:** 
         -v $HOME:$HOME -e HOME \
         -v $(pwd):/wd -w /wd \
         --entrypoint=/bin/sh alpine:latest
-    
+
     # Check that proxy.local is now set as hostname in the container for the alias IP: 172.16.222.111
     cat /etc/hosts
     # You should see this line:
     #     172.16.222.111  proxy.local
-    
+
     # Now, try accessing an internal VPC service or host via socks5h://
     export ALL_PROXY=socks5h://proxy.local:4711; export HTTPS_PROXY=$ALL_PROXY; export HTTP_PROXY=$ALL_PROXY;
     curl -v http://your-service.vpc.local
