@@ -29,7 +29,7 @@ task :knife do
   else
     cookbook_path = '.././'
   end
-  sh "knife cookbook test -c test/.chef/knife.rb -o #{cookbook_path} -a --verbose --verbose"
+  sh "knife cookbook test -c test/.chef/knife.rb -o #{cookbook_path} -a"
 end
 
 # Newer CookStyle target

@@ -99,3 +99,7 @@ Vagrantfile
 ###############
 .ruby-version
 .ruby-gemset
+
+# Bundler #
+###########
+vendor/bundle/*
