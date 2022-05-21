@@ -60,5 +60,5 @@ jobs:
         run: |
             set -x
             export TERM=xterm-color
-            log show --color always --last 15m
-            KITCHEN_LOCAL_YAML=${{ matrix.KITCHEN_LOCAL_YAML }} /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "syslog"
+            log show --color always --last 5m
+            KITCHEN_LOCAL_YAML=${{ matrix.KITCHEN_LOCAL_YAML }} kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "syslog"
