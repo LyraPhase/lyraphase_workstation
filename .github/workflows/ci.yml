@@ -28,7 +28,7 @@ jobs:
 
   integration:
     needs: [rake-ci]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         #exclude:
