@@ -6,6 +6,9 @@ require 'foodcritic'
 task default: [:knife, :foodcritic, :chefspec]
 task test: [:default]
 
+desc 'Run CI default tasks'
+task ci: ['default']
+
 FoodCritic::Rake::LintTask.new do |t|
   t.options = {fail_tags: ['correctness'], tags: ['~FC023', '~FC121'], context: true}
 end
