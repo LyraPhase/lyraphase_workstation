@@ -176,8 +176,14 @@ then
   # Use General Colorizer
   source "`brew --prefix`/etc/grc.sh"
 
+<% if @homebrew_github_api_token %>
   # Set homebrew OAuth token
-  export HOMEBREW_GITHUB_API_TOKEN='<%= @homebrew_github_api_token -%>' # lyra.37om.com
+  export HOMEBREW_GITHUB_API_TOKEN='<%= @homebrew_github_api_token -%>' # <%= @homebrew_github_api_token_comment %>
+<% end %>
+<% if @homebrew_no_cleanup_formulae %>
+  # Keep old versions for specific formulae
+  export HOMEBREW_NO_CLEANUP_FORMULAE=<%= @homebrew_no_cleanup_formulae.join(',') %>
+<% end %>
   # Alias defunkt/hub as git
   eval "$(hub alias -s)"
 
