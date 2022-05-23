@@ -24,14 +24,30 @@
 bashrc_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bashrc'))
 bash_logout_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bash_logout'))
 
-homebrew_github_api_token = begin
-                              data_bag_item('lyraphase_workstation', 'bashrc')['homebrew_github_api_token']
-                            rescue
-                              nil
-                            end
+# Gather Homebrew GitHub token from encrypted data bag
+homebrew_github_api_token_data =  begin
+                                    data_bag_item('lyraphase_workstation', 'bashrc')
+                                  rescue
+                                    nil
+                                  end
 
-if homebrew_github_api_token.nil? && !node['lyraphase_workstation']['bashrc']['homebrew_github_api_token'].nil? && !node['lyraphase_workstation']['bashrc']['homebrew_github_api_token'].nil?
-  homebrew_github_api_token = node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']
+homebrew_github_api_token_hash = Hash.new()
+['homebrew_github_api_token', 'homebrew_github_api_token_comment'].each do |data_bag_key|
+  if !homebrew_github_api_token_data.nil? && homebrew_github_api_token_data.has_key?(data_bag_key)
+    homebrew_github_api_token_hash[data_bag_key] = begin
+                                  homebrew_github_api_token_data[data_bag_key]
+                                rescue
+                                  nil
+                                end
+  end
+
+  if homebrew_github_api_token_hash[data_bag_key].nil? && !node['lyraphase_workstation']['bashrc'][data_bag_key].nil?
+    homebrew_github_api_token_hash[data_bag_key] = node['lyraphase_workstation']['bashrc'][data_bag_key]
+  end
+end
+
+if !node['lyraphase_workstation']['bashrc']['homebrew_no_cleanup_formulae'].nil?
+  homebrew_no_cleanup_formulae = node['lyraphase_workstation']['bashrc']['homebrew_no_cleanup_formulae']
 end
 
 template bashrc_path do
@@ -42,7 +58,9 @@ template bashrc_path do
             user_fullname: node['lyraphase_workstation']['bashrc']['user_fullname'],
             user_email: node['lyraphase_workstation']['bashrc']['user_email'],
             user_gpg_keyid: node['lyraphase_workstation']['bashrc']['user_gpg_keyid'],
-            homebrew_github_api_token: homebrew_github_api_token
+            homebrew_github_api_token: homebrew_github_api_token_hash['homebrew_github_api_token'],
+            homebrew_github_api_token_comment: homebrew_github_api_token_hash['homebrew_github_api_token_comment'],
+            homebrew_no_cleanup_formulae: homebrew_no_cleanup_formulae
            )
 end
 
