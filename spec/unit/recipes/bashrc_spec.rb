@@ -6,7 +6,7 @@
 # Site:: https://www.gnu.org/software/bash/
 #
 # Copyright (C) © 🄯 2016-2022 James Cuzella
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -66,4 +66,3 @@ describe_recipe 'lyraphase_workstation::bashrc' do
     )
   end
 end
-

@@ -94,3 +94,19 @@ Vagrantfile
 # Travis #
 ##########
 .travis.yml
+
+# RVM / RbEnv #
+###############
+.ruby-version
+.ruby-gemset
+
+# Bundler #
+###########
+vendor/bundle/*
+
+# CI/CD #
+#########
+.markdownlint.yml
+.pre-commit-config.yaml
+.rubocop.yml
+.github/*

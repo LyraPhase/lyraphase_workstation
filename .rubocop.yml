@@ -132,7 +132,7 @@ Style/NumericPredicate:
 Style/RedundantFetchBlock:
   Enabled: true
 
-# Checks for unnecessary single-element Regexp character classes. 
+# Checks for unnecessary single-element Regexp character classes.
 Style/RedundantRegexpCharacterClass:
   Enabled: true
 
@@ -268,4 +268,3 @@ Lint/RaiseException:
 # Disallow overriding the `Struct` built-in methods via `Struct.new`.
 Lint/StructNewOverride:
   Enabled: true
-

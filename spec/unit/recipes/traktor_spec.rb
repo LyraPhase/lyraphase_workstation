@@ -65,7 +65,7 @@ describe 'lyraphase_workstation::traktor' do
 # 10.11.1
 # Versions: 10.6.8, 10.7.4, 10.8.2 were removed in customink/fauxhai@19296a8ba49c2265d491847653152bad3f02b392
 # which was released as fauxhai v4.0.0
-# Old install: 
+# Old install:
 ## export DEBIAN_FRONTEND=noninteractive ;  curl -sSL "https://downloads.chef.io/packages-chef-io-public.key" | apt-key add -
 ## echo "deb https://packages.chef.io/stable-apt precise main" | sudo tee -a /etc/apt/sources.list > /dev/null
 ## apt-get -yq --no-install-suggests --no-install-recommends --force-yes install chefdk=1.2.22-1

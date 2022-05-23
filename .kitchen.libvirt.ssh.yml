@@ -44,8 +44,6 @@ transport:
 
 provisioner:
 #  name: chef_zero
-  client_rb:
-    ohai.optional_plugins: [ ':Passwd' ]
   transport:
     ssh_gateway: saturn.local
     ssh_gateway_username: trinitronx
@@ -57,6 +55,13 @@ provisioner:
 
 verifier:
   name: inspec
+  # This will eventually become 'inputs'
+  # References:
+  #  - https://github.com/inspec/kitchen-inspec/issues/237
+  #  - https://github.com/inspec/inspec/pull/4398
+  #  - https://docs.chef.io/inspec/inputs/#what-happened-to-attributes
+  attributes:
+    test_kitchen_user: 'vagrant'
 ## Client error, can't connect to 'ssh' backend: Only one of proxy_command or bastion_host needs to be specified]
 ## Apparently the transport ssh_gateway option is actually passed through to InSpec
 #  proxy_command: ssh saturn.local -q0 %h:%p

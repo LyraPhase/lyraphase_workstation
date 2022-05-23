@@ -20,4 +20,3 @@ echo "$(date +%Y-%m-%d-%H.%M.%S) : Success! SSH Tunnel should now be running on 
 echo "$(date +%Y-%m-%d-%H.%M.%S) : lsof Output:" | tee -a "$LOGFILE"
 lsof +c0 -Pnl  +M -i4 | grep -iE ':<%= @ssh_tunnel_port_override_portnumber %>.*LISTEN' | grep -iE 'SSH.*tunnel' | tee -a "$LOGFILE"
 echo "$(date +%Y-%m-%d-%H.%M.%S) : ---- END ssh-tunnel-override ----" | tee -a "$LOGFILE"
-
