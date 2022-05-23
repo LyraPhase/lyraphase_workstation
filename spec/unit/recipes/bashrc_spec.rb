@@ -23,46 +23,98 @@
 require 'spec_helper'
 
 describe_recipe 'lyraphase_workstation::bashrc' do
-  # Override ChefSpec attributes from spec_shared_contexts
-  let(:chefspec_options) {
-    require 'securerandom'
-    {
-      default_attributes: {},
-      normal_attributes: { 'lyraphase_workstation': {
-                             'bashrc': {
-                              'homebrew_github_api_token': "gh_#{SecureRandom.hex(20)}",
-                              'user_fullname': 'Barney Rubble',
-                              'user_email': 'barney.rubble@lyraphase.com',
-                              'user_gpg_keyid': "0x#{SecureRandom.hex(8)}"
+  context 'when given all bashrc attributes' do
+    # Override ChefSpec attributes from spec_shared_contexts
+    let(:chefspec_options) {
+      require 'securerandom'
+      {
+        default_attributes: {},
+        normal_attributes: { 'lyraphase_workstation': {
+                              'bashrc': {
+                                'homebrew_github_api_token': "gh_#{SecureRandom.hex(20)}",
+                                'user_fullname': 'Barney Rubble',
+                                'user_email': 'barney.rubble@lyraphase.com',
+                                'user_gpg_keyid': "0x#{SecureRandom.hex(8)}",
+                                'homebrew_no_cleanup_formulae': ['argocd','eksctl','kustomize','rancher-cli','kubernetes-cli']
+                              }
                             }
-                          }
-                        },
-      automatic_attributes: {}
+                          },
+        automatic_attributes: {}
+      }
     }
-  }
 
-  let(:bashrc_path) { '/Users/brubble/.bashrc' }
-  let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
+    let(:bashrc_path) { '/Users/brubble/.bashrc' }
+    let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
 
-  it 'installs custom .bashrc into user homedir' do
-    expect(chef_run).to create_template(bashrc_path).with(
-      user:   'brubble',
-      mode: '0644'
-    )
+    it 'installs custom .bashrc into user homedir' do
+      expect(chef_run).to create_template(bashrc_path).with(
+        user:   'brubble',
+        mode: '0644'
+      )
 
-    [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
-      "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
-      "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
-      "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'",
-    ].each do |expected_regex|
-      expect(chef_run).to render_file(bashrc_path).with_content(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
+      [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
+        "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
+        "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
+        "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'",
+        "export HOMEBREW_NO_CLEANUP_FORMULAE=#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_no_cleanup_formulae'].join(',')}"
+      ].each do |expected_regex|
+        expect(chef_run).to render_file(bashrc_path).with_content(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
+      end
+    end
+
+    it 'installs custom .bash_logout into user homedir' do
+      expect(chef_run).to create_template(bash_logout_path).with(
+        user:   'brubble',
+        mode: '0644'
+      )
     end
   end
 
-  it 'installs custom .bash_logout into user homedir' do
-    expect(chef_run).to create_template(bash_logout_path).with(
-      user:   'brubble',
-      mode: '0644'
-    )
+  context 'when given no (default) bashrc attributes' do
+    # Use ChefSpec attributes from spec_shared_contexts
+    let(:expected_attributes) {
+      {
+        lyraphase_workstation: {
+          bashrc: {
+            user_fullname: 'James Cuzella',
+            user_email: 'james.cuzella@lyraphase.com',
+            user_gpg_keyid: '0x2689A459B1568D09'
+          }
+        }
+      }
+    }
+
+    let(:bashrc_path) { '/Users/brubble/.bashrc' }
+    let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
+
+    it 'installs custom .bashrc into user homedir' do
+      expect(chef_run).to create_template(bashrc_path).with(
+        user:   'brubble',
+        mode: '0644'
+      )
+
+      [ "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
+        "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
+        "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'"
+      ].each do |expected_regex|
+        expect(chef_run).to render_file(bashrc_path).with_content(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
+      end
+
+      # Default is no / empty attributes:
+      #  - homebrew_github_api_token
+      #  - homebrew_no_cleanup_formulae
+      [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
+        "export HOMEBREW_NO_CLEANUP_FORMULAE=.*"
+      ].each do |expected_regex|
+        expect(chef_run).to_not render_file(bashrc_path).with_content(/^\s*export HOMEBREW_NO_CLEANUP_FORMULAE=.*$/)
+      end
+    end
+
+    it 'installs custom .bash_logout into user homedir' do
+      expect(chef_run).to create_template(bash_logout_path).with(
+        user:   'brubble',
+        mode: '0644'
+      )
+    end
   end
 end
