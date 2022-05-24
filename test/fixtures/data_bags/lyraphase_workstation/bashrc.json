@@ -1,16 +1,23 @@
 {
   "id": "bashrc",
   "default-macos-121": {
-    "encrypted_data": "14mvD4foM6IDEFYa3Q6w+/PMp40FepzvCSb2agNMyR3Shp7oTzQqSfqM4Uvs\nGRpHnjRkyZm2kSlNddgbj0/QATZ1ORt/LgHf7jj8538gUeSygKIOaPtCqx03\niCh6FTvISIqPerxndW3OKS5GTgqwc0l8AyWeU2mpwBfMCILubRx0pgQ+c/TS\n5Z6lI59qUva+ooa9D+2uUpcw5kWF0xIAPr7133WB4WJb7mX6bdWUrwQGOVJV\nsg==\n",
-    "iv": "ppQ9AA1dnyJWPiji\n",
-    "auth_tag": "AZ31tTTLOjYAv3kSGpjVug==\n",
+    "encrypted_data": "vZJHK/onhK6LTo1c/Ue3zNOEi14GNgad5tBynP2DQES5ZcQAm/3tVLTyR+wZ\ntkZAm8B8jgDpKi7uUqluYt+I3eiFy8xnmoS8pUBy/tW0hUKzhakbTxSKAxbM\nZQK9ckNfYlHc52l4ZuBbU8+hD07efhn4xJGa/YGp7KwXReFQ/se3gozfmm1u\nEm9Hs4PSb4/ajCRmG48uTCtg7NVRFuXykYzLUIzRcZIgoUgJ49kjw5NMSrBp\npw==\n",
+    "iv": "QmULPHF22+9EpE0p\n",
+    "auth_tag": "+/HhF03lghtRJR6jIelmvQ==\n",
     "version": 3,
     "cipher": "aes-256-gcm"
   },
   "default-macos-12": {
-    "encrypted_data": "mWMv2DnywIZdQsQexxkzLpArcfK/Tksd/ceWnY7eKGQugatitDmIXqc9YR1p\nsdqAGq+Cso2Xsvnfpmmr80i5aA1WTuHxsf2kO4CoXbyHUgW3C8/LwWok26P8\n4q0oZwTyBq2Bj1cvpcrqjLicCS4zST+ZUNYOKX7QavMKLEDB9gYC7Np3SSne\nf5f7RMAxAFTxz3nQV5KFiPIyKPP6Ay0a/vywAaIVSw/UlVs0rZ7bamqQp0RS\n+w==\n",
-    "iv": "mGLSxmWSK7K7QIFC\n",
-    "auth_tag": "OR9li+6s7vqHxetM1nknVQ==\n",
+    "encrypted_data": "SDduVmGIthqhkLwH0fgKYos0+WTWvNv8PosuTkR0C7ohpH/g0x2spbiJWLA3\n15uBodQsMArAIiUiJ/+SIhdIH0poWFXNe/CgK4skx4XA6WC+ptZpcX5Zy1vx\n2IL/IrunQEKAqXMtBt072h1lxyPLBKWUakW+KJfsd/qNZDfM3p63RogvutD+\nCxKu5wulqUC/74Z7SP7G+aEbZrkwcjZ9J1tqKRwDVFOjYL1P5Zx2cH/5ULvV\n1w==\n",
+    "iv": "Lw4BrFUU0TlnHwYS\n",
+    "auth_tag": "QeElLJ16XYob+2D6kId59Q==\n",
+    "version": 3,
+    "cipher": "aes-256-gcm"
+  },
+  "default-macos-11": {
+    "encrypted_data": "6K1t/EaRrkKGjdMxeSDH0xz4Q3A4M7MXXR7KuHelhvVNNbJ5V0/iIaotj3Ep\n8H8McWWO7VOC0y8NVq3ZyYpsmvQvB84bwaHEfekmTj7TDGW66TWsPUZymrqQ\nAgTnzd8pwwHfwyPDhNZZynpcjO+oPMCbJzxf2VTLEbWuyCE4MxmsC3cICSrW\niwcv8PRJSdPAneOT4yjscE+2VhKAGDwUMx3d/cJJDiuXEtD3QE0EMHz+uVUL\nQQ==\n",
+    "iv": "j5xzvsb4INBM0cuO\n",
+    "auth_tag": "5Lh1RiE5qipxZ5D4UfqFnA==\n",
     "version": 3,
     "cipher": "aes-256-gcm"
   }
