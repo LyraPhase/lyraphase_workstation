@@ -31,9 +31,11 @@ homebrew_github_api_token_data =  begin
                                     nil
                                   end
 
+puts("homebrew_github_api_token_data = #{homebrew_github_api_token_data}")
 homebrew_github_api_token_hash = Hash.new()
 ['homebrew_github_api_token', 'homebrew_github_api_token_comment'].each do |data_bag_key|
-  if !homebrew_github_api_token_data.nil? && homebrew_github_api_token_data.has_key?(data_bag_key)
+  if !homebrew_github_api_token_data.nil? && homebrew_github_api_token_data.has_key?(node['name']) && homebrew_github_api_token_data.has_key?(data_bag_key)
+    Chef::Log.info("Loading Homebrew GitHub API token for Node Name: #{node['name']}")
     homebrew_github_api_token_hash[data_bag_key] = begin
                                   homebrew_github_api_token_data[data_bag_key]
                                 rescue
@@ -44,7 +46,18 @@ homebrew_github_api_token_hash = Hash.new()
   if homebrew_github_api_token_hash[data_bag_key].nil? && !node['lyraphase_workstation']['bashrc'][data_bag_key].nil?
     homebrew_github_api_token_hash[data_bag_key] = node['lyraphase_workstation']['bashrc'][data_bag_key]
   end
+
+  if homebrew_github_api_token_hash[data_bag_key].nil? && !homebrew_github_api_token_data.nil?
+    Chef::Log.warn("Could not find Homebrew GitHub API token attribute #{data_bag_key} in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}")
+    Chef::Log.warn("Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node['name']}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}")
+  end
 end
+
+Chef::Log.info('INFO TEST')
+Chef::Log.trace('TRACE TEST')
+Chef::Log.fatal('FATAL TEST')
+Chef::Log.error('ERROR TEST')
+Chef::Log.debug('DEBUG TEST')
 
 if !node['lyraphase_workstation']['bashrc']['homebrew_no_cleanup_formulae'].nil?
   homebrew_no_cleanup_formulae = node['lyraphase_workstation']['bashrc']['homebrew_no_cleanup_formulae']
