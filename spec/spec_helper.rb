@@ -39,10 +39,6 @@ RSpec.configure do |config|
 
   config.before { stub_const('ENV', ENV.to_hash.merge('SUDO_USER' => 'brubble')) }
   config.filter_run_when_matching :focus
-
-  config.before :each do |x|
-    puts("RUNNING EXAMPLE: #{x.metadata[:example_group][:full_description]}")
-  end
 end
 
 at_exit { ChefSpec::Coverage.report! }

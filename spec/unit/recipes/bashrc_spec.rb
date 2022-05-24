@@ -126,10 +126,7 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
       normal_attributes: { 'lyraphase_workstation': {
                             'bashrc': {
                               'homebrew_github_api_token': nil,
-                              'homebrew_github_api_token_comment': nil,
-                              'user_fullname': 'Barney Rubble',
-                              'user_email': 'barney.rubble@lyraphase.com',
-                              'user_gpg_keyid': "0x#{SecureRandom.hex(8)}"
+                              'homebrew_github_api_token_comment': nil
                             }
                           }
                         },
@@ -143,7 +140,7 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
     }
   }
   # Expect Chef::Log.warn messages
-  let(:chef_log_warnings) {
+  let(:chef_log_warn_msgs) {
     [
       "Could not find Homebrew GitHub API token attribute homebrew_github_api_token in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
       "Could not find Homebrew GitHub API token attribute homebrew_github_api_token_comment in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
@@ -151,38 +148,12 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
     ]
   }
 
-  let(:chef_log_trace_msgs) {
-    ['TRACE TEST']
-  }
-
-  let(:chef_log_info_msgs) {
-    ['INFO TEST']
-  }
-
-  let(:chef_log_fatal_msgs) do
-    ['FATAL TEST']
-  end
-
-  # Override this inside the context block, to expect error messages
-  let(:chef_log_error_msgs) do
-    ['ERROR TEST']
-  end
-
-  # Override this inside the context block, to expect debug messages
-  let(:chef_log_debug_msgs) do
-    ['DEBUG TEST']
-  end
-
   before(:each) do
     stub_data_bag_item('lyraphase_workstation', 'bashrc').and_return(invalid_data_bag_item)
   end
 
   it_outputs 'Chef WARN Logs'
-  it_outputs 'Chef TRACE Logs'
-  it_outputs 'Chef INFO Logs'
-  it_outputs 'Chef FATAL Logs'
-  it_outputs 'Chef ERROR Logs'
-  it_outputs 'Chef DEBUG Logs'
+
   it 'does not raise error' do
     expect { chef_run }.to_not raise_error
   end

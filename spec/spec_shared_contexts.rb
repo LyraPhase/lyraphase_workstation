@@ -182,7 +182,7 @@ end
 
 # Shared examples for checking for Chef::Log output
 shared_examples 'Chef TRACE Logs' do
-  it_logs 'with messages' do
+  it_logs 'with expected messages' do
     skip('No chef_log_trace_msgs expected') if chef_log_trace_msgs.empty?
     chef_log_trace_msgs.each do |trace_msg|
       expect(Chef::Log).to receive(:trace).with(trace_msg)
@@ -193,7 +193,7 @@ shared_examples 'Chef TRACE Logs' do
 end
 
 shared_examples 'Chef INFO Logs' do
-  it_logs 'with messages' do
+  it_logs 'with expected messages' do
     skip('No chef_log_info_msgs expected') if chef_log_info_msgs.empty?
     chef_log_info_msgs.each do |info_msg|
       expect(Chef::Log).to receive(:info).with(info_msg)
@@ -204,10 +204,9 @@ shared_examples 'Chef INFO Logs' do
 end
 
 shared_examples 'Chef WARN Logs' do
-  it_logs 'with messages' do
-    skip('No chef_log_warnings expected') if chef_log_warnings.empty?
-    puts("DESCRIBED RECIPE: #{described_recipe}")
-    chef_log_warnings.each do |warn_msg|
+  it_logs 'with expected messages' do
+    skip('No chef_log_warn_msgs expected') if chef_log_warn_msgs.empty?
+    chef_log_warn_msgs.each do |warn_msg|
       expect(Chef::Log).to receive(:warn).with(warn_msg)
     end
     # remember that you actually have to call `chef_run` after setting the expect
@@ -216,7 +215,7 @@ shared_examples 'Chef WARN Logs' do
 end
 
 shared_examples 'Chef FATAL Logs' do
-  it_logs 'with messages' do
+  it_logs 'with expected messages' do
     skip('No chef_log_fatal_msgs expected') if chef_log_fatal_msgs.empty?
     chef_log_fatal_msgs.each do |fatal_msg|
       expect(Chef::Log).to receive(:fatal).with(fatal_msg)
@@ -227,7 +226,7 @@ shared_examples 'Chef FATAL Logs' do
 end
 
 shared_examples 'Chef ERROR Logs' do
-  it_logs 'with messages' do
+  it_logs 'with expected messages' do
     skip('No chef_log_error_msgs expected') if chef_log_error_msgs.empty?
     chef_log_error_msgs.each do |error_msg|
       expect(Chef::Log).to receive(:error).with(error_msg)
@@ -238,7 +237,7 @@ shared_examples 'Chef ERROR Logs' do
 end
 
 shared_examples 'Chef DEBUG Logs' do
-  it_logs 'with messages' do
+  it_logs 'with expected messages' do
     skip('No chef_log_debug_msgs expected') if chef_log_debug_msgs.empty?
     chef_log_debug_msgs.each do |debug_msg|
       expect(Chef::Log).to receive(:debug).with(debug_msg)
@@ -261,7 +260,6 @@ shared_context 'when expected to output Chef Log messages', type: :recipe_with_e
   let(:bare_chef_run) do
     ## Note: We do NOT run chef_run.converge here so Chef::Log shared_examples will work
     ## bare_chef_run.converge must be called inside the example block to output anything
-    puts("INSIDE chef_run #{described_recipe}")
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::ServerRunner
     klass.new(chefspec_options) do |node|
       node.normal.merge!(node_attributes)
@@ -270,7 +268,6 @@ shared_context 'when expected to output Chef Log messages', type: :recipe_with_e
 
   let(:chef_run) do
     ## Note: We run chef_run.converge here to raise exceptions for RSpec to check
-    puts("INSIDE chef_run #{described_recipe}")
     klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::ServerRunner
     klass.new(chefspec_options) do |node|
       node.normal.merge!(node_attributes)
@@ -322,6 +319,8 @@ shared_context 'when expected to output Chef Log messages', type: :recipe_with_e
     node[cookbook_name][attribute_name]
   end
 
+  let(:chef_log) { class_double(Chef::Log) }
+
   # Override this inside the context block, to expect trace messages
   let(:chef_log_trace_msgs) do
     []
@@ -333,7 +332,7 @@ shared_context 'when expected to output Chef Log messages', type: :recipe_with_e
   end
 
   # Override this inside the context block, to expect warnings
-  let(:chef_log_warnings) do
+  let(:chef_log_warn_msgs) do
     []
   end
 
@@ -353,30 +352,44 @@ shared_context 'when expected to output Chef Log messages', type: :recipe_with_e
   end
 
   before(:each) do
+    allow(chef_log).to receive(:new).and_return(chef_log)
+    allow(Chef::Log).to receive(:new).and_return(chef_log)
     # Stub log levels: debug, error, fatal, info, trace
     chef_log_trace_msgs.each do |trace_msg|
       allow(Chef::Log).to receive(:trace).with(trace_msg).and_return(nil)
       allow(Chef::Log).to receive(:trace).and_return(nil)
+      allow(chef_log).to receive(:trace).and_return(nil)
     end
     chef_log_info_msgs.each do |info_msg|
       allow(Chef::Log).to receive(:info).with(info_msg).and_return(nil)
       allow(Chef::Log).to receive(:info).and_return(nil)
     end
-    chef_log_warnings.each do |warning_msg|
-      allow(Chef::Log).to receive(:warn).with(warning_msg).and_return(nil)
+    chef_log_warn_msgs.each do |warn_msg|
+      allow(Chef::Log).to receive(:warn).with(warn_msg).and_return(nil)
+      allow(Chef::Log).to receive(:warn).with(anything).and_return(nil)
       allow(Chef::Log).to receive(:warn).and_return(nil)
+      allow(chef_log).to receive(:warn).and_return(nil)
+      allow(chef_log).to receive(:warn).with(anything).and_return(nil)
     end
     chef_log_fatal_msgs.each do |fatal_msg|
       allow(Chef::Log).to receive(:fatal).with(fatal_msg).and_return(nil)
+      allow(Chef::Log).to receive(:fatal).with(anything).and_return(nil)
       allow(Chef::Log).to receive(:fatal).and_return(nil)
+      allow(chef_log).to receive(:fatal).and_return(nil)
+      allow(chef_log).to receive(:fatal).with(anything).and_return(nil)
     end
     chef_log_error_msgs.each do |error_msg|
       allow(Chef::Log).to receive(:error).with(error_msg).and_return(nil)
+      allow(Chef::Log).to receive(:error).with(anything).and_return(nil)
       allow(Chef::Log).to receive(:error).and_return(nil)
+      allow(chef_log).to receive(:error).and_return(nil)
+      allow(chef_log).to receive(:error).with(anything).and_return(nil)
     end
     chef_log_debug_msgs.each do |debug_msg|
       allow(Chef::Log).to receive(:debug).with(debug_msg).and_return(nil)
       allow(Chef::Log).to receive(:debug).and_return(nil)
+      allow(chef_log).to receive(:debug).and_return(nil)
+      allow(chef_log).to receive(:debug).with(anything).and_return(nil)
     end
   end
 
