@@ -70,7 +70,7 @@ shared_examples 'default .bashrc' do
     #  - homebrew_github_api_token
     #  - homebrew_no_cleanup_formulae
     [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
-      "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment']}",
+      "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{Regexp.escape(chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment'].to_s)}",
       "export HOMEBREW_NO_CLEANUP_FORMULAE=.*"
     ].each do |expected_regex|
       # Note: Negated with_content requires passing a Proc / Block!
@@ -93,7 +93,7 @@ describe_recipe 'lyraphase_workstation::bashrc' do
         normal_attributes: { 'lyraphase_workstation': {
                               'bashrc': {
                                 'homebrew_github_api_token': "gh_#{SecureRandom.hex(20)}",
-                                'homebrew_github_api_token_comment': "rotgut butanol - #{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')} - lyra.37om.com - public_repo RO",
+                                'homebrew_github_api_token_comment': "rotgut butanol - (#{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')}) - lyra.37om.com - public_repo RO",
                                 'user_fullname': 'Barney Rubble',
                                 'user_email': 'barney.rubble@lyraphase.com',
                                 'user_gpg_keyid': "0x#{SecureRandom.hex(8)}",
@@ -119,7 +119,7 @@ describe_recipe 'lyraphase_workstation::bashrc' do
       )
 
       [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
-        "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment']}",
+        "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{Regexp.escape(chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment'].to_s)}",
         "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
         "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
         "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'",
@@ -176,7 +176,7 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
 
     # Expect Chef::Log.info message
     let(:chef_log_info_msgs) {
-      ["Loading Homebrew GitHub API token for Node Name: #{node['name']}"]
+      ["Loading Homebrew GitHub API token for Node Name: #{node.name}"]
     }
     let(:bashrc_path) { '/Users/brubble/.bashrc' }
 
@@ -210,9 +210,9 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
     # Expect Chef::Log.warn messages
     let(:chef_log_warn_msgs) {
       [
-        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
-        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token_comment in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
-        "Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node['name']}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}"
+        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token in data bag item lyraphase_workstation:bashrc for Node Name: #{node.name}",
+        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token_comment in data bag item lyraphase_workstation:bashrc for Node Name: #{node.name}",
+        "Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node.name}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}"
       ]
     }
 
