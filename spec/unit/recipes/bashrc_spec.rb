@@ -93,7 +93,7 @@ describe_recipe 'lyraphase_workstation::bashrc' do
         normal_attributes: { 'lyraphase_workstation': {
                               'bashrc': {
                                 'homebrew_github_api_token': "gh_#{SecureRandom.hex(20)}",
-                                'homebrew_github_api_token_comment': "rotgut butanol - #{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')} - lyra.37om.com - public_repo RO",
+                                'homebrew_github_api_token_comment': "rotgut butanol - (#{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')}) - lyra.37om.com - public_repo RO",
                                 'user_fullname': 'Barney Rubble',
                                 'user_email': 'barney.rubble@lyraphase.com',
                                 'user_gpg_keyid': "0x#{SecureRandom.hex(8)}",
@@ -119,7 +119,7 @@ describe_recipe 'lyraphase_workstation::bashrc' do
       )
 
       [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
-        "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment']}",
+        "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{Regexp.escape(chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment'].to_s)}",
         "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
         "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
         "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'",
