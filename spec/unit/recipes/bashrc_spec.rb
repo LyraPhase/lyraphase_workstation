@@ -70,7 +70,7 @@ shared_examples 'default .bashrc' do
     #  - homebrew_github_api_token
     #  - homebrew_no_cleanup_formulae
     [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
-      "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment']}",
+      "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{Regexp.escape(chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment'].to_s)}",
       "export HOMEBREW_NO_CLEANUP_FORMULAE=.*"
     ].each do |expected_regex|
       # Note: Negated with_content requires passing a Proc / Block!
