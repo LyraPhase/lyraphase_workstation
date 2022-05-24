@@ -180,6 +180,228 @@ Please specify the name of the test recipe that executes your recipe:
   end
 end
 
+# Shared examples for checking for Chef::Log output
+shared_examples 'Chef TRACE Logs' do
+  it_logs 'with expected messages' do
+    skip('No chef_log_trace_msgs expected') if chef_log_trace_msgs.empty?
+    chef_log_trace_msgs.each do |trace_msg|
+      expect(Chef::Log).to receive(:trace).with(trace_msg)
+    end
+    # remember that you actually have to call `chef_run` after setting the expect
+    bare_chef_run.converge(described_recipe)
+  end
+end
+
+shared_examples 'Chef INFO Logs' do
+  it_logs 'with expected messages' do
+    skip('No chef_log_info_msgs expected') if chef_log_info_msgs.empty?
+    chef_log_info_msgs.each do |info_msg|
+      expect(Chef::Log).to receive(:info).with(info_msg)
+    end
+    # remember that you actually have to call `chef_run` after setting the expect
+    bare_chef_run.converge(described_recipe)
+  end
+end
+
+shared_examples 'Chef WARN Logs' do
+  it_logs 'with expected messages' do
+    skip('No chef_log_warn_msgs expected') if chef_log_warn_msgs.empty?
+    chef_log_warn_msgs.each do |warn_msg|
+      expect(Chef::Log).to receive(:warn).with(warn_msg)
+    end
+    # remember that you actually have to call `chef_run` after setting the expect
+    bare_chef_run.converge(described_recipe)
+  end
+end
+
+shared_examples 'Chef FATAL Logs' do
+  it_logs 'with expected messages' do
+    skip('No chef_log_fatal_msgs expected') if chef_log_fatal_msgs.empty?
+    chef_log_fatal_msgs.each do |fatal_msg|
+      expect(Chef::Log).to receive(:fatal).with(fatal_msg)
+    end
+    # remember that you actually have to call `chef_run` after setting the expect
+    bare_chef_run.converge(described_recipe)
+  end
+end
+
+shared_examples 'Chef ERROR Logs' do
+  it_logs 'with expected messages' do
+    skip('No chef_log_error_msgs expected') if chef_log_error_msgs.empty?
+    chef_log_error_msgs.each do |error_msg|
+      expect(Chef::Log).to receive(:error).with(error_msg)
+    end
+    # remember that you actually have to call `chef_run` after setting the expect
+    bare_chef_run.converge(described_recipe)
+  end
+end
+
+shared_examples 'Chef DEBUG Logs' do
+  it_logs 'with expected messages' do
+    skip('No chef_log_debug_msgs expected') if chef_log_debug_msgs.empty?
+    chef_log_debug_msgs.each do |debug_msg|
+      expect(Chef::Log).to receive(:debug).with(debug_msg)
+    end
+    # remember that you actually have to call `chef_run` after setting the expect
+    bare_chef_run.converge(described_recipe)
+  end
+end
+
+shared_context 'when expected to output Chef Log messages', type: :recipe_with_expected_logs  do
+  # Individual spec Example Groups can override this to inject node attributes
+  let(:chefspec_options) do
+    {
+      default_attributes: {},
+      normal_attributes: {},
+      automatic_attributes: {},
+    }
+  end
+
+  let(:bare_chef_run) do
+    ## Note: We do NOT run chef_run.converge here so Chef::Log shared_examples will work
+    ## bare_chef_run.converge must be called inside the example block to output anything
+    klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::ServerRunner
+    klass.new(chefspec_options) do |node|
+      node.normal.merge!(node_attributes)
+    end
+  end
+
+  let(:chef_run) do
+    ## Note: We run chef_run.converge here to raise exceptions for RSpec to check
+    klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::ServerRunner
+    klass.new(chefspec_options) do |node|
+      node.normal.merge!(node_attributes)
+    end.converge(described_recipe)
+  end
+
+  let(:node) { chef_run.node }
+
+  def lyraphase_workstation_user
+    create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+    Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
+  end
+
+  # Global ChefSpec attributes for all Example Groups
+  def node_attributes
+    attributes = {
+      'platform': 'mac_os_x',
+      'version': '10.15',
+      'etc': {
+        'passwd': {
+          'brubble': lyraphase_workstation_user,
+        },
+      },
+      'sprout': {
+        'home': '/Users/brubble',
+        'user': 'brubble',
+      },
+      'lyraphase_workstation': {
+        'user': 'brubble',
+        'home': '/Users/brubble',
+      },
+    }
+    stringify_keys(attributes)
+  end
+
+  def cookbook_recipe_names
+    described_recipe.split('::', 2)
+  end
+
+  def cookbook_name
+    cookbook_recipe_names.first
+  end
+
+  def recipe_name
+    cookbook_recipe_names.last
+  end
+
+  def default_cookbook_attribute(attribute_name)
+    node[cookbook_name][attribute_name]
+  end
+
+  let(:chef_log) { class_double(Chef::Log) }
+
+  # Override this inside the context block, to expect trace messages
+  let(:chef_log_trace_msgs) do
+    []
+  end
+
+  # Override this inside the context block, to expect info messages
+  let(:chef_log_info_msgs) do
+    []
+  end
+
+  # Override this inside the context block, to expect warnings
+  let(:chef_log_warn_msgs) do
+    []
+  end
+
+  # Override this inside the context block, to expect fatal messages
+  let(:chef_log_fatal_msgs) do
+    []
+  end
+
+  # Override this inside the context block, to expect error messages
+  let(:chef_log_error_msgs) do
+    []
+  end
+
+  # Override this inside the context block, to expect debug messages
+  let(:chef_log_debug_msgs) do
+    []
+  end
+
+  # Override this method to add before(:each) hooks at this shared_context level
+  def before_each_shared_example
+  end
+
+  before(:each) do
+    # Provide method hook for adding top-level shared_context before steps (e.g. stubs)
+    before_each_shared_example
+
+    allow(chef_log).to receive(:new).and_return(chef_log)
+    allow(Chef::Log).to receive(:new).and_return(chef_log)
+    # Stub log levels: debug, error, fatal, info, trace
+    chef_log_trace_msgs.each do |trace_msg|
+      allow(Chef::Log).to receive(:trace).with(trace_msg).and_return(nil)
+      allow(Chef::Log).to receive(:trace).and_return(nil)
+      allow(chef_log).to receive(:trace).and_return(nil)
+    end
+    chef_log_info_msgs.each do |info_msg|
+      allow(Chef::Log).to receive(:info).with(info_msg).and_return(nil)
+      allow(Chef::Log).to receive(:info).and_return(nil)
+    end
+    chef_log_warn_msgs.each do |warn_msg|
+      allow(Chef::Log).to receive(:warn).with(warn_msg).and_return(nil)
+      allow(Chef::Log).to receive(:warn).with(anything).and_return(nil)
+      allow(Chef::Log).to receive(:warn).and_return(nil)
+      allow(chef_log).to receive(:warn).and_return(nil)
+      allow(chef_log).to receive(:warn).with(anything).and_return(nil)
+    end
+    chef_log_fatal_msgs.each do |fatal_msg|
+      allow(Chef::Log).to receive(:fatal).with(fatal_msg).and_return(nil)
+      allow(Chef::Log).to receive(:fatal).with(anything).and_return(nil)
+      allow(Chef::Log).to receive(:fatal).and_return(nil)
+      allow(chef_log).to receive(:fatal).and_return(nil)
+      allow(chef_log).to receive(:fatal).with(anything).and_return(nil)
+    end
+    chef_log_error_msgs.each do |error_msg|
+      allow(Chef::Log).to receive(:error).with(error_msg).and_return(nil)
+      allow(Chef::Log).to receive(:error).with(anything).and_return(nil)
+      allow(Chef::Log).to receive(:error).and_return(nil)
+      allow(chef_log).to receive(:error).and_return(nil)
+      allow(chef_log).to receive(:error).with(anything).and_return(nil)
+    end
+    chef_log_debug_msgs.each do |debug_msg|
+      allow(Chef::Log).to receive(:debug).with(debug_msg).and_return(nil)
+      allow(Chef::Log).to receive(:debug).and_return(nil)
+      allow(chef_log).to receive(:debug).and_return(nil)
+      allow(chef_log).to receive(:debug).with(anything).and_return(nil)
+    end
+  end
+
+end
+
 shared_context 'Chef 14.x no EtcPasswd' do
   let(:chef_run) do
     ## Note: We run chef_run.converge here to raise exceptions for RSpec to check

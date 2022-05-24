@@ -1,9 +1,23 @@
 {
   "id": "bashrc",
-  "homebrew_github_api_token": {
-    "encrypted_data": "G7B4aiL6U+BK5pGe27kA8M/Ndsw5QiS2cSzxypHYTMzvYsxgXw==\n",
-    "iv": "VocLxRLb9PrqK/nE\n",
-    "auth_tag": "1A8JfCMmcOwsAiUK34jaUw==\n",
+  "default-macos-121": {
+    "encrypted_data": "vZJHK/onhK6LTo1c/Ue3zNOEi14GNgad5tBynP2DQES5ZcQAm/3tVLTyR+wZ\ntkZAm8B8jgDpKi7uUqluYt+I3eiFy8xnmoS8pUBy/tW0hUKzhakbTxSKAxbM\nZQK9ckNfYlHc52l4ZuBbU8+hD07efhn4xJGa/YGp7KwXReFQ/se3gozfmm1u\nEm9Hs4PSb4/ajCRmG48uTCtg7NVRFuXykYzLUIzRcZIgoUgJ49kjw5NMSrBp\npw==\n",
+    "iv": "QmULPHF22+9EpE0p\n",
+    "auth_tag": "+/HhF03lghtRJR6jIelmvQ==\n",
+    "version": 3,
+    "cipher": "aes-256-gcm"
+  },
+  "default-macos-12": {
+    "encrypted_data": "SDduVmGIthqhkLwH0fgKYos0+WTWvNv8PosuTkR0C7ohpH/g0x2spbiJWLA3\n15uBodQsMArAIiUiJ/+SIhdIH0poWFXNe/CgK4skx4XA6WC+ptZpcX5Zy1vx\n2IL/IrunQEKAqXMtBt072h1lxyPLBKWUakW+KJfsd/qNZDfM3p63RogvutD+\nCxKu5wulqUC/74Z7SP7G+aEbZrkwcjZ9J1tqKRwDVFOjYL1P5Zx2cH/5ULvV\n1w==\n",
+    "iv": "Lw4BrFUU0TlnHwYS\n",
+    "auth_tag": "QeElLJ16XYob+2D6kId59Q==\n",
+    "version": 3,
+    "cipher": "aes-256-gcm"
+  },
+  "default-macos-11": {
+    "encrypted_data": "6K1t/EaRrkKGjdMxeSDH0xz4Q3A4M7MXXR7KuHelhvVNNbJ5V0/iIaotj3Ep\n8H8McWWO7VOC0y8NVq3ZyYpsmvQvB84bwaHEfekmTj7TDGW66TWsPUZymrqQ\nAgTnzd8pwwHfwyPDhNZZynpcjO+oPMCbJzxf2VTLEbWuyCE4MxmsC3cICSrW\niwcv8PRJSdPAneOT4yjscE+2VhKAGDwUMx3d/cJJDiuXEtD3QE0EMHz+uVUL\nQQ==\n",
+    "iv": "j5xzvsb4INBM0cuO\n",
+    "auth_tag": "5Lh1RiE5qipxZ5D4UfqFnA==\n",
     "version": 3,
     "cipher": "aes-256-gcm"
   }

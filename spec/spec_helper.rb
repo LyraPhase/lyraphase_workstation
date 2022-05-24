@@ -33,6 +33,9 @@ RSpec.configure do |config|
   config.alias_example_group_to :describe_recipe, type: :recipe
   config.alias_example_group_to :describe_helpers, type: :helpers
   config.alias_example_group_to :describe_resource, type: :resource
+  config.alias_example_group_to :describe_recipe_with_expected_logs, type: :recipe_with_expected_logs
+  config.alias_it_behaves_like_to :it_outputs, 'outputs'
+  config.alias_example_to :it_logs
 
   config.before { stub_const('ENV', ENV.to_hash.merge('SUDO_USER' => 'brubble')) }
   config.filter_run_when_matching :focus

@@ -25,7 +25,9 @@
 test_kitchen_user = input('test_kitchen_user', value: 'kitchen')
 bashrc_path = "/Users/#{test_kitchen_user}/.bashrc"
 bash_logout_path = "/Users/#{test_kitchen_user}/.bash_logout"
+bash_profile_path = "/Users/#{test_kitchen_user}/.bash_profile"
 homebrew_github_api_token = 'gh_f00dcafevagrant'
+homebrew_github_api_token_comment = 'homebrew - 2022-05-23 23:56:02 -0600 - vagrant.example.com - public_repo RO'
 
 describe file(bashrc_path) do
   it { should exist }
@@ -34,6 +36,7 @@ describe file(bashrc_path) do
   its('owner') { should eq test_kitchen_user }
 
   its('content') { should match Regexp.new("^\s*export HOMEBREW_GITHUB_API_TOKEN='#{homebrew_github_api_token}'") }
+  its('content') { should match Regexp.new("^\s*export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{homebrew_github_api_token_comment}") }
   its('content') { should match /^\s*export DEBFULLNAME='vagrant'$/ }
   its('content') { should match /^\s*export DEBEMAIL='vagrant@vagrant.com'$/ }
   its('content') { should match /^\s*export DEBSIGN_KEYID='0xBADC0DE00FEED000'$/ }
@@ -45,4 +48,15 @@ describe file(bash_logout_path) do
   it { should be_file }
   its('owner') { should eq test_kitchen_user }
   its('mode') { should cmp '0644' }
+end
+
+describe file(bash_profile_path) do
+  it { should exist }
+  it { should be_file }
+  its('owner') { should eq test_kitchen_user }
+  its('mode') { should cmp '0644' }
+
+  its('content') { should match Regexp.new("^export BASH_IT=\"\/Users\/#{test_kitchen_user}\/.bash_it\"$") }
+  its('content') { should match /^source \${HOME}\/.bashrc$/ }
+  its('content') { should match /^source \$BASH_IT\/bash_it.sh$/ }
 end

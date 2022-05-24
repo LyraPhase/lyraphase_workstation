@@ -23,15 +23,39 @@
 
 bashrc_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bashrc'))
 bash_logout_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bash_logout'))
+bash_profile_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bash_profile'))
 
-homebrew_github_api_token = begin
-                              data_bag_item('lyraphase_workstation', 'bashrc')['homebrew_github_api_token']
-                            rescue
-                              nil
-                            end
+# Gather Homebrew GitHub token from encrypted data bag
+homebrew_github_api_token_data =  begin
+                                    data_bag_item('lyraphase_workstation', 'bashrc')
+                                  rescue
+                                    nil
+                                  end
 
-if homebrew_github_api_token.nil? && !node['lyraphase_workstation']['bashrc']['homebrew_github_api_token'].nil? && !node['lyraphase_workstation']['bashrc']['homebrew_github_api_token'].nil?
-  homebrew_github_api_token = node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']
+loaded_data = !homebrew_github_api_token_data.nil? ? homebrew_github_api_token_data.to_hash : Hash.new()
+homebrew_github_api_token_hash = Hash.new()
+['homebrew_github_api_token', 'homebrew_github_api_token_comment'].each do |data_bag_key|
+  if !homebrew_github_api_token_data.nil? && loaded_data.has_key?(node.name) && loaded_data[node.name].has_key?(data_bag_key)
+    Chef::Log.info("Loading Homebrew GitHub API token for Node Name: #{node.name}")
+    homebrew_github_api_token_hash[data_bag_key] = begin
+                                  homebrew_github_api_token_data[node.name][data_bag_key]
+                                rescue
+                                  nil
+                                end
+  end
+
+  if homebrew_github_api_token_hash[data_bag_key].nil? && !node['lyraphase_workstation']['bashrc'][data_bag_key].nil?
+    homebrew_github_api_token_hash[data_bag_key] = node['lyraphase_workstation']['bashrc'][data_bag_key]
+  end
+
+  if homebrew_github_api_token_hash[data_bag_key].nil? && !homebrew_github_api_token_data.nil?
+    Chef::Log.warn("Could not find Homebrew GitHub API token attribute #{data_bag_key} in data bag item lyraphase_workstation:bashrc for Node Name: #{node.name}")
+    Chef::Log.warn("Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node.name}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}")
+  end
+end
+
+if !node['lyraphase_workstation']['bashrc']['homebrew_no_cleanup_formulae'].nil?
+  homebrew_no_cleanup_formulae = node['lyraphase_workstation']['bashrc']['homebrew_no_cleanup_formulae']
 end
 
 template bashrc_path do
@@ -42,7 +66,9 @@ template bashrc_path do
             user_fullname: node['lyraphase_workstation']['bashrc']['user_fullname'],
             user_email: node['lyraphase_workstation']['bashrc']['user_email'],
             user_gpg_keyid: node['lyraphase_workstation']['bashrc']['user_gpg_keyid'],
-            homebrew_github_api_token: homebrew_github_api_token
+            homebrew_github_api_token: homebrew_github_api_token_hash['homebrew_github_api_token'],
+            homebrew_github_api_token_comment: homebrew_github_api_token_hash['homebrew_github_api_token_comment'],
+            homebrew_no_cleanup_formulae: homebrew_no_cleanup_formulae
            )
 end
 
@@ -51,4 +77,11 @@ template bash_logout_path do
   user node['lyraphase_workstation']['user']
   mode '0644'
   # No vars needed for now
+end
+
+template bash_profile_path do
+  source 'bash_profile.erb'
+  user node['lyraphase_workstation']['user']
+  mode '0644'
+  variables(user_home: node['lyraphase_workstation']['home'])
 end
