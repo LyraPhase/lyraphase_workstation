@@ -72,7 +72,7 @@ jobs:
     steps:
       - name: check the jobs # get the matrix job status and combination info
         run: |
-          job_status=$(curl -X GET -s --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs | jq ".jobs[] | {job_status: .conclusion, matrix: .name} | select( .matrix | contains(\"integration\")) | select( .job_status | contains(\"failure\"))")
+          job_status=$(curl -X GET -s --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs | jq ".jobs[] | {job_status: .conclusion, matrix: .name} | select( .matrix | contains(\"integration\"))")
           echo JOB_STATUS=$job_status | tee $GITHUB_ENV
       - name: Set matrix job status
         if: contains(env.JOB_STATUS, 'failure')
