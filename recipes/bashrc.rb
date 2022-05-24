@@ -28,13 +28,14 @@ bash_profile_path = Pathname.new(File.join(node['lyraphase_workstation']['home']
 # Gather Homebrew GitHub token from encrypted data bag
 homebrew_github_api_token_data =  begin
                                     data_bag_item('lyraphase_workstation', 'bashrc')
-                                  rescue => e
+                                  rescue
                                     nil
                                   end
 
+loaded_data = !homebrew_github_api_token_data.nil? ? homebrew_github_api_token_data.to_hash : Hash.new()
 homebrew_github_api_token_hash = Hash.new()
 ['homebrew_github_api_token', 'homebrew_github_api_token_comment'].each do |data_bag_key|
-  if !homebrew_github_api_token_data.nil? && homebrew_github_api_token_data.has_key?(node['name']) && homebrew_github_api_token_data[node['name']].has_key?(data_bag_key)
+  if !homebrew_github_api_token_data.nil? && loaded_data.has_key?(node['name']) && loaded_data[node['name']].has_key?(data_bag_key)
     Chef::Log.info("Loading Homebrew GitHub API token for Node Name: #{node['name']}")
     homebrew_github_api_token_hash[data_bag_key] = begin
                                   homebrew_github_api_token_data[node['name']][data_bag_key]

@@ -1,9 +1,9 @@
 {
   "id": "bashrc",
-  "homebrew_github_api_token": {
-    "encrypted_data": "G7B4aiL6U+BK5pGe27kA8M/Ndsw5QiS2cSzxypHYTMzvYsxgXw==\n",
-    "iv": "VocLxRLb9PrqK/nE\n",
-    "auth_tag": "1A8JfCMmcOwsAiUK34jaUw==\n",
+  "default-macos-121": {
+    "encrypted_data": "ipkLDYhRMPGfq7qvx7mKfXn1EYtJvp2spJC2GGdmutCJ1Ks9pBt3ucNwJ3Zs\nK89x+V+RcxGVUFQ/F6m66VUGDDwaNOpUxERMSPf+wTFjcx4wLnyAe6q+Ptzh\n687KelQZvJPjDkK4hcyRr/Th5Zcoj6oo+MRSAd+q5abqRAEYXw+KvwZTSJKH\nom2qlpm4ApFMuixHvxaQFPO+o3C3Tx/ATK0B5Lzgs6cRvGMt27WBy2LAie+A\nrQ==\n",
+    "iv": "SKMYSZn48/qNrZpC\n",
+    "auth_tag": "AgJyQRxU11P2dglGaATXww==\n",
     "version": 3,
     "cipher": "aes-256-gcm"
   }
