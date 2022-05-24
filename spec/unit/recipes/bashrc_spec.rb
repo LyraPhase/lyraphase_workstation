@@ -22,6 +22,53 @@
 
 require 'spec_helper'
 
+shared_examples 'bash_logout' do
+  let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
+  it 'installs custom .bash_logout into user homedir' do
+    expect(chef_run).to create_template(bash_logout_path).with(
+      user:   'brubble',
+      mode: '0644'
+    )
+  end
+end
+
+shared_examples 'it does not raise error' do
+  it 'does not raise error' do
+    expect { chef_run }.to_not raise_error
+  end
+end
+
+shared_examples 'default .bashrc' do
+  let(:bashrc_path) { '/Users/brubble/.bashrc' }
+  it 'installs custom .bashrc into user homedir with expected settings' do
+    expect(chef_run).to create_template(bashrc_path).with(
+      user:   'brubble',
+      mode: '0644'
+    )
+
+    [ "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
+      "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
+      "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'"
+    ].each do |expected_regex|
+      expect(chef_run).to render_file(bashrc_path).with_content(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
+    end
+
+    # Default is no / empty attributes:
+    #  - homebrew_github_api_token
+    #  - homebrew_no_cleanup_formulae
+    [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
+      "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment']}",
+      "export HOMEBREW_NO_CLEANUP_FORMULAE=.*"
+    ].each do |expected_regex|
+      # Note: Negated with_content requires passing a Proc / Block!
+      # Reference: https://github.com/chefspec/chefspec/issues/865
+      expect(chef_run).to(render_file(bashrc_path).with_content do |content|
+        expect(content).not_to match(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
+      end)
+    end
+  end
+end
+
 describe_recipe 'lyraphase_workstation::bashrc' do
   context 'when given all bashrc attributes' do
     # Override ChefSpec attributes from spec_shared_contexts
@@ -46,7 +93,11 @@ describe_recipe 'lyraphase_workstation::bashrc' do
     }
 
     let(:bashrc_path) { '/Users/brubble/.bashrc' }
-    let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
+
+    # Normal stub works for describe_recipe shared context b/c it has no before blocks defined
+    before(:each) do
+      stub_data_bag_item("lyraphase_workstation", "bashrc").and_return(nil)
+    end
 
     it 'installs custom .bashrc into user homedir with given settings' do
       expect(chef_run).to create_template(bashrc_path).with(
@@ -65,53 +116,18 @@ describe_recipe 'lyraphase_workstation::bashrc' do
       end
     end
 
-    it 'installs custom .bash_logout into user homedir' do
-      expect(chef_run).to create_template(bash_logout_path).with(
-        user:   'brubble',
-        mode: '0644'
-      )
-    end
+    include_examples 'bash_logout'
   end
 
   context 'when given no (default) bashrc attributes' do
     # Use ChefSpec attributes from spec_shared_contexts
-    let(:bashrc_path) { '/Users/brubble/.bashrc' }
-    let(:bash_logout_path) { '/Users/brubble/.bash_logout' }
 
-    it 'installs custom .bashrc into user homedir with expected settings' do
-      expect(chef_run).to create_template(bashrc_path).with(
-        user:   'brubble',
-        mode: '0644'
-      )
-
-      [ "export DEBFULLNAME='#{chef_run.node['lyraphase_workstation']['bashrc']['user_fullname']}'",
-        "export DEBEMAIL='#{chef_run.node['lyraphase_workstation']['bashrc']['user_email']}'",
-        "export DEBSIGN_KEYID='#{chef_run.node['lyraphase_workstation']['bashrc']['user_gpg_keyid']}'"
-      ].each do |expected_regex|
-        expect(chef_run).to render_file(bashrc_path).with_content(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
-      end
-
-      # Default is no / empty attributes:
-      #  - homebrew_github_api_token
-      #  - homebrew_no_cleanup_formulae
-      [ "export HOMEBREW_GITHUB_API_TOKEN='#{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token']}'",
-        "export HOMEBREW_GITHUB_API_TOKEN='.*?' # #{chef_run.node['lyraphase_workstation']['bashrc']['homebrew_github_api_token_comment']}",
-        "export HOMEBREW_NO_CLEANUP_FORMULAE=.*"
-      ].each do |expected_regex|
-        # Note: Negated with_content requires passing a Proc / Block!
-        # Reference: https://github.com/chefspec/chefspec/issues/865
-        expect(chef_run).to(render_file(bashrc_path).with_content do |content|
-          expect(content).not_to match(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
-        end)
-      end
+    before(:each) do
+      stub_data_bag_item("lyraphase_workstation", "bashrc").and_return(nil)
     end
 
-    it 'installs custom .bash_logout into user homedir' do
-      expect(chef_run).to create_template(bash_logout_path).with(
-        user:   'brubble',
-        mode: '0644'
-      )
-    end
+    include_examples 'default .bashrc'
+    include_examples 'bash_logout'
   end
 end
 
@@ -133,28 +149,60 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
       automatic_attributes: {}
     }
   }
-  let(:invalid_data_bag_item) {
-    { id: 'bashrc', comment: 'wrong schema',
-      homebrew_github_api_token: "gh_#{SecureRandom.hex(20)}",
-      homebrew_github_api_token_comment: 'This should be under node name hash key'
-    }
-  }
-  # Expect Chef::Log.warn messages
-  let(:chef_log_warn_msgs) {
-    [
-      "Could not find Homebrew GitHub API token attribute homebrew_github_api_token in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
-      "Could not find Homebrew GitHub API token attribute homebrew_github_api_token_comment in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
-      "Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node['name']}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}"
-    ]
-  }
 
-  before(:each) do
-    stub_data_bag_item('lyraphase_workstation', 'bashrc').and_return(invalid_data_bag_item)
+  context 'when given a valid data_bag_item' do
+    # Override method to stub at the shared_context level
+    # Needed here b/c describe_recipe_with_expected_logs defines before(:each) already,
+    # and we need to hook into it at that top-level context
+    def before_each_shared_example
+      valid_data_bag_item = { "id": "bashrc", "fauxhai.local": { "homebrew_github_api_token": "gh_f00dcafefauxhai", "homebrew_github_api_token_comment": "This is a valid data bag item" } }
+      stub_data_bag_item("lyraphase_workstation", "bashrc").and_return(valid_data_bag_item)
+    end
+
+    # Expect Chef::Log.info message
+    let(:chef_log_info_msgs) {
+      ["Loading Homebrew GitHub API token for Node Name: #{node['name']}"]
+    }
+    let(:bashrc_path) { '/Users/brubble/.bashrc' }
+
+    it_outputs 'Chef INFO Logs'
+
+    it 'installs custom .bashrc into user homedir with given settings' do
+      expect(chef_run).to create_template(bashrc_path).with(
+        user: 'brubble',
+        mode: '0644'
+      )
+
+      [ "export HOMEBREW_GITHUB_API_TOKEN='gh_f00dcafefauxhai'",
+        "export HOMEBREW_GITHUB_API_TOKEN='.*?' # This is a valid data bag item"
+      ].each do |expected_regex|
+        expect(chef_run).to render_file(bashrc_path).with_content(Regexp.new("^\s*#{expected_regex}\s*(#.*)?$"))
+      end
+    end
+
+    include_examples 'it does not raise error'
+    include_examples 'bash_logout'
   end
 
-  it_outputs 'Chef WARN Logs'
+  context 'when given invalid data_bag_item Schema' do
+    def before_each_shared_example
+      invalid_data_bag_item = { id: 'bashrc', comment: 'wrong schema',
+        homebrew_github_api_token: "gh_#{SecureRandom.hex(20)}",
+        homebrew_github_api_token_comment: 'This should be under node name hash key'
+      }
+      stub_data_bag_item('lyraphase_workstation', 'bashrc').and_return(invalid_data_bag_item)
+    end
+    # Expect Chef::Log.warn messages
+    let(:chef_log_warn_msgs) {
+      [
+        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
+        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token_comment in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
+        "Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node['name']}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}"
+      ]
+    }
 
-  it 'does not raise error' do
-    expect { chef_run }.to_not raise_error
+    it_outputs 'Chef WARN Logs'
+    include_examples 'it does not raise error'
+    include_examples 'default .bashrc'
   end
 end

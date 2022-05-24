@@ -351,7 +351,14 @@ shared_context 'when expected to output Chef Log messages', type: :recipe_with_e
     []
   end
 
+  # Override this method to add before(:each) hooks at this shared_context level
+  def before_each_shared_example
+  end
+
   before(:each) do
+    # Provide method hook for adding top-level shared_context before steps (e.g. stubs)
+    before_each_shared_example
+
     allow(chef_log).to receive(:new).and_return(chef_log)
     allow(Chef::Log).to receive(:new).and_return(chef_log)
     # Stub log levels: debug, error, fatal, info, trace
