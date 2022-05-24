@@ -75,7 +75,7 @@ jobs:
           job_status=$(curl -X GET -s --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs | jq ".jobs[] | {job_status: .conclusion, matrix: .name}")
           echo echo ::set-env JOB_STATUS=$job_status
       - name: Set matrix job status
-        if: contains(env.JOB_STATUS, 'failed')
+        if: contains(env.JOB_STATUS, 'failure')
         run: |
           echo 'One or more integration matrix jobs failed!'
           exit 1
