@@ -176,7 +176,7 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
 
     # Expect Chef::Log.info message
     let(:chef_log_info_msgs) {
-      ["Loading Homebrew GitHub API token for Node Name: #{node['name']}"]
+      ["Loading Homebrew GitHub API token for Node Name: #{node.name}"]
     }
     let(:bashrc_path) { '/Users/brubble/.bashrc' }
 
@@ -210,9 +210,9 @@ describe_recipe_with_expected_logs 'lyraphase_workstation::bashrc' do
     # Expect Chef::Log.warn messages
     let(:chef_log_warn_msgs) {
       [
-        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
-        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token_comment in data bag item lyraphase_workstation:bashrc for Node Name: #{node['name']}",
-        "Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node['name']}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}"
+        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token in data bag item lyraphase_workstation:bashrc for Node Name: #{node.name}",
+        "Could not find Homebrew GitHub API token attribute homebrew_github_api_token_comment in data bag item lyraphase_workstation:bashrc for Node Name: #{node.name}",
+        "Expected Data Bag Item Schema: {\"id\": \"bashrc\", \"#{node.name}\": {\"homebrew_github_api_token\": \"gh_f00dcafevagrant\", \"homebrew_github_api_token_comment\": \"some optional comment\"}}"
       ]
     }
 
