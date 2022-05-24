@@ -1,0 +1,50 @@
+export PATH="/usr/local/bin:$PATH"
+
+# Path to the bash it configuration
+export BASH_IT="<%= @user_home -%>/.bash_it"
+
+# Lock and Load a custom theme file
+export BASH_IT_THEME="bobby"
+
+# powerline-plain # nice, but special chars could mess up tty sometimes, no timestamps
+# radek # nice for python, but bright & no ruby, no timestamp
+# ramses # very nice clean multiline, has python & ruby, no timestamp
+# doubletime_multiline # nice clean multiline, has python & ruby + timestamp, but dimmer
+# iterate # minimal unless changing directory.. also no timestamps
+# luan # Bright nice multiline w/arrows, has ruby + timestamp, no python
+# mairan # Nice autumn Halloween theme, has ruby & python + timestamp, and vim shell support!
+# mbriggs # Red & Green Xmas theme, has ruby, no python, no timestamp
+# metal # Rockin' theme, has python, no ruby, no timestamp
+# minimal
+# modern # Clean teal theme, has python, no ruby, no timestamp, but vim shell support!
+# modern-t # same as modern, but with minimal 't' python TODO integration, breaks bash-it todo plugin
+# modern-time # same as modern, no python, no ruby, but with timestamp + vim shell
+# n0qorg # super-minimal blue, nothing except git scm
+# newin # minimal yellow teal, nothing except git scm + timestamp
+# norbu # very minimal green, python + git scm only
+# nwinkler # blue green yellow, timestamp
+# nwinkler_random_colors # same as above, with randomize_nwinkler function to get random colors
+
+## This must be done first before we load .bashrc, as PS1 will not be set appropriately otherwise
+if [[ $OSTYPE = *darwin* ]]
+then
+  ## Enable iTerm2 Shell Integration
+  test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+  export BASH_SILENCE_DEPRECATION_WARNING=1
+fi
+
+## Always load .bashrc
+source ${HOME}/.bashrc
+
+# Load Bash It
+source $BASH_IT/bash_it.sh
+
+## Currently breaks bash-it:
+## Error was:
+##   bash: trap: __bp_install: invalid signal specification
+##   /Users/jcuzella/.bash_it/vendor/github.com/rcaloras/bash-preexec/bash-preexec.sh
+#test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

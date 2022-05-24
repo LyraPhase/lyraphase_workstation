@@ -23,6 +23,7 @@
 
 bashrc_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bashrc'))
 bash_logout_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bash_logout'))
+bash_profile_path = Pathname.new(File.join(node['lyraphase_workstation']['home'], '.bash_profile'))
 
 # Gather Homebrew GitHub token from encrypted data bag
 homebrew_github_api_token_data =  begin
@@ -75,4 +76,11 @@ template bash_logout_path do
   user node['lyraphase_workstation']['user']
   mode '0644'
   # No vars needed for now
+end
+
+template bash_profile_path do
+  source 'bash_profile.erb'
+  user node['lyraphase_workstation']['user']
+  mode '0644'
+  variables(user_home: node['lyraphase_workstation']['home'])
 end

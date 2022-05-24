@@ -32,6 +32,19 @@ shared_examples 'bash_logout' do
   end
 end
 
+shared_examples 'bash_profile' do
+  let(:bash_profile_path) { '/Users/brubble/.bash_profile' }
+  it 'installs custom .bash_profile into user homedir' do
+    expect(chef_run).to create_template(bash_profile_path).with(
+      user:   'brubble',
+      mode: '0644'
+    )
+    expect(chef_run).to render_file(bash_profile_path).with_content(/^export BASH_IT="\/Users\/brubble\/.bash_it"$/)
+    expect(chef_run).to render_file(bash_profile_path).with_content(/^source \${HOME}\/.bashrc$/)
+    expect(chef_run).to render_file(bash_profile_path).with_content(/^source \$BASH_IT\/bash_it.sh$/)
+  end
+end
+
 shared_examples 'it does not raise error' do
   it 'does not raise error' do
     expect { chef_run }.to_not raise_error
@@ -116,6 +129,7 @@ describe_recipe 'lyraphase_workstation::bashrc' do
       end
     end
 
+    include_examples 'bash_profile'
     include_examples 'bash_logout'
   end
 
@@ -127,6 +141,7 @@ describe_recipe 'lyraphase_workstation::bashrc' do
     end
 
     include_examples 'default .bashrc'
+    include_examples 'bash_profile'
     include_examples 'bash_logout'
   end
 end
