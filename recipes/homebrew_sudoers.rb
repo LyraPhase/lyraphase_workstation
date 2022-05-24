@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: homebrew_sudoers
 # Site:: https://github.com/chef-cookbooks/homebrew/issues/105
 #
-# Copyright (C) © 🄯  2015-2020 James Cuzella
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2015-2022 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +22,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 directory '/etc/sudoers.d' do
   owner 'root'
   group 'wheel'
@@ -32,9 +34,9 @@ template '/etc/sudoers.d/homebrew_chef' do
   group 'wheel'
   mode '0644'
   source 'sudoers.d/homebrew_chef.erb'
-  variables({
-    :hostname => node['hostname'],
-    :user => node['lyraphase_workstation']['user']
-    })
+  variables(
+    hostname: node['hostname'],
+    user: node['lyraphase_workstation']['user']
+  )
   action :create
 end

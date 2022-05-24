@@ -20,8 +20,7 @@
 require 'spec_helper'
 
 describe 'lyraphase_workstation::audinate_dante_controller' do
-
-  let(:dmg_properties) {
+  let(:dmg_properties) do
     {
       'source' => 'http://www.lyraphase.com/doc/installers/mac/DanteController-4.2.7.1_macos.dmg',
       'checksum' => 'e601346160478447ccd572810ae01343e4beb76644554f4ed62d707c733a3547',
@@ -29,32 +28,32 @@ describe 'lyraphase_workstation::audinate_dante_controller' do
       'dmg_name' => 'DanteController-4.2.7.1_macos',
       'app' => '',
       'pkg_id' => 'com.audinate.DanteController.pkg',
-      'type' => 'pkg'
+      'type' => 'pkg',
     }
-  }
+  end
 
   context 'when given DMG attributes, on MacOS 10.15' do
     # for a complete list of available platforms and versions see:
     # https://github.com/chefspec/fauxhai/blob/master/PLATFORMS.md
     platform 'mac_os_x', '10.15'
 
-    let(:chef_run) {
+    let(:chef_run) do
       klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
       klass.new do |node|
         # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
-        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
         node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
         node.normal['lyraphase_workstation']['user'] = 'brubble'
 
         node.normal['lyraphase_workstation']['polyverse_infected_mushroom_gatekeeper']['dmg'] = dmg_properties
       end.converge(described_recipe)
-    }
+    end
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
 
-    it "installs Dante Controller DMG" do
+    it 'installs Dante Controller DMG' do
       chef_run.converge(described_recipe)
       expect(chef_run).to install_dmg_package(dmg_properties['volumes_dir'])
     end
@@ -65,7 +64,7 @@ describe 'lyraphase_workstation::audinate_dante_controller' do
       klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
       klass.new do |node|
         # Struct.new("EtcPasswd", :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire) unless ::Object.const_defined?(:EtcPasswd)
-        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
+        create_singleton_struct 'EtcPasswd', [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
         node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
         node.normal['lyraphase_workstation']['user'] = 'brubble'
       end.converge(described_recipe)
@@ -75,7 +74,7 @@ describe 'lyraphase_workstation::audinate_dante_controller' do
       expect { chef_run }.to_not raise_error
     end
 
-    it "installs DMG" do
+    it 'installs DMG' do
       chef_run.converge(described_recipe)
       expect(chef_run).to install_dmg_package(dmg_properties['volumes_dir'])
     end

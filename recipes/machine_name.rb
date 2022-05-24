@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: machine_name
+# Manual:: https://ss64.com/osx/scutil.html
 #
-# Copyright (C) © 🄯  2013-2021 James Cuzella
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2013-2022 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,17 +37,15 @@ end
 hostnames = [hostname]
 
 require 'socket'
-host_ips = real_interfaces.collect do |line|
+host_ips = real_interfaces.map do |line|
   line =~ /en.*?((\d+\.){3}\d+)/
   Regexp.last_match(1)
 end
 
 host_ips.each do |ip|
-  begin
-    hostnames << Socket.gethostbyaddr(ip.split(/\./).collect!(&:to_i).pack('CCCC'))[0]
-  rescue SocketError
-    log "no reverse lookup for \"#{ip}\""
-  end
+  hostnames << Socket.gethostbyaddr(ip.split(/\./).map!(&:to_i).pack('CCCC'))[0]
+rescue SocketError
+  log "no reverse lookup for \"#{ip}\""
 end
 
 hostnames.uniq.each do |hostname|

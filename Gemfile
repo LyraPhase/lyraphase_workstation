@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 group :task_runners do
   gem 'thor-foodcritic', '~> 2.0'
   gem 'rake'
@@ -24,11 +23,15 @@ group :unit do
 end
 
 group :kitchen_common do
-  gem 'test-kitchen', '~> 1.4'
+  gem 'test-kitchen', '~> 3.2'
 end
 
 group :kitchen_vagrant do
-  gem 'kitchen-vagrant', '~> 0.19'
+  gem 'kitchen-vagrant', '~> 1.11'
+end
+
+group :kitchen_inspec do
+  gem 'kitchen-inspec', '~> 2.5'
 end
 
 group :kitchen_cloud do
@@ -37,7 +40,7 @@ group :kitchen_cloud do
 end
 
 group :development do
-#  gem 'ruby_gntp'
+  # gem 'ruby_gntp'
   gem 'pry'
   gem 'pry-byebug'
   gem 'growl'
@@ -46,6 +49,6 @@ group :development do
   gem 'guard-kitchen'
   gem 'guard-foodcritic', '~> 3.0'
   gem 'guard-rspec'
-#  gem 'guard-rubocop'
+  # gem 'guard-rubocop'
   gem 'mixlib-versioning'
 end

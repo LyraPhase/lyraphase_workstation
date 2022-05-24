@@ -21,9 +21,9 @@ describe AVIDBugCheck do
       allow(Mixlib::ShellOut).to receive(:new) { shellout_return_pkg_does_not_exist }
     end
 
-    describe "#is_avid_coreaudio_installed?" do
+    describe "#avid_coreaudio_installed?" do
       it "returns true" do
-        expect(dummy_class.is_avid_coreaudio_installed?()).to be true
+        expect(dummy_class.avid_coreaudio_installed?()).to be true
       end
     end
   end
@@ -37,9 +37,9 @@ describe AVIDBugCheck do
       allow(shellout_return_pkg_does_exist).to receive(:live_stream) { nil }
     end
 
-    describe "#is_avid_coreaudio_installed?" do
+    describe "#avid_coreaudio_installed?" do
       it "returns true" do
-        expect(dummy_class.is_avid_coreaudio_installed?()).to be true
+        expect(dummy_class.avid_coreaudio_installed?()).to be true
       end
     end
   end
@@ -53,9 +53,9 @@ describe AVIDBugCheck do
       allow(shellout_return_pkg_does_exist).to receive(:live_stream) { nil }
     end
 
-    describe "#is_avid_coreaudio_installed?" do
+    describe "#avid_coreaudio_installed?" do
       it "returns true" do
-        expect(dummy_class.is_avid_coreaudio_installed?()).to be true
+        expect(dummy_class.avid_coreaudio_installed?()).to be true
       end
     end
   end
@@ -77,9 +77,9 @@ describe AVIDBugCheck do
       allow(shellout_return_pkg_does_not_exist).to receive(:live_stream) { nil }
     end
 
-    describe "#is_avid_coreaudio_installed?" do
+    describe "#avid_coreaudio_installed?" do
       it "returns true" do
-        expect(dummy_class.is_avid_coreaudio_installed?()).to be true
+        expect(dummy_class.avid_coreaudio_installed?()).to be true
       end
     end
   end
@@ -97,9 +97,9 @@ describe AVIDBugCheck do
       allow(shellout_return_pkg_does_not_exist).to receive(:live_stream) { nil }
     end
 
-    describe "#is_avid_coreaudio_installed?" do
+    describe "#avid_coreaudio_installed?" do
       it "returns true" do
-        expect(dummy_class.is_avid_coreaudio_installed?()).to be false
+        expect(dummy_class.avid_coreaudio_installed?()).to be false
       end
     end
   end

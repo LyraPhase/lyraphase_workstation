@@ -1,0 +1,81 @@
+---
+name: ci
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+      - develop
+  push:
+    branches:
+      - master
+      - main
+      - develop
+
+jobs:
+  rake-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Run rake ci
+        run: |
+          bundle exec rake ci
+
+  integration:
+    needs: [rake-ci]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        #exclude:
+        include:
+          - os: 'macos-11'
+            suite: '--log-level debug default'
+            KITCHEN_LOCAL_YAML: '.kitchen.exec.yml'
+          - os: 'macos-12'
+            suite: '--log-level debug default'
+            KITCHEN_LOCAL_YAML: '.kitchen.exec.yml'
+      fail-fast: false
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install Chef
+        uses: actionshub/chef-install@main
+      - name: Test Kitchen
+        uses: actionshub/test-kitchen@main
+        env:
+          TERM: xterm-color
+          CHEF_LICENSE: accept-no-persist
+          CHEF_INSTALL_STRATEGY: skip
+          CHEF_OMNIBUS_ROOT: /opt/chef-workstation
+          KITCHEN_LOCAL_YAML: ${{ matrix.KITCHEN_LOCAL_YAML }}
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
+      - name: Print debug output on failure
+        if: failure()
+        run: |
+            set -x
+            export TERM=xterm-color
+            log show --color always --last 5m
+            KITCHEN_LOCAL_YAML=${{ matrix.KITCHEN_LOCAL_YAML }} kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "syslog"
+
+  integration_result:
+    needs: [integration]
+    if: always()
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: check the jobs # get the matrix job status and combination info
+        run: |
+          job_status=$(curl -X GET -s --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs | jq ".jobs[] | {job_status: .conclusion, matrix: .name}")
+          echo echo ::set-env JOB_STATUS=$job_status
+      - name: Set matrix job status
+        if: contains(env.JOB_STATUS, 'failed')
+        run: |
+          echo 'One or more integration matrix jobs failed!'
+          exit 1

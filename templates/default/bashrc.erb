@@ -203,16 +203,16 @@ then
 
   # Use system ruby for vim & all vim aliases
   #define_vim_wrappers
-  
+
   # Use OSX system python with homebrew
   ## Unset b/c some brew utils use python3 now!
   #export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
-  
+
   ## Enable python REPL tab completion
   export PYTHONSTARTUP='~/.pythonrc'
   ## awscli Command Completion
   complete -C aws_completer aws
-  
+
 
   ## Enable PyEnv if available
 #  if which pyenv > /dev/null; then
@@ -267,7 +267,7 @@ fi
   #BASH_IT_DOCKER_MACHINE=$(docker-machine active 2>/dev/null)
   #[ -z $BASH_IT_DOCKER_MACHINE ] && BASH_IT_DOCKER_MACHINE=$(docker-machine ls --filter 'driver=virtualbox' --format '{{.Name}}')
   BASH_IT_DOCKER_MACHINE=dm
-  
+
   # If ChefDK is installed, set path
   if [ -f /opt/chefdk/bin/chef ]; then
     ## Avoid blindly executing this b/c rvm complains if it is not first in PATH
@@ -283,18 +283,18 @@ fi
 
   # added by travis gem
   [ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
- 
+
 else
   # set a fancy prompt (non-color, unless we know we "want" color)
   case "$TERM" in
       xterm-color) color_prompt=yes;;
   esac
-  
+
   # uncomment for a colored prompt, if the terminal has the capability; turned
   # off by default to not distract the user: the focus in a terminal window
   # should be on the output of commands, not on the prompt
   force_color_prompt=yes
-  
+
   if [ -n "$force_color_prompt" ]; then
       if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
   	# We have color support; assume it's compliant with Ecma-48
@@ -305,7 +305,7 @@ else
   	color_prompt=
       fi
   fi
-  
+
   # Show the state of your git repo with * and + chars
   #export GIT_PS1_SHOWDIRTYSTATE=true
   if [ "$color_prompt" = yes ]; then
@@ -315,7 +315,7 @@ else
       PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W$(__git_ps1 "(%s)")\$ '
   fi
   unset color_prompt force_color_prompt
-   
+
 fi
 
 export GOPATH=$HOME/src/pub/go

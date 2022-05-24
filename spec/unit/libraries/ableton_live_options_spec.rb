@@ -68,7 +68,7 @@ describe AbletonLiveOptions do
   #   before(:each) do
   #     allow(dummy_class).to receive_message_chain(:open, :read) {''}
   #   end
-  #   describe "#is_avid_coreaudio_installed?" do
+  #   describe "#avid_coreaudio_installed?" do
   #     pass
   #   end
   # end

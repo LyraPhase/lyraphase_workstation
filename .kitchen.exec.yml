@@ -1,0 +1,25 @@
+---
+driver:
+  name: exec
+
+transport:
+  name: exec
+
+provisioner:
+  name: chef_zero
+  deprecations_as_errors: true
+  install_strategy: <%= ENV['CHEF_INSTALL_STRATEGY'] || 'once' %>
+  chef_omnibus_root: <%= ENV['CHEF_OMNIBUS_ROOT'] || '/opt/chef-workstation' %>
+
+verifier:
+  # This will eventually become 'inputs'
+  # References:
+  #  - https://github.com/inspec/kitchen-inspec/issues/237
+  #  - https://github.com/inspec/inspec/pull/4398
+  #  - https://docs.chef.io/inspec/inputs/#what-happened-to-attributes
+  attributes:
+    test_kitchen_user: <%= ENV['USER'] || 'vagrant' %>
+
+platforms:
+  - name: macos-11
+  - name: macos-12

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # frozen_string_literal: true
-
 #
 # Cookbook:: lyraphase_workstation
 # Spec:: root_bootstrap_ssh_config
 #
+# License:: GPL-3.0+
 # Copyright:: (C) © 🄯  2013-2021 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
@@ -22,25 +22,30 @@
 
 require 'spec_helper'
 
-describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
-
+describe_recipe 'lyraphase_workstation::root_bootstrap_ssh_config' do
   context 'when root .ssh/* files do not exist' do
     let(:root_ssh) { '/var/root/.ssh' }
     let(:root_ssh_config) { '/var/root/.ssh/config' }
     let(:root_ssh_known_hosts) { '/var/root/.ssh/known_hosts' }
-    let(:chef_run) {
-      klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-      klass.new do |node|
-        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
-        node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-        node.normal['lyraphase_workstation']['user'] = 'brubble'
-
-        node.normal['lyraphase_workstation']['root_bootstrap_ssh_config']['identity_file'] = 'identity.brubble'
-        stub_command('grep -q github.com known_hosts').and_return(false)
-      end.converge(described_recipe)
-    }
+    let(:root_sh_profile) { '/var/root/.profile' }
+    # Override ChefSpec attributes from spec_shared_contexts
+    let(:chefspec_options) do
+      # rubocop:disable Style/TrailingCommaInHashLiteral
+      {
+        normal_attributes: {
+          'lyraphase_workstation': {
+            'root_bootstrap_ssh_config': {
+              'identity_file': 'identity.brubble',
+              'ssh_auth_sock': '/Users/brubble/.gnupg/S.gpg-agent.ssh'
+            }
+          }
+        }
+      }
+      # rubocop:enable Style/TrailingCommaInHashLiteral
+    end
 
     before :each do
+      stub_command('grep -q github.com known_hosts').and_return(false)
       allow(File).to receive(:exists?).and_call_original
       allow(File).to receive(:exists?).with(anything).and_call_original
       allow(File).to receive(:exists?).with('/var/root/.ssh').and_return(false)
@@ -49,6 +54,7 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
       expect(File).not_to be_exists('/var/root/.ssh')
       expect(File).not_to be_exists('/var/root/.ssh/config')
       expect(File).not_to be_exists('/var/root/.ssh/known_hosts')
+      expect(File).not_to be_exists('/var/root/.profile')
     end
 
     it 'creates directory /var/root/.ssh' do
@@ -80,6 +86,7 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
     end
 
     it 'creates minimal root user github.com ssh config' do
+      # rubocop:disable Style/RegexpLiteral
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+IdentityFile\s+\/Users\/brubble\/.ssh\/identity.brubble$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^Host github\.com$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+User\s+git$/)
@@ -90,27 +97,32 @@ describe 'lyraphase_workstation::root_bootstrap_ssh_config' do
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+UpdateHostKeys\s+yes$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+UseKeychain\s+yes$/)
       expect(chef_run).to render_file(root_ssh_config).with_content(/^\s+AddKeysToAgent\s+yes$/)
+      # rubocop:enable Style/RegexpLiteral
+    end
+
+    it 'creates a template for /var/root/.profile' do
+      expect(chef_run).to create_template(root_sh_profile).with(
+        user: 'root',
+        group: 'wheel',
+        mode: '0644'
+      )
+      # rubocop:disable Style/RegexpLiteral
+      expect(chef_run).to render_file(root_sh_profile).with_content(/^export SSH_AUTH_SOCK=\/Users\/brubble\/.gnupg\/S.gpg-agent.ssh$/)
+      # rubocop:enable Style/RegexpLiteral
     end
   end
-
 
   context 'when root .ssh/* files already exist and github.com already in known_hosts ...' do
     let(:root_ssh) { '/var/root/.ssh' }
     let(:root_ssh_config) { '/var/root/.ssh/config' }
     let(:root_ssh_known_hosts) { '/var/root/.ssh/known_hosts' }
-    let(:chef_run) {
-      klass = ChefSpec.constants.include?(:SoloRunner) ? ChefSpec::SoloRunner : ChefSpec::Runner
-      klass.new do |node|
-        create_singleton_struct "EtcPasswd", [ :name, :passwd, :uid, :gid, :gecos, :dir, :shell, :change, :uclass, :expire ]
-        node.normal['etc']['passwd']['brubble'] = Struct::EtcPasswd.new('brubble', '********', 501, 20, 'Barney Rubble', '/Users/brubble', '/bin/bash', 0, '', 0)
-        node.normal['lyraphase_workstation']['user'] = 'brubble'
-
-        node.normal['lyraphase_workstation']['root_bootstrap_ssh_config']['identity_file'] = 'identity.brubble'
-        stub_command('grep -q github.com known_hosts').and_return(true)
-      end.converge(described_recipe)
-    }
+    # Override ChefSpec attributes from spec_shared_contexts
+    let(:chefspec_options) do
+      { normal_attributes: { 'lyraphase_workstation': { 'root_bootstrap_ssh_config': { 'identity_file': 'identity.brubble' } } } }
+    end
 
     before :each do
+      stub_command('grep -q github.com known_hosts').and_return(true)
       allow(File).to receive(:exists?).and_call_original
       allow(File).to receive(:exists?).with(anything).and_call_original
       allow(File).to receive(:exists?).with('/var/root/.ssh').and_return(true)

@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: dmgaudio_dualism
 # Site:: http://www.dmgaudio.com/products_dualism.php
 #
-# Copyright (C) © 🄯  2015-2020 James Cuzella
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2015-2021 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,30 +35,32 @@ remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}" do
 end
 
 bash "unpack #{zip_file['file_name']}" do
-   code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}"
-   not_if {
-     File.exists?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
-   }
-end
-
-bash "Install DMGAudio Dualism" do
-  code "installer -allowUntrusted -package  #{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']} -target /"
+  code "unzip -o -d #{Chef::Config[:file_cache_path]}/ #{Chef::Config[:file_cache_path]}/#{zip_file['file_name']}"
   not_if {
-    Chef::Recipe::PkgPackage::pkg_installed?(zip_file['package_id'])
+    ::File.exist?("#{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']}")
   }
 end
 
-ruby_block "test that DMGAudio Dualism install worked" do
+bash 'Install DMGAudio Dualism' do
+  code "installer -allowUntrusted -package  #{Chef::Config[:file_cache_path]}/#{zip_file['pkg_file']} -target /"
+  not_if {
+    Chef::Recipe::PkgPackage.pkg_installed?(zip_file['package_id'])
+  }
+end
+
+ruby_block 'test that DMGAudio Dualism install worked' do
   block do
-    raise "Dualism install failed!" if ! zip_file['app_paths'].all? { |app_path| File.exists?(app_path) }
+    raise 'Dualism install failed!' unless zip_file['app_paths'].all? { |app_path| File.exist?(app_path) }
   end
 end
 
+# rubocop:disable Metrics/LineLength, Style/RescueModifier
 dmgaudio_dualism_appsupport_dir = "#{node['lyraphase_workstation']['home']}/Library/Application Support/DMGAudio/Dualism"
 
 license_key_data = data_bag_item('lyraphase_workstation', 'dmgaudio_dualism') rescue nil
+# rubocop:enable Metrics/LineLength, Style/RescueModifier
 
-if license_key_data.nil? && ! node['lyraphase_workstation']['dmgaudio_dualism']['license_key'].nil?
+if license_key_data.nil? && !node['lyraphase_workstation']['dmgaudio_dualism']['license_key'].nil?
   license_key_data = node['lyraphase_workstation']['dmgaudio_dualism']
 end
 
@@ -72,9 +78,9 @@ unless license_key_data.nil?
     group 'staff'
     mode '0644'
     source 'com.dmgaudio.pkg.DualismVST3.license.erb'
-    variables({
-      :license_key_data => license_key_data
-    })
+    variables(
+      license_key_data: license_key_data
+    )
     action :create
   end
 end

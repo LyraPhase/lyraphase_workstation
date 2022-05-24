@@ -4,7 +4,7 @@ maintainer_email "james.cuzella@lyraphase.com"
 license          "GPL-3.0+"
 description      "Recipes to Install & Configure my workstation"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "3.2.6"
+version          "3.3.0"
 chef_version     ">= 12.0" if respond_to?(:chef_version)
 
 source_url 'https://github.com/trinitronx/lyraphase_workstation' if respond_to?(:source_url)
@@ -24,6 +24,7 @@ recipe 'lyraphase_workstation::ableton_live_options', 'Manage [Options.txt](http
 recipe 'lyraphase_workstation::airfoil', 'Install [Airfoil](https://www.rogueamoeba.com/airfoil/)'
 recipe 'lyraphase_workstation::audinate_dante_controller', 'Install [Audinate Dante Controller](https://www.audinate.com/products/software/dante-controller)'
 recipe 'lyraphase_workstation::bash4', 'Install [bash v4](https://github.com/Homebrew/homebrew-core/blob/master/Formula/bash.rb) from Homebrew'
+recipe 'lyraphase_workstation::bitfocus_companion', 'Install [Bitfocus Companion](https://bitfocus.io/companion)'
 recipe 'lyraphase_workstation::cycling_74_max', 'Install [CYCLING \'74 MAX](https://cycling74.com/)'
 recipe 'lyraphase_workstation::daisydisk', 'Install [DaisyDisk](http://www.daisydiskapp.com/)'
 recipe 'lyraphase_workstation::default', 'No-Op recipe for just loading libraries this cookbook provides'

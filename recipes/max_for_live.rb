@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 #
-# Cookbook Name:: lyraphase_workstation
+# Cookbook:: lyraphase_workstation
 # Recipe:: ableton_live
 # Site:: https://www.ableton.com/en/live/max-for-live/
 #
-# Copyright (C) © 🄯  2013-2020 James Cuzella
-# 
+# License:: GPL-3.0+
+# Copyright:: (C) © 🄯  2013-2020 James Cuzella
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +24,7 @@
 #
 dmg_properties = node['lyraphase_workstation']['max_for_live']['dmg']
 
-dmg_package "Max for Live" do
+dmg_package 'Max for Live' do
   source      dmg_properties['source']
   checksum    dmg_properties['checksum']
   volumes_dir dmg_properties['volumes_dir']

@@ -4,7 +4,7 @@
 #
 # Cookbook:: lyraphase_workstation
 # Recipe:: root_bootstrap_ssh_config
-# License:: GPLv3
+# License:: GPL-3.0+
 # Copyright:: (C) © 🄯  2016-2021 James Cuzella
 #
 # This program is free software: you can redistribute it and/or modify
@@ -51,5 +51,15 @@ template '/var/root/.ssh/config' do
   variables(
     home: node['lyraphase_workstation']['home'],
     identity_file: node['lyraphase_workstation']['root_bootstrap_ssh_config']['identity_file']
+  )
+end
+
+template '/var/root/.profile' do
+  source 'ssh/root_sh_profile.erb'
+  user 'root'
+  group 'wheel'
+  mode '0644'
+  variables(
+    ssh_auth_sock: node['lyraphase_workstation']['root_bootstrap_ssh_config']['ssh_auth_sock']
   )
 end
