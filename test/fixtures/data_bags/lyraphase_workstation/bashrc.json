@@ -1,9 +1,16 @@
 {
   "id": "bashrc",
   "default-macos-121": {
-    "encrypted_data": "ipkLDYhRMPGfq7qvx7mKfXn1EYtJvp2spJC2GGdmutCJ1Ks9pBt3ucNwJ3Zs\nK89x+V+RcxGVUFQ/F6m66VUGDDwaNOpUxERMSPf+wTFjcx4wLnyAe6q+Ptzh\n687KelQZvJPjDkK4hcyRr/Th5Zcoj6oo+MRSAd+q5abqRAEYXw+KvwZTSJKH\nom2qlpm4ApFMuixHvxaQFPO+o3C3Tx/ATK0B5Lzgs6cRvGMt27WBy2LAie+A\nrQ==\n",
-    "iv": "SKMYSZn48/qNrZpC\n",
-    "auth_tag": "AgJyQRxU11P2dglGaATXww==\n",
+    "encrypted_data": "14mvD4foM6IDEFYa3Q6w+/PMp40FepzvCSb2agNMyR3Shp7oTzQqSfqM4Uvs\nGRpHnjRkyZm2kSlNddgbj0/QATZ1ORt/LgHf7jj8538gUeSygKIOaPtCqx03\niCh6FTvISIqPerxndW3OKS5GTgqwc0l8AyWeU2mpwBfMCILubRx0pgQ+c/TS\n5Z6lI59qUva+ooa9D+2uUpcw5kWF0xIAPr7133WB4WJb7mX6bdWUrwQGOVJV\nsg==\n",
+    "iv": "ppQ9AA1dnyJWPiji\n",
+    "auth_tag": "AZ31tTTLOjYAv3kSGpjVug==\n",
+    "version": 3,
+    "cipher": "aes-256-gcm"
+  },
+  "default-macos-12": {
+    "encrypted_data": "mWMv2DnywIZdQsQexxkzLpArcfK/Tksd/ceWnY7eKGQugatitDmIXqc9YR1p\nsdqAGq+Cso2Xsvnfpmmr80i5aA1WTuHxsf2kO4CoXbyHUgW3C8/LwWok26P8\n4q0oZwTyBq2Bj1cvpcrqjLicCS4zST+ZUNYOKX7QavMKLEDB9gYC7Np3SSne\nf5f7RMAxAFTxz3nQV5KFiPIyKPP6Ay0a/vywAaIVSw/UlVs0rZ7bamqQp0RS\n+w==\n",
+    "iv": "mGLSxmWSK7K7QIFC\n",
+    "auth_tag": "OR9li+6s7vqHxetM1nknVQ==\n",
     "version": 3,
     "cipher": "aes-256-gcm"
   }
