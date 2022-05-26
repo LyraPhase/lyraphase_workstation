@@ -27,7 +27,7 @@
 
 [![ci](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/ci.yml/badge.svg)](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/ci.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![pre-commit](https://github.com/LyraPhase/sprout-wrap/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/LyraPhase/sprout-wrap/actions/workflows/pre-commit.yml)
+[![pre-commit](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/pre-commit.yml)
 
 A cookbook including various recipes for installing tools used by myself.
 This includes Ableton Live [DAW][1], VSTs, and other various tools and
@@ -476,7 +476,7 @@ Author:: James Cuzella ([@trinitronx][keybase-id])
 
 [1]: https://en.wikipedia.org/wiki/Digital_audio_workstation
 [keybase-id]: https://gist.github.com/trinitronx/aee110cbdf55e67185dc44272784e694
-[sprout-wrap]: https://github.com/trinitronx/sprout-wrap/
+[sprout-wrap]: https://github.com/LyraPhase/sprout-wrap/
 [dmg-cookbook]: https://github.com/chef-cookbooks/dmg
 [data-bags]: https://docs.chef.io/data_bags.html
 [knife-solo_data_bag]: https://github.com/thbishop/knife-solo_data_bag
