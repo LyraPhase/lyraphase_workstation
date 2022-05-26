@@ -179,4 +179,4 @@ There is an [upstream bug in Golang to ask for `socks5h://` support in
 If this is ever fixed, perhaps Golang code that uses standard `x/net/proxy`
 library will _just work_!
 
-[1]: https://github.com/trinitronx/lyraphase_workstation/blob/master/recipes/loopback_alias_ip.rb
+[1]: https://github.com/LyraPhase/lyraphase_workstation/blob/master/recipes/loopback_alias_ip.rb

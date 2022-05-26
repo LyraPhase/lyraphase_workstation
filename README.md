@@ -23,7 +23,7 @@
 
 # lyraphase_workstation cookbook
 
-[![ci](https://github.com/trinitronx/lyraphase_workstation/actions/workflows/ci.yml/badge.svg)](https://github.com/trinitronx/lyraphase_workstation/actions/workflows/ci.yml)
+[![ci](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/ci.yml/badge.svg)](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/ci.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![pre-commit](https://github.com/LyraPhase/sprout-wrap/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/LyraPhase/sprout-wrap/actions/workflows/pre-commit.yml)
 
@@ -306,7 +306,7 @@ Some general rules of thumb:
 - `lyraphase_workstation::korg_kontrol_editor`: Install [Korg Kontrol Editor](http://www.korg.com/us/support/download/software/1/253/1355/)
   ([Manual](http://www.korg.com/us/support/download/manual/1/253/1843/)
   [Archived DL](https://web.archive.org/web/20150919212752/http://www.korg.com/filedl/61a78cbcf754384af8104114d7cde1c7/840/download.php))
-- `lyraphase_workstation::loopback_alias_ip`: Install [loopback alias IP LaunchDaemon](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/com.runlevel1.lo0.alias.plist.erb)
+- `lyraphase_workstation::loopback_alias_ip`: Install [loopback alias IP LaunchDaemon](https://github.com/LyraPhase/lyraphase_workstation/blob/master/templates/default/com.runlevel1.lo0.alias.plist.erb)
   for [SSH Tunneled Proxy Access to VPC / Private Network from a Docker Container][ssh-tunnel-docs]
   - Adds support for local [SSH tunnel port forwarding across Docker bridge networks](https://gist.github.com/trinitronx/6427d6454fb3b121fc2ab5ca7ac766bc)
   - Use case for `terraform` [explained here](https://github.com/hashicorp/terraform/issues/17754#issuecomment-383227407)
@@ -388,7 +388,7 @@ Some general rules of thumb:
 - `lyraphase_workstation::root_bootstrap_ssh_config`: Installs a minimal
   `.ssh/config` + `known_hosts` file for GitHub & Homebrew bootstrap
 - `lyraphase_workstation::ssh_tunnel_port_override`: Install
-  [`ssh-tunnel-port-override.sh` script](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/ssh-tunnel-port-override.sh.erb)
+  [`ssh-tunnel-port-override.sh` script](https://github.com/LyraPhase/lyraphase_workstation/blob/master/templates/default/ssh-tunnel-port-override.sh.erb)
   & `LaunchDaemon` to allow killing some process
   (_cough_ McAfee -Anti-virus _cough_ 🦠😷) that claims your favorite SSH tunnel
   port (Default: `8081`) on login.
@@ -442,4 +442,4 @@ Author:: James Cuzella ([@trinitronx][keybase-id])
 [iterm2-shell]: https://www.iterm2.com/documentation-shell-integration.html
 [bash-it]: https://github.com/Bash-it/bash-it
 [sprout-base]: https://github.com/pivotal-sprout/sprout-base
-[ssh-tunnel-docs]: https://github.com/trinitronx/lyraphase_workstation/blob/master/docs/SSH%20Tunneled%20Proxy%20Access%20to%20VPC%20from%20Docker%20Container.md
+[ssh-tunnel-docs]: https://github.com/LyraPhase/lyraphase_workstation/blob/master/docs/SSH%20Tunneled%20Proxy%20Access%20to%20VPC%20from%20Docker%20Container.md
