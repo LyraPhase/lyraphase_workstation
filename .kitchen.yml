@@ -19,10 +19,19 @@ suites:
 - name: default
   run_list:
     - recipe[lyraphase_workstation::ableton_live]
+    - recipe[lyraphase_workstation::ableton_live_options]
     - recipe[lyraphase_workstation::bashrc]
     - recipe[lyraphase_workstation::bitfocus_companion]
   attributes:
     lyraphase_workstation:
+      ableton_live:
+        managed_versions:
+          - 10.0.1
+          - 10.1.35
+        options:
+          - EnableMapToSiblings
+          - AutoAdjustMacroMappingRange
+          - _PluginAutoPopulateThreshold=-1
       bashrc:
         user_fullname: 'vagrant'
         user_email: 'vagrant@vagrant.com'

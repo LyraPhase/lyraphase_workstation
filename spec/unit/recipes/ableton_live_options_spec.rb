@@ -54,6 +54,9 @@ describe 'lyraphase_workstation::ableton_live_options' do
         end.converge(described_recipe)
       }
 
+      it "creates Ableton Preferences directory" do
+        expect(chef_run).to create_directory(ableton_preferences_path)
+      end
 
       it "creates Ableton Preferences directory for latest detected version: #{ableton_live_version}" do
         expected_directory = "#{ableton_preferences_path}/Live #{ableton_live_version}"
