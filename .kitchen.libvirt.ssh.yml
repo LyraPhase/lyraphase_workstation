@@ -87,9 +87,17 @@ platforms:
       customize:
         memory: 4096
 #        cpus: 2
+    attributes:
+      lyraphase_workstation:
+        ableton_live:
+          dmg:
+            source: http://saturn.local:8888/mac/ableton_live_suite_11.1.5_universal.dmg
+        bitfocus_companion:
+          dmg:
+            source: http://saturn.local:8888/mac/bitfocus-companion-2.2.0-ccea40c7-mac-x64.dmg
 
-#suites:
-#  - name: default
+# suites:
+# - name: default
 #    run_list:
 #      - recipe[sprout-base::default]
 #    includes: [ubuntu-20.04, macos-latest]
