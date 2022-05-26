@@ -245,7 +245,8 @@ manager files such as:
 
 You can do this easily in your codebase using the following commands:
 
-    grep -rin -l 'trinitronx/lyraphase_workstation' ./ | xargs -I{} sed -i '' -e 's#trinitronx/lyraphase_workstation#LyraPhase/lyraphase_workstation#g' '{}'
+    grep -rin -l 'trinitronx/lyraphase_workstation' ./ | \
+      xargs -I{} sed -i '' -e 's#trinitronx/lyraphase_workstation#LyraPhase/lyraphase_workstation#g' '{}'
     grep -rin -l 'LyraPhase/lyraphase_workstation'  ./ | xargs -I{} git add '{}'
     git commit -m 'Migrating Cookbook trinitronx/lyraphase_workstation => LyraPhase/lyraphase_workstation'
 
