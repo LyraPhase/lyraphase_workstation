@@ -45,6 +45,9 @@ jobs:
       - name: What is GitHub IP?
         run: |
           curl -Ls ifconfig.co
+      - name: What is GitHub ifconfig?
+        run: |
+          ifconfig
       - name: Check out code
         uses: actions/checkout@v2
       - name: Install Chef
