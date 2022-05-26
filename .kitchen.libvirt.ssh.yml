@@ -21,8 +21,8 @@ driver:
   provider: libvirt
   vagrantfiles:
     - 'test/fixtures/Vagrantfile.libvirt-ssh'
-  synced_folders:
-  - [".", "/tmp/kitchen/soloist", "disabled: false, type: 'rsync'"]
+  #synced_folders:
+  # - [".", "/tmp/kitchen/soloist", "disabled: false, type: 'rsync'"]
   # TODO: Find & fix bugs in Vagrant where it checks for vagrant-host path... needs to support remote NFS & 9p libvirt mounts
   # TODO: Fix mount: false setting for 9p
   # TODO: Fix auto-mount capability for Darwin / macOS... needs mount_9p support (see man mount_9p)
@@ -77,8 +77,11 @@ platforms:
   - name: macos-12.1
     lifecycle:
       pre_converge:
+      - local: ssh saturn.local '[[ "$(docker ps -q --filter 'name=kitchen-installer-server-macos-12.1' | wc -l)" == '1' ]] || docker run --name=kitchen-installer-server-macos-12.1 --rm  -d -v  /media/terabyte/installers/:/var/www:ro -p 8888:8080 trinitronx/python-simplehttpserver'
       - remote: sudo mkdir -p /tmp/kitchen
       - remote: sudo chown -R vagrant:vagrant /tmp/kitchen
+      post_converge:
+      - local: ssh saturn.local '[ $(docker ps -aq --filter 'name=kitchen-installer-server-macos-12.1' | wc -l) -ge 1 ] && docker kill kitchen-installer-server-macos-12.1'
     driver:
       box: lyraphase-runner/macos-monterey-base
       box_url: http://saturn.local:8888/lyraphase-runner-macos-monterey-base.box
