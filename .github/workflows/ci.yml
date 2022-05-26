@@ -42,6 +42,9 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: What is GitHub IP?
+        run: |
+          curl -Ls ifconfig.co
       - name: Check out code
         uses: actions/checkout@v2
       - name: Install Chef
@@ -72,10 +75,10 @@ jobs:
     steps:
       - name: check the jobs # get the matrix job status and combination info
         run: |
-          job_status=$(curl -X GET -s --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs | jq ".jobs[] | {job_status: .conclusion, matrix: .name}")
-          echo echo ::set-env JOB_STATUS=$job_status
+          job_status=$(curl -X GET -s --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs | jq ".jobs[] | {job_status: .conclusion, matrix: .name} | select( .matrix | contains(\"integration\"))")
+          echo JOB_STATUS=$job_status | tee $GITHUB_ENV
       - name: Set matrix job status
-        if: contains(env.JOB_STATUS, 'failed')
+        if: contains(env.JOB_STATUS, 'failure')
         run: |
           echo 'One or more integration matrix jobs failed!'
           exit 1

@@ -10,6 +10,8 @@
       "*",
       "## Sponsor",
       "*",
+      "## Migration",
+      "*",
       "# Attributes",
       "*",
       "# Recipes",
@@ -23,9 +25,9 @@
 
 # lyraphase_workstation cookbook
 
-[![ci](https://github.com/trinitronx/lyraphase_workstation/actions/workflows/ci.yml/badge.svg)](https://github.com/trinitronx/lyraphase_workstation/actions/workflows/ci.yml)
+[![ci](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/ci.yml/badge.svg)](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/ci.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![pre-commit](https://github.com/LyraPhase/sprout-wrap/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/LyraPhase/sprout-wrap/actions/workflows/pre-commit.yml)
+[![pre-commit](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/LyraPhase/lyraphase_workstation/actions/workflows/pre-commit.yml)
 
 A cookbook including various recipes for installing tools used by myself.
 This includes Ableton Live [DAW][1], VSTs, and other various tools and
@@ -208,6 +210,48 @@ and help me continue?
 
 Every little bit is appreciated! Thank you! 🙏
 
+## Migration
+
+**Note:** This Chef Cookbook has migrated from the old location
+(`trinitronx/lyraphase_workstation`) to `LyraPhase/lyraphase_workstation`.
+It has **NOT** changed ownership or maintainers at this time. It has been moved
+to benefit from GitHub's CI/CD automation features that are available to a
+GitHub Organization.
+
+While all links to the previous repository location are automatically redirected
+to the new location by GitHub, it is recommended to migrate any references you
+may have, or previously cloned `git` repos to use the new URL.
+
+To avoid confusion, we strongly recommend updating any existing local clones to
+point to the new repository URL.
+
+    cd path/to/trinitronx/lyraphase_workstation
+    git remote -vv  # List remote repos
+    # Find the named remote URL with 'trinitronx/lyraphase_workstation'
+    # (usually 'origin' by default)
+    # If you checked this repo out as a fork
+    # or named the remote repo something other than 'origin',
+    # then use that in the following command
+    git remote set-url origin https://github.com/LyraPhase/lyraphase_workstation.git
+    git remote -vv  # Check that the remote repo URL now contains 'LyraPhase/lyraphase_workstation'
+
+The cookbook and recipe names have not changed. While generally repo names are
+not as important to Chef Infra or Cinc Client, they may appear in dependency
+manager files such as:
+
+- `Policyfile`s
+- `Berksfile`s
+- `Cheffile`s
+
+You can do this easily in your codebase using the following commands:
+
+    grep -rin -l 'trinitronx/lyraphase_workstation' ./ | \
+      xargs -I{} sed -i '' -e 's#trinitronx/lyraphase_workstation#LyraPhase/lyraphase_workstation#g' '{}'
+    grep -rin -l 'LyraPhase/lyraphase_workstation'  ./ | xargs -I{} git add '{}'
+    git commit -m 'Migrating Cookbook trinitronx/lyraphase_workstation => LyraPhase/lyraphase_workstation'
+
+Then, run your dependency manager tool commands appropriately.
+
 # Attributes
 
 Too many to list!  Please see the appropriate recipe's
@@ -306,7 +350,7 @@ Some general rules of thumb:
 - `lyraphase_workstation::korg_kontrol_editor`: Install [Korg Kontrol Editor](http://www.korg.com/us/support/download/software/1/253/1355/)
   ([Manual](http://www.korg.com/us/support/download/manual/1/253/1843/)
   [Archived DL](https://web.archive.org/web/20150919212752/http://www.korg.com/filedl/61a78cbcf754384af8104114d7cde1c7/840/download.php))
-- `lyraphase_workstation::loopback_alias_ip`: Install [loopback alias IP LaunchDaemon](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/com.runlevel1.lo0.alias.plist.erb)
+- `lyraphase_workstation::loopback_alias_ip`: Install [loopback alias IP LaunchDaemon](https://github.com/LyraPhase/lyraphase_workstation/blob/master/templates/default/com.runlevel1.lo0.alias.plist.erb)
   for [SSH Tunneled Proxy Access to VPC / Private Network from a Docker Container][ssh-tunnel-docs]
   - Adds support for local [SSH tunnel port forwarding across Docker bridge networks](https://gist.github.com/trinitronx/6427d6454fb3b121fc2ab5ca7ac766bc)
   - Use case for `terraform` [explained here](https://github.com/hashicorp/terraform/issues/17754#issuecomment-383227407)
@@ -388,7 +432,7 @@ Some general rules of thumb:
 - `lyraphase_workstation::root_bootstrap_ssh_config`: Installs a minimal
   `.ssh/config` + `known_hosts` file for GitHub & Homebrew bootstrap
 - `lyraphase_workstation::ssh_tunnel_port_override`: Install
-  [`ssh-tunnel-port-override.sh` script](https://github.com/trinitronx/lyraphase_workstation/blob/master/templates/default/ssh-tunnel-port-override.sh.erb)
+  [`ssh-tunnel-port-override.sh` script](https://github.com/LyraPhase/lyraphase_workstation/blob/master/templates/default/ssh-tunnel-port-override.sh.erb)
   & `LaunchDaemon` to allow killing some process
   (_cough_ McAfee -Anti-virus _cough_ 🦠😷) that claims your favorite SSH tunnel
   port (Default: `8081`) on login.
@@ -432,7 +476,7 @@ Author:: James Cuzella ([@trinitronx][keybase-id])
 
 [1]: https://en.wikipedia.org/wiki/Digital_audio_workstation
 [keybase-id]: https://gist.github.com/trinitronx/aee110cbdf55e67185dc44272784e694
-[sprout-wrap]: https://github.com/trinitronx/sprout-wrap/
+[sprout-wrap]: https://github.com/LyraPhase/sprout-wrap/
 [dmg-cookbook]: https://github.com/chef-cookbooks/dmg
 [data-bags]: https://docs.chef.io/data_bags.html
 [knife-solo_data_bag]: https://github.com/thbishop/knife-solo_data_bag
@@ -442,4 +486,4 @@ Author:: James Cuzella ([@trinitronx][keybase-id])
 [iterm2-shell]: https://www.iterm2.com/documentation-shell-integration.html
 [bash-it]: https://github.com/Bash-it/bash-it
 [sprout-base]: https://github.com/pivotal-sprout/sprout-base
-[ssh-tunnel-docs]: https://github.com/trinitronx/lyraphase_workstation/blob/master/docs/SSH%20Tunneled%20Proxy%20Access%20to%20VPC%20from%20Docker%20Container.md
+[ssh-tunnel-docs]: https://github.com/LyraPhase/lyraphase_workstation/blob/master/docs/SSH%20Tunneled%20Proxy%20Access%20to%20VPC%20from%20Docker%20Container.md

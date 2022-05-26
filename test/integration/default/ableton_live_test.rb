@@ -22,13 +22,13 @@
 
 # InSpec test for recipe lyraphase_workstation::ableton_live
 
-app = 'Ableton Live 10 Suite.app'
+app = 'Ableton Live 11 Suite.app'
 app_bundle_id_regex = /^com\.ableton\.live/
 
 test_kitchen_user = input('test_kitchen_user', value: 'kitchen')
 applications_path = '/Applications'
 app_path = File.join(applications_path, app)
-get_bundle_id_cmd = "sudo su -m #{test_kitchen_user} -c 'osascript -e '\\''id of app \"Ableton Live 10 Suite.app\"'\\'''"
+get_bundle_id_cmd = "sudo su -m #{test_kitchen_user} -c 'osascript -e '\\''id of app \"Ableton Live 11 Suite.app\"'\\'''"
 
 describe file(app_path) do
   it { should exist }
