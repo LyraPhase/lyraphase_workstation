@@ -72,8 +72,14 @@ ableton_live_managed_versions = ableton_live_managed_versions.map(&:to_s).reject
 Chef::Log.info("Ableton Live Managed Versions: #{ableton_live_managed_versions}")
 
 unless ableton_live_managed_versions.nil? || ableton_live_managed_versions.empty?
+  # Ensure directories exist if Ableton has never been started yet (installed first time)
+  directory ableton_preferences_path do
+    owner node['lyraphase_workstation']['user']
+    group 'staff'
+    mode '0755'
+    action :create
+  end
   ableton_live_managed_versions.each do |ableton_live_version|
-    # Ensure directory exists if Ableton has never been started yet (installed first time)
     directory "#{ableton_preferences_path}/Live #{ableton_live_version}" do
       owner node['lyraphase_workstation']['user']
       group 'staff'
