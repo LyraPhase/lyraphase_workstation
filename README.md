@@ -10,6 +10,8 @@
       "*",
       "## Sponsor",
       "*",
+      "## Migration",
+      "*",
       "# Attributes",
       "*",
       "# Recipes",
@@ -207,6 +209,47 @@ and help me continue?
 <!-- markdownlint-enable MD013  -->
 
 Every little bit is appreciated! Thank you! 🙏
+
+## Migration
+
+**Note:** This Chef Cookbook has migrated from the old location
+(`trinitronx/lyraphase_workstation`) to `LyraPhase/lyraphase_workstation`.
+It has **NOT** changed ownership or maintainers at this time. It has been moved
+to benefit from GitHub's CI/CD automation features that are available to a
+GitHub Organization.
+
+While all links to the previous repository location are automatically redirected
+to the new location by GitHub, it is recommended to migrate any references you
+may have, or previously cloned `git` repos to use the new URL.
+
+To avoid confusion, we strongly recommend updating any existing local clones to
+point to the new repository URL.
+
+    cd path/to/trinitronx/lyraphase_workstation
+    git remote -vv  # List remote repos
+    # Find the named remote URL with 'trinitronx/lyraphase_workstation'
+    # (usually 'origin' by default)
+    # If you checked this repo out as a fork
+    # or named the remote repo something other than 'origin',
+    # then use that in the following command
+    git remote set-url origin https://github.com/LyraPhase/lyraphase_workstation.git
+    git remote -vv  # Check that the remote repo URL now contains 'LyraPhase/lyraphase_workstation'
+
+The cookbook and recipe names have not changed. While generally repo names are
+not as important to Chef Infra or Cinc Client, they may appear in dependency
+manager files such as:
+
+- `Policyfile`s
+- `Berksfile`s
+- `Cheffile`s
+
+You can do this easily in your codebase using the following commands:
+
+    grep -rin -l 'trinitronx/lyraphase_workstation' ./ | xargs -I{} sed -i '' -e 's#trinitronx/lyraphase_workstation#LyraPhase/lyraphase_workstation#g' '{}'
+    grep -rin -l 'LyraPhase/lyraphase_workstation'  ./ | xargs -I{} git add '{}'
+    git commit -m 'Migrating Cookbook trinitronx/lyraphase_workstation => LyraPhase/lyraphase_workstation'
+
+Then, run your dependency manager tool commands appropriately.
 
 # Attributes
 
