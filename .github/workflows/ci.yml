@@ -43,9 +43,17 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: AutoModality/action-clean@v1
       - name: Check out code
         uses: actions/checkout@v2
+      - name: DEBUG GitHub Workspace
+        run:
+          ls -lA $GITHUB_WORKSPACE
+      - name: DEBUG Repo Name
+        run:
+          pwd
+          ls -lA ./
+          git remote -vv
+          echo "github.repository=${{ github.repository }}"
       - name: Install Chef
         uses: actionshub/chef-install@main
       - name: Test Kitchen
