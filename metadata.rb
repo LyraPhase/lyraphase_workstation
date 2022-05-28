@@ -14,7 +14,7 @@ require 'chef/version_constraint'
 
 supports         'mac_os_x'
 depends          'homebrew'
-depends          'dmg' unless respond_to?(:chef_version) and Chef::const_defined?(:VERSION) and Chef::VersionConstraint.new(">= 10.14.0").include?(Chef::VERSION.to_s)
+depends          'dmg' unless respond_to?(:chef_version) and Chef::const_defined?(:VERSION) and Chef::VersionConstraint.new(">= 14.0").include?(Chef::VERSION.to_s)
 depends          'osx' # For osx_defaults LWRP
 depends          'sprout-base'  # For `libraries/directory#recursive_directories()` function
 depends          'plist', '~> 0.9' # For `plist_file` LWRP (used in lyraphase_workstation::airfoil recipe)
