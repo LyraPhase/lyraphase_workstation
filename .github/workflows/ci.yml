@@ -33,10 +33,10 @@ jobs:
       matrix:
         #exclude:
         include:
-          - os: 'macos-11'
+          - os: 'macos-14'
             suite: '--log-level debug default'
             KITCHEN_LOCAL_YAML: '.kitchen.exec.yml'
-          - os: 'macos-12'
+          - os: 'macos-15'
             suite: '--log-level debug default'
             KITCHEN_LOCAL_YAML: '.kitchen.exec.yml'
       fail-fast: false
